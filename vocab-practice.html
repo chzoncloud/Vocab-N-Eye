@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>สมุดศัพท์ ✦ Vocab Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Prompt:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FBF8EE;
+  --grid:#E4DECB;
+  --ink:#2E2440;
+  --purple:#7B5EA7;
+  --purple-dark:#5A4380;
+  --pink:#F2A7C3;
+  --pink-soft:#FBE3ED;
+  --green:#7FBF8E;
+  --red:#E58787;
+  --shadow:0 4px 0 rgba(46,36,64,.15);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:'Prompt',sans-serif;
+  background:var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:22px 22px;
+  color:var(--ink);
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;
+  padding:16px 14px 40px;
+}
+h1{font-family:'Mali',cursive;font-size:1.5rem;color:var(--purple-dark);text-align:center;margin-top:6px}
+h1 .heart{color:var(--pink)}
+.sub{font-size:.8rem;color:#8a7fa0;text-align:center;margin-bottom:14px}
+.tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;justify-content:center}
+.tab{
+  font-family:'Mali',cursive;font-weight:600;font-size:.95rem;
+  padding:8px 16px;border-radius:999px;border:2px solid var(--purple);
+  background:#fff;color:var(--purple);cursor:pointer;box-shadow:var(--shadow);
+  transition:transform .1s;
+}
+.tab:active{transform:translateY(2px);box-shadow:none}
+.tab.active{background:var(--purple);color:#fff}
+.stage{width:100%;max-width:430px}
+
+/* ---------- Flashcards ---------- */
+.card-wrap{perspective:1000px;margin-bottom:14px}
+.card{
+  position:relative;width:100%;height:230px;cursor:pointer;
+  transform-style:preserve-3d;transition:transform .45s;
+}
+.card.flipped{transform:rotateY(180deg)}
+.face{
+  position:absolute;inset:0;backface-visibility:hidden;
+  background:#fff;border:2.5px solid var(--purple);border-radius:20px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:20px;box-shadow:var(--shadow);gap:8px;
+}
+.face.back{transform:rotateY(180deg);background:var(--pink-soft);border-color:var(--pink)}
+.word{font-family:'Mali',cursive;font-size:2rem;font-weight:700;color:var(--purple-dark);text-align:center}
+.meaning{font-family:'Mali',cursive;font-size:1.45rem;font-weight:600;text-align:center;line-height:1.4}
+.hint{font-size:.75rem;color:#a89bc0}
+.controls{display:flex;gap:10px;justify-content:center}
+.btn{
+  font-family:'Prompt',sans-serif;font-weight:500;font-size:.9rem;
+  padding:10px 18px;border-radius:14px;border:2px solid var(--ink);
+  background:#fff;cursor:pointer;box-shadow:var(--shadow);transition:transform .1s;
+}
+.btn:active{transform:translateY(2px);box-shadow:none}
+.btn.primary{background:var(--purple);border-color:var(--purple);color:#fff}
+.counter{text-align:center;font-size:.85rem;color:#8a7fa0;margin-bottom:10px}
+
+/* ---------- Quiz ---------- */
+.q-box{
+  background:#fff;border:2.5px solid var(--purple);border-radius:20px;
+  padding:22px 18px;box-shadow:var(--shadow);margin-bottom:14px;text-align:center;
+}
+.q-label{font-size:.78rem;color:#a89bc0;margin-bottom:6px}
+.q-word{font-family:'Mali',cursive;font-size:1.7rem;font-weight:700;color:var(--purple-dark);line-height:1.35}
+.choices{display:flex;flex-direction:column;gap:10px}
+.choice{
+  font-family:'Prompt',sans-serif;font-size:1rem;text-align:left;
+  padding:12px 16px;border-radius:14px;border:2px solid var(--ink);
+  background:#fff;cursor:pointer;box-shadow:var(--shadow);transition:transform .1s;
+}
+.choice:active{transform:translateY(2px);box-shadow:none}
+.choice.correct{background:var(--green);border-color:var(--green);color:#fff}
+.choice.wrong{background:var(--red);border-color:var(--red);color:#fff}
+.choice:disabled{cursor:default}
+.scorebar{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:12px;font-size:.85rem;color:var(--purple-dark);font-weight:500;
+}
+.streak{color:var(--pink);font-weight:600}
+.next-row{margin-top:14px;text-align:center;min-height:48px}
+
+/* ---------- Fill-in ---------- */
+.sentence{
+  font-size:1.05rem;line-height:1.7;background:#fff;border:2.5px solid var(--purple);
+  border-radius:20px;padding:20px 18px;box-shadow:var(--shadow);margin-bottom:14px;
+}
+.blank{
+  display:inline-block;min-width:90px;border-bottom:2.5px dashed var(--pink);
+  text-align:center;font-family:'Mali',cursive;font-weight:700;color:var(--purple-dark);
+}
+.th-hint{display:block;margin-top:10px;font-size:.85rem;color:#8a7fa0}
+.done-box{
+  background:var(--pink-soft);border:2.5px solid var(--pink);border-radius:20px;
+  padding:26px 18px;text-align:center;box-shadow:var(--shadow);
+}
+.done-box .big{font-family:'Mali',cursive;font-size:1.6rem;font-weight:700;color:var(--purple-dark);margin-bottom:6px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<h1>สมุดศัพท์ <span class="heart">♡</span> Vocab Practice</h1>
+<div class="sub">แตะการ์ดเพื่อพลิกดูความหมาย · ฝึกบ่อยๆ จะจำได้เอง!</div>
+
+<div class="tabs">
+  <button class="tab active" data-mode="flash">🃏 แฟลชการ์ด</button>
+  <button class="tab" data-mode="quiz">✏️ ควิซ</button>
+  <button class="tab" data-mode="fill">📝 เติมคำ</button>
+</div>
+
+<div class="stage">
+  <!-- FLASHCARDS -->
+  <div id="flash">
+    <div class="counter" id="fc-counter"></div>
+    <div class="card-wrap">
+      <div class="card" id="fc-card">
+        <div class="face front">
+          <div class="word" id="fc-word"></div>
+          <div class="hint">แตะเพื่อดูความหมาย</div>
+        </div>
+        <div class="face back">
+          <div class="meaning" id="fc-meaning"></div>
+          <div class="hint">แตะเพื่อกลับ</div>
+        </div>
+      </div>
+    </div>
+    <div class="controls">
+      <button class="btn" id="fc-prev">← ก่อนหน้า</button>
+      <button class="btn" id="fc-shuffle">🔀 สลับ</button>
+      <button class="btn primary" id="fc-next">ถัดไป →</button>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz" class="hidden">
+    <div class="scorebar">
+      <span>คะแนน: <b id="qz-score">0</b>/<span id="qz-total">0</span></span>
+      <span class="streak" id="qz-streak"></span>
+    </div>
+    <div class="q-box">
+      <div class="q-label" id="qz-label"></div>
+      <div class="q-word" id="qz-word"></div>
+    </div>
+    <div class="choices" id="qz-choices"></div>
+    <div class="next-row"><button class="btn primary hidden" id="qz-next">ข้อต่อไป →</button></div>
+  </div>
+
+  <!-- FILL IN -->
+  <div id="fill" class="hidden">
+    <div class="scorebar">
+      <span>ทำแล้ว: <b id="fi-done">0</b>/<span id="fi-total">0</span></span>
+      <span class="streak" id="fi-score"></span>
+    </div>
+    <div id="fi-play">
+      <div class="sentence" id="fi-sentence"></div>
+      <div class="choices" id="fi-choices"></div>
+      <div class="next-row"><button class="btn primary hidden" id="fi-next">ประโยคต่อไป →</button></div>
+    </div>
+    <div id="fi-end" class="done-box hidden">
+      <div class="big">เก่งมาก! 🎉</div>
+      <div id="fi-result"></div>
+      <br>
+      <button class="btn primary" id="fi-restart">เล่นอีกรอบ</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const VOCAB = [
+  ["Consonant","พยัญชนะ"],
+  ["Vowel","สระ"],
+  ["Colleague","เพื่อนร่วมงาน"],
+  ["Ambiguous","คลุมเครือ ไม่ชัดเจน"],
+  ["Approach","เข้าใกล้ / เข้าหา"],
+  ["Scold","ดุ, ด่า"],
+  ["Certain","มั่นใจ, แน่นอน"],
+  ["Sighting","การพบเห็น (สิ่งแปลกๆ)"],
+  ["Saucer","จานรอง / จานบิน (flying saucer)"],
+  ["Moderate","ปานกลาง"],
+  ["Struck","ชน, กระแทก (อดีตของ strike)"],
+  ["Remain","คงเหลือ, ซาก"],
+  ["Evidence","หลักฐาน"],
+  ["Experiment","การทดลอง"],
+  ["Conclusion","บทสรุป"],
+  ["Exist","มีอยู่, ดำรงอยู่"],
+  ["Continent","ทวีป"],
+  ["Crowded","แออัด คนเยอะ"],
+  ["Etiquette","มารยาท"],
+  ["Defamation","การหมิ่นประมาท"],
+  ["Sue","ฟ้องร้อง"],
+  ["Dignity","ศักดิ์ศรี"],
+  ["Depression","ภาวะซึมเศร้า"],
+  ["Anxiety","ความวิตกกังวล"],
+  ["Fiery","เผ็ดร้อน"],
+  ["Various","หลากหลาย"],
+  ["Bland","จืดชืด ไม่มีรสชาติ"],
+  ["Decade","ทศวรรษ (10 ปี)"],
+  ["Contain","บรรจุ, มี...อยู่ข้างใน"],
+  ["Flu","ไข้หวัดใหญ่"],
+  ["Barely","แทบจะไม่"],
+  ["Cub","ลูกสัตว์"],
+  ["Curious","สงสัย อยากรู้"],
+  ["Independent","เป็นอิสระ พึ่งตัวเอง"],
+  ["Sacrifice","เสียสละ"],
+  ["Struggle","ดิ้นรน, ต่อสู้"],
+  ["Elderly","ผู้สูงอายุ"],
+  ["Wit","ไหวพริบ ความฉลาด"],
+  ["Athlete","นักกีฬา"],
+  ["Tummy","ท้อง (คำน่ารัก)"],
+  ["Bandage","ผ้าพันแผล"],
+  ["Tablet","ยาเม็ด"],
+  ["Fabric softener","น้ำยาปรับผ้านุ่ม"],
+  ["Laundry detergent","ผงซักฟอก"],
+  ["Mature","เป็นผู้ใหญ่ มีความรับผิดชอบ"],
+  ["Tease","แกล้ง, ล้อเลียน"],
+  ["Impeccable","ไร้ที่ติ สมบูรณ์แบบ"],
+  ["Inherit","รับมรดก, สืบทอด"],
+  ["Tense","เครียด, ตึงเครียด"],
+  ["Swallow","กลืน"],
+  ["Punctual","ตรงต่อเวลา"],
+  ["Humor","อารมณ์ขัน"]
+];
+
+const SENTENCES = [
+  ["She always arrives on time. She is very ___.","Punctual","เธอมาตรงเวลาเสมอ"],
+  ["Please ___ the pill with some water.","Swallow","กลืนยาเม็ดพร้อมน้ำ"],
+  ["The mother lion protects her ___.","Cub","แม่สิงโตปกป้องลูกของมัน"],
+  ["This soup has no taste. It's so ___.","Bland","ซุปนี้จืดมาก"],
+  ["This chili sauce is really ___!","Fiery","ซอสพริกนี้เผ็ดร้อนมาก"],
+  ["Ten years is called a ___.","Decade","สิบปีเรียกว่าทศวรรษ"],
+  ["The police found new ___ at the scene.","Evidence","ตำรวจพบหลักฐานใหม่"],
+  ["Asia is the largest ___ in the world.","Continent","เอเชียเป็นทวีปที่ใหญ่ที่สุด"],
+  ["The train was very ___ this morning.","Crowded","รถไฟแออัดมากเมื่อเช้า"],
+  ["My ___ at work helped me finish the report.","Colleague","เพื่อนร่วมงานช่วยทำรายงาน"],
+  ["Parents ___ many things for their children.","Sacrifice","พ่อแม่เสียสละเพื่อลูก"],
+  ["He will ___ the house from his grandfather.","Inherit","เขาจะรับมรดกบ้านจากคุณปู่"],
+  ["The nurse put a ___ on my wound.","Bandage","พยาบาลพันผ้าพันแผลให้"],
+  ["An ___ trains hard every day.","Athlete","นักกีฬาซ้อมหนักทุกวัน"],
+  ["I feel ___ before the exam.","Tense","รู้สึกเครียดก่อนสอบ"],
+  ["Cats are very ___ animals — they want to know everything!","Curious","แมวเป็นสัตว์ขี้สงสัย"],
+  ["The teacher will ___ students who are late.","Scold","ครูจะดุนักเรียนที่มาสาย"],
+  ["Her English is ___ — no mistakes at all!","Impeccable","ภาษาอังกฤษของเธอไร้ที่ติ"],
+  ["He could ___ walk after running the marathon.","Barely","เขาแทบจะเดินไม่ไหว"],
+  ["We should respect the ___ on the bus.","Elderly","ควรเคารพผู้สูงอายุบนรถเมล์"]
+];
+
+// ---------- helpers ----------
+const shuffle = a => a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);
+const $ = id => document.getElementById(id);
+
+// ---------- tabs ----------
+document.querySelectorAll('.tab').forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    ['flash','quiz','fill'].forEach(m=>$(m).classList.toggle('hidden', m!==t.dataset.mode));
+  };
+});
+
+// ---------- flashcards ----------
+let deck = shuffle([...VOCAB]), fcIdx = 0;
+function renderCard(){
+  $('fc-card').classList.remove('flipped');
+  setTimeout(()=>{
+    $('fc-word').textContent = deck[fcIdx][0];
+    $('fc-meaning').textContent = deck[fcIdx][1];
+    $('fc-counter').textContent = `การ์ดที่ ${fcIdx+1} / ${deck.length}`;
+  }, 150);
+}
+$('fc-card').onclick = ()=> $('fc-card').classList.toggle('flipped');
+$('fc-next').onclick = ()=>{ fcIdx=(fcIdx+1)%deck.length; renderCard(); };
+$('fc-prev').onclick = ()=>{ fcIdx=(fcIdx-1+deck.length)%deck.length; renderCard(); };
+$('fc-shuffle').onclick = ()=>{ deck=shuffle(deck); fcIdx=0; renderCard(); };
+renderCard();
+
+// ---------- quiz ----------
+let qScore=0,qTotal=0,qStreak=0,qCurrent=null;
+function newQuestion(){
+  $('qz-next').classList.add('hidden');
+  const reverse = Math.random()<0.4; // 40% แปลไทย→อังกฤษ
+  const pool = shuffle([...VOCAB]);
+  qCurrent = pool[0];
+  const wrongs = pool.slice(1,4);
+  const choices = shuffle([qCurrent,...wrongs]);
+  $('qz-label').textContent = reverse ? 'คำนี้ภาษาอังกฤษว่าอะไร?' : 'คำนี้แปลว่าอะไร?';
+  $('qz-word').textContent = reverse ? qCurrent[1] : qCurrent[0];
+  const box = $('qz-choices'); box.innerHTML='';
+  choices.forEach(c=>{
+    const b=document.createElement('button');
+    b.className='choice';
+    b.textContent = reverse ? c[0] : c[1];
+    b.onclick=()=>{
+      qTotal++;
+      box.querySelectorAll('.choice').forEach(x=>x.disabled=true);
+      if(c===qCurrent){ b.classList.add('correct'); qScore++; qStreak++; }
+      else{
+        b.classList.add('wrong'); qStreak=0;
+        [...box.children].find(x=>x.textContent===(reverse?qCurrent[0]:qCurrent[1])).classList.add('correct');
+      }
+      $('qz-score').textContent=qScore; $('qz-total').textContent=qTotal;
+      $('qz-streak').textContent = qStreak>=2 ? `🔥 ถูกติดกัน ${qStreak} ข้อ!` : '';
+      $('qz-next').classList.remove('hidden');
+    };
+    box.appendChild(b);
+  });
+}
+$('qz-next').onclick=newQuestion;
+newQuestion();
+
+// ---------- fill in ----------
+let fiOrder=[],fiIdx=0,fiScore=0;
+function fiStart(){
+  fiOrder=shuffle([...SENTENCES]); fiIdx=0; fiScore=0;
+  $('fi-total').textContent=fiOrder.length;
+  $('fi-end').classList.add('hidden'); $('fi-play').classList.remove('hidden');
+  fiRender();
+}
+function fiRender(){
+  $('fi-done').textContent=fiIdx;
+  $('fi-score').textContent=`ถูก ${fiScore} ข้อ`;
+  $('fi-next').classList.add('hidden');
+  const [en,ans,th]=fiOrder[fiIdx];
+  $('fi-sentence').innerHTML = en.replace('___','<span class="blank">______</span>') + `<span class="th-hint">💡 ${th}</span>`;
+  const wrongs = shuffle(VOCAB.filter(v=>v[0]!==ans)).slice(0,3).map(v=>v[0]);
+  const choices = shuffle([ans,...wrongs]);
+  const box=$('fi-choices'); box.innerHTML='';
+  choices.forEach(c=>{
+    const b=document.createElement('button');
+    b.className='choice'; b.textContent=c;
+    b.onclick=()=>{
+      box.querySelectorAll('.choice').forEach(x=>x.disabled=true);
+      if(c===ans){ b.classList.add('correct'); fiScore++;
+        $('fi-sentence').innerHTML = en.replace('___',`<span class="blank">${ans}</span>`) + `<span class="th-hint">💡 ${th}</span>`;
+      } else {
+        b.classList.add('wrong');
+        [...box.children].find(x=>x.textContent===ans).classList.add('correct');
+      }
+      $('fi-score').textContent=`ถูก ${fiScore} ข้อ`;
+      $('fi-next').classList.remove('hidden');
+    };
+    box.appendChild(b);
+  });
+}
+$('fi-next').onclick=()=>{
+  fiIdx++;
+  if(fiIdx>=fiOrder.length){
+    $('fi-play').classList.add('hidden');
+    $('fi-end').classList.remove('hidden');
+    $('fi-done').textContent=fiOrder.length;
+    $('fi-result').textContent=`ตอบถูก ${fiScore} จาก ${fiOrder.length} ประโยค`;
+  } else fiRender();
+};
+$('fi-restart').onclick=fiStart;
+fiStart();
+</script>
+</body>
+</html>
