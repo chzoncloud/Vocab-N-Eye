@@ -57,7 +57,6 @@ h1 .heart{color:var(--pink)}
 }
 .btn:active{transform:translateY(2px);box-shadow:none}
 .btn.primary{background:var(--purple);border-color:var(--purple);color:#fff}
-.btn.small{font-size:.8rem;padding:7px 14px}
 .counter{text-align:center;font-size:.85rem;color:#8a7fa0;margin-bottom:10px}
 
 .q-box{background:#fff;border:2.5px solid var(--purple);border-radius:20px;padding:20px 16px;box-shadow:var(--shadow);margin-bottom:14px;text-align:center}
@@ -67,6 +66,14 @@ h1 .heart{color:var(--pink)}
   display:inline-block;margin-top:8px;font-size:.75rem;background:var(--pink-soft);
   border:1.5px solid var(--pink);color:#b05a7e;border-radius:999px;padding:3px 12px;font-weight:500;
 }
+.level-badge{
+  display:inline-block;font-size:.72rem;border-radius:999px;padding:2px 10px;
+  font-weight:600;margin-left:6px;vertical-align:middle;
+}
+.lv1{background:#e8f5e9;color:#2e7d32;border:1.5px solid #a5d6a7}
+.lv2{background:#e3f2fd;color:#1565c0;border:1.5px solid #90caf9}
+.lv3{background:#fff3e0;color:#e65100;border:1.5px solid #ffcc80}
+.lv4{background:#fce4ec;color:#ad1457;border:1.5px solid #f48fb1}
 .choices{display:flex;flex-direction:column;gap:10px}
 .choice{
   font-family:'Prompt',sans-serif;font-size:.98rem;text-align:left;padding:12px 16px;
@@ -99,10 +106,15 @@ h1 .heart{color:var(--pink)}
   border:2px solid var(--gold);background:#fff;color:#b8860b;cursor:pointer;box-shadow:var(--shadow);
 }
 .subtab.active{background:var(--gold);color:var(--ink)}
+.section-head{
+  font-family:'Mali',cursive;font-weight:700;font-size:1rem;color:var(--purple-dark);
+  margin:14px 0 8px;text-align:center;
+}
 .study-card{
   background:#fff;border:2px solid var(--grid);border-left:6px solid var(--gold);
   border-radius:14px;padding:12px 14px;margin-bottom:10px;box-shadow:var(--shadow);
 }
+.study-card.extra{border-left-color:var(--purple)}
 .study-card .w{font-family:'Mali',cursive;font-weight:700;font-size:1.15rem;color:var(--purple-dark)}
 .study-card .m{font-size:.92rem;margin-top:2px}
 .study-card .s{font-size:.75rem;color:#a06a85}
@@ -175,7 +187,7 @@ h1 .heart{color:var(--pink)}
   <!-- FILL IN -->
   <div id="fill" class="hidden">
     <div class="scorebar">
-      <span>ทำแล้ว: <b id="fi-done">0</b>/<span id="fi-total">0</span></span>
+      <span>ข้อ <b id="fi-done">0</b>/<span id="fi-total">0</span><span id="fi-level"></span></span>
       <span class="streak" id="fi-score"></span>
     </div>
     <div id="fi-play">
@@ -184,7 +196,7 @@ h1 .heart{color:var(--pink)}
       <div class="next-row"><button class="btn primary hidden" id="fi-next">ประโยคต่อไป →</button></div>
     </div>
     <div id="fi-end" class="done-box hidden">
-      <div class="big">เก่งมาก! 🎉</div>
+      <div class="big">สุดยอดไปเลย! 🎉</div>
       <div id="fi-result"></div><br>
       <button class="btn primary" id="fi-restart">เล่นอีกรอบ</button>
     </div>
@@ -193,7 +205,7 @@ h1 .heart{color:var(--pink)}
   <!-- BIEBER -->
   <div id="bieber" class="hidden">
     <div class="exam-banner" style="background:var(--pink-soft);border-color:var(--pink)">
-      🎧 ศัพท์จากเพลง Justin Bieber — เจอคำนี้ในเพลงไหน ลองนึกทำนองตามดู!
+      🎧 ศัพท์จากเพลง Justin Bieber — ตอบก่อน ถ้านึกไม่ออกค่อยกดขอคำใบ้ชื่อเพลง!
     </div>
     <div class="subtabs">
       <button class="subtab active" data-jb="quiz" style="border-color:var(--pink);color:#b05a7e">✏️ ควิซ</button>
@@ -207,7 +219,7 @@ h1 .heart{color:var(--pink)}
       <div class="q-box" style="border-color:var(--pink)">
         <div class="q-label" id="jb-label"></div>
         <div class="q-word" id="jb-word"></div>
-        <div><span class="song-badge" id="jb-song"></span></div>
+        <div id="jb-hintarea"></div>
       </div>
       <div class="choices" id="jb-choices"></div>
       <div class="next-row"><button class="btn primary hidden" id="jb-next">ข้อต่อไป →</button></div>
@@ -217,7 +229,7 @@ h1 .heart{color:var(--pink)}
 
   <!-- DAY 8 EXAM -->
   <div id="day8" class="hidden">
-    <div class="exam-banner">⭐ ติวเข้มก่อนสอบ — ศัพท์ Day 8 ทั้ง 10 คำ สู้ๆ นะ! ⭐</div>
+    <div class="exam-banner">⭐ ติวเข้มก่อนสอบ — คำหลัก 10 คำ + คำเสริมจากชีทอีก 11 คำ สู้ๆ นะ! ⭐</div>
     <div class="subtabs">
       <button class="subtab active" data-d8="study">📖 ท่อง</button>
       <button class="subtab" data-d8="quiz">✏️ ควิซ</button>
@@ -241,7 +253,7 @@ h1 .heart{color:var(--pink)}
 
     <div id="d8-fill" class="hidden">
       <div class="scorebar">
-        <span>ทำแล้ว: <b id="d8f-done">0</b>/<span id="d8f-total">0</span></span>
+        <span>ข้อ <b id="d8f-done">0</b>/<span id="d8f-total">0</span></span>
         <span class="streak" id="d8f-score"></span>
       </div>
       <div id="d8f-play">
@@ -315,7 +327,6 @@ const VOCAB = [
 ["Swallow","กลืน","gulp down","🥤"],
 ["Punctual","ตรงต่อเวลา","on time","⏰"],
 ["Humor","อารมณ์ขัน","funny sense","😂"],
-// ---- CIA Day 1 ----
 ["Believe","เชื่อ","think it's true","🙏"],
 ["Contrast","เปรียบเทียบความแตกต่าง","compare differences","🆚"],
 ["Control","ควบคุม","manage, rule","🎮"],
@@ -326,7 +337,6 @@ const VOCAB = [
 ["Personality","บุคลิกภาพ","character","🪞"],
 ["Talkative","ช่างพูด","talks a lot, chatty","🗣️"],
 ["Worry","กังวล","be anxious","😟"],
-// ---- Day 2 ----
 ["Annual","ประจำปี","every year, yearly","📅"],
 ["Attempt","พยายาม","try","🎯"],
 ["Communicate","สื่อสาร","share information","📱"],
@@ -337,7 +347,6 @@ const VOCAB = [
 ["Reunion","งานพบปะคนที่ไม่เจอกันนาน","meeting again","🫂"],
 ["Terrific","เยี่ยมมาก","excellent, great","🤩"],
 ["Threaten","ขู่","warn to harm","⚠️"],
-// ---- Day 3 ----
 ["Affordable","ราคาจับต้องได้","cheap enough","💸"],
 ["Bargain","ของราคาถูกกว่าจริง / ต่อรอง","good deal","🏷️"],
 ["Boutique","ร้านแฟชั่นเล็กๆ มีสไตล์","small fashion shop","👗"],
@@ -348,7 +357,6 @@ const VOCAB = [
 ["Imported","นำเข้าจากต่างประเทศ","from another country","✈️"],
 ["Purchase","ซื้อ","buy","💳"],
 ["Shop","เดินซื้อของ","go buying","🛒"],
-// ---- Day 4 ----
 ["Bored","เบื่อ","not interested","🥱"],
 ["Bother","รบกวน กวนใจ","annoy","😤"],
 ["Character","นิสัย ตัวตน","personality, nature","🎭"],
@@ -359,7 +367,6 @@ const VOCAB = [
 ["Satisfy","ทำให้พอใจ","please, make happy","😌"],
 ["Secret","ความลับ","hidden thing","🤫"],
 ["Transform","เปลี่ยนแปลงโดยสิ้นเชิง","change completely","🦋"],
-// ---- Day 5 ----
 ["Adventure","การผจญภัย","exciting journey","🗺️"],
 ["Book (v.)","จอง (ตั๋ว/โรงแรม)","reserve","🎫"],
 ["Cruise","ล่องเรือเที่ยว","pleasure voyage","🛳️"],
@@ -370,7 +377,6 @@ const VOCAB = [
 ["Scenery","ทิวทัศน์","view, landscape","🏞️"],
 ["Brochure","แผ่นพับ โบรชัวร์","booklet, pamphlet","📰"],
 ["Transportation","การเดินทางขนส่ง","way of traveling","🚌"],
-// ---- Day 6 ----
 ["Grain","ธัญพืช เมล็ดพืช","seeds for food","🌾"],
 ["Compose","ประกอบขึ้นเป็น","form, make up","🧩"],
 ["Luxurious","หรูหรา","fancy, costly","💎"],
@@ -381,7 +387,6 @@ const VOCAB = [
 ["Boost","กระตุ้น เสริม","support, improve","🚀"],
 ["Nutritious","มีคุณค่าทางอาหาร","nourishing, healthy","🥦"],
 ["Carbohydrate","คาร์โบไฮเดรต แป้ง","starch, sugar","🥔"],
-// ---- Day 7 ----
 ["Instrument","เครื่องดนตรี","musical device","🎸"],
 ["Lyrics","เนื้อเพลง","words of a song","📝"],
 ["Idol","ไอดอล คนที่คลั่งไคล้","someone adored","🌟"],
@@ -392,7 +397,6 @@ const VOCAB = [
 ["Soothing","ผ่อนคลาย ชวนสงบ","calming, gentle","🌊"],
 ["Emotion","อารมณ์ความรู้สึก","feeling","💗"],
 ["Melody","ท่วงทำนอง","tune, notes","🎶"],
-// ---- Day 8 ----
 ["Impression","ความรู้สึกแรก ความประทับใจ","feeling, idea","🤔"],
 ["Conquer","พิชิต ยึดครอง","defeat, take over","⚔️"],
 ["Credit","เครดิต การอ้างอิงแหล่งที่มา","recognition note","🧾"],
@@ -403,7 +407,6 @@ const VOCAB = [
 ["Effects","เทคนิคพิเศษ แสง สี เสียง","special effects","✨"],
 ["Sci-fi","นิยายวิทยาศาสตร์","science fiction","👽"],
 ["Thriller","แนวระทึกขวัญ","suspense story","🔪"],
-// ---- Day 9 ----
 ["Opinion","ความคิดเห็น","view, judgment","💬"],
 ["Site","สถานที่ก่อสร้าง / ที่ตั้ง","location, area","🏗️"],
 ["Hangout","ที่ที่ไปประจำ","favorite place","☕"],
@@ -414,7 +417,6 @@ const VOCAB = [
 ["Collection","ของสะสม การสะสม","collected things","🗃️"],
 ["Decide","ตัดสินใจ","make a decision","☑️"],
 ["Frequent","ไปบ่อยๆ","visit often","🔄"],
-// ---- Day 10 ----
 ["Abstract","นามธรรม จับต้องไม่ได้","idea, not physical","🌀"],
 ["Expressive","แสดงความรู้สึกได้ดี","showing feeling","🎨"],
 ["Showcase","จัดแสดง โชว์","exhibit, display","🖼️"],
@@ -427,40 +429,55 @@ const VOCAB = [
 ["Masterpiece","ผลงานชิ้นเอก","great work","🏆"]
 ];
 
+// ---- เติมคำ 40 ข้อ ไล่ระดับ: [ประโยค, คำตอบ, คำใบ้ไทย, ตัวเลือก 4 ตัว] ----
 const SENTENCES = [
-["She always arrives on time. She is very ___.","Punctual","เธอมาตรงเวลาเสมอ"],
-["Please ___ the pill with some water.","Swallow","กลืนยาเม็ดพร้อมน้ำ"],
-["The mother lion protects her ___.","Cub","แม่สิงโตปกป้องลูกของมัน"],
-["This soup has no taste. It's so ___.","Bland","ซุปนี้จืดมาก"],
-["This chili sauce is really ___!","Fiery","ซอสพริกนี้เผ็ดร้อนมาก"],
-["Ten years is called a ___.","Decade","สิบปีเรียกว่าทศวรรษ"],
-["The police found new ___ at the scene.","Evidence","ตำรวจพบหลักฐานใหม่"],
-["Asia is the largest ___ in the world.","Continent","เอเชียเป็นทวีปที่ใหญ่ที่สุด"],
-["The train was very ___ this morning.","Crowded","รถไฟแออัดมากเมื่อเช้า"],
-["My ___ at work helped me finish the report.","Colleague","เพื่อนร่วมงานช่วยทำรายงาน"],
-["Parents ___ many things for their children.","Sacrifice","พ่อแม่เสียสละเพื่อลูก"],
-["He will ___ the house from his grandfather.","Inherit","เขาจะรับมรดกบ้านจากคุณปู่"],
-["The nurse put a ___ on my wound.","Bandage","พยาบาลพันผ้าพันแผลให้"],
-["An ___ trains hard every day.","Athlete","นักกีฬาซ้อมหนักทุกวัน"],
-["I feel ___ before the exam.","Tense","รู้สึกเครียดก่อนสอบ"],
-["Cats are very ___ animals!","Curious","แมวเป็นสัตว์ขี้สงสัย"],
-["The teacher will ___ students who are late.","Scold","ครูจะดุนักเรียนที่มาสาย"],
-["Her English is ___ — no mistakes at all!","Impeccable","ภาษาอังกฤษของเธอไร้ที่ติ"],
-["He could ___ walk after running the marathon.","Barely","เขาแทบจะเดินไม่ไหว"],
-["We should respect the ___ on the bus.","Elderly","ควรเคารพผู้สูงอายุบนรถเมล์"],
-["My parents ___ early for our summer trip.","Book (v.)","พ่อแม่จองตั๋วล่วงหน้า"],
-["Kangaroos are ___ to Australia.","Native","จิงโจ้เป็นสัตว์พื้นเมืองออสเตรเลีย"],
-["Vitamin C can ___ your immune system.","Boost","วิตามินซีช่วยเสริมภูมิคุ้มกัน"],
-["The ___ prepares delicious food at the hotel.","Chef","เชฟทำอาหารอร่อยที่โรงแรม"],
-["Going to the gym is part of my morning ___.","Routine","การเข้ายิมเป็นกิจวัตรตอนเช้า"],
-["Friends are good at keeping ___.","Secret","เพื่อนเก็บความลับเก่ง"],
-["Guitar is my favorite musical ___.","Instrument","กีตาร์คือเครื่องดนตรีโปรด"],
-["I ___ my favorite songs from the internet.","Download","ดาวน์โหลดเพลงโปรดจากเน็ต"],
-["Playing volleyball is my favorite ___.","Hobby","วอลเลย์บอลคืองานอดิเรกโปรด"],
-["His painting is a real ___.","Masterpiece","ภาพวาดของเขาคือผลงานชิ้นเอก"]
+// ===== ข้อ 1-10 : 🌱 Beginner =====
+["I brush my teeth every morning. It is my ___.","Habit","สิ่งที่ทำเป็นประจำทุกวัน",["Habit","Hobby","Duty","Secret"]],
+["My ___ hurts because I ate too much!","Tummy","ท้อง (คำน่ารัก)",["Tummy","Tablet","Bandage","Couch"]],
+["A guitar is a musical ___.","Instrument","เครื่องดนตรี",["Instrument","Melody","Lyrics","Rhythm"]],
+["This food is very ___! I need water!","Spicy","เผ็ดมาก",["Spicy","Bland","Nutritious","Luxurious"]],
+["A baby lion is called a ___.","Cub","ลูกสัตว์",["Cub","Athlete","Chef","Idol"]],
+["I ___ songs from the internet to my phone.","Download","โหลดเพลงจากเน็ต",["Download","Purchase","Contain","Provide"]],
+["She works with me at the office. She is my ___.","Colleague","เพื่อนร่วมงาน",["Colleague","Customer","Elderly","Athlete"]],
+["Asia is the biggest ___ in the world.","Continent","ทวีป",["Continent","Culture","Scenery","Site"]],
+["I love drawing in my free time. It is my ___.","Hobby","งานอดิเรก",["Hobby","Habit","Routine","Duty"]],
+["The doctor said: take this ___ after dinner.","Tablet","ยาเม็ด",["Tablet","Bandage","Grain","Saucer"]],
+// ===== ข้อ 11-20 : 🌿 Normal =====
+["The bus was so ___ that I couldn't find a seat.","Crowded","คนแน่นมาก",["Crowded","Moderate","Various","Impressive"]],
+["He never comes late to work. He is very ___.","Punctual","ตรงต่อเวลา",["Punctual","Talkative","Mature","Curious"]],
+["Our travel ___ includes Tokyo, Osaka, and Kyoto.","Itinerary","แผนการเดินทาง",["Itinerary","Brochure","Transportation","Adventure"]],
+["Vitamin C can ___ your immune system.","Boost","ช่วยเสริมให้แข็งแรงขึ้น",["Boost","Contain","Maintain","Transform"]],
+["The judge asked for more ___ before making a decision.","Evidence","หลักฐาน",["Evidence","Opinion","Impression","Conclusion"]],
+["My father will ___ this land from my grandfather.","Inherit","รับมรดกที่ดิน",["Inherit","Purchase","Provide","Sacrifice"]],
+["The hotel offers free ___ to the airport.","Transportation","บริการรับส่ง",["Transportation","Itinerary","Reunion","Gathering"]],
+["Don't ___ your little sister — she will cry!","Tease","แกล้ง ล้อเล่น",["Tease","Scold","Bother","Threaten"]],
+["Eating vegetables keeps you strong because they are ___.","Nutritious","มีคุณค่าทางอาหาร",["Nutritious","Unhealthy","Bland","Fiery"]],
+["We had a big class ___ after not seeing each other for 10 years.","Reunion","งานเจอเพื่อนเก่า",["Reunion","Gathering","Collection","Hangout"]],
+// ===== ข้อ 21-30 : 🔥 Hard =====
+["The manager tried to ___ a good relationship with every customer, even the difficult ones.","Maintain","รักษา(ความสัมพันธ์)ไว้ต่อเนื่อง",["Maintain","Contain","Attempt","Conclude"]],
+["His answer was so ___ that nobody knew if he meant yes or no.","Ambiguous","ฟังแล้วไม่ชัดเจน ตีความได้หลายทาง",["Ambiguous","Certain","Distinctive","Impeccable"]],
+["She could ___ hold back her tears during the emotional speech.","Barely","แทบจะกลั้นน้ำตาไม่อยู่",["Barely","Regularly","Certainly","Annually"]],
+["The company was ___ for defamation after publishing the false report.","Sued","ถูกฟ้องร้อง",["Sued","Scolded","Threatened","Conquered"]],
+["Winning is not everything — what matters is how you ___ difficulties.","Overcome","เอาชนะ ก้าวข้าม(อุปสรรค)",["Overcome","Conclude","Conquer","Contain"]],
+["The movie's special ___ made the space battle look completely real.","Effects","เทคนิคพิเศษในหนัง",["Effects","Settings","Genres","Credits"]],
+["Each region of Thailand has its own ___ style of cooking.","Distinctive","เป็นเอกลักษณ์เฉพาะตัว",["Distinctive","Ambiguous","Ordinary","Abstract"]],
+["He answered the difficult question with quick ___.","Wit","ไหวพริบ",["Wit","Humor","Emotion","Opinion"]],
+["The story's ___ takes place in a small village in northern Thailand.","Setting","ฉาก = เวลา+สถานที่ของเรื่อง",["Setting","Plot","Genre","Theatre"]],
+["Doctors advise patients to exercise ___ to stay healthy.","Regularly","อย่างสม่ำเสมอ",["Regularly","Barely","Annually","Ordinarily"]],
+// ===== ข้อ 31-40 : 👑 Native =====
+["Despite the harsh criticism, she maintained her ___ and left the room with her head held high.","Dignity","ศักดิ์ศรี ความสง่างาม",["Dignity","Impression","Personality","Etiquette"]],
+["The documentary ___ the struggles of immigrant families in the 1960s.","Portrays","นำเสนอ ถ่ายทอดภาพ",["Portrays","Composes","Showcases","Contains"]],
+["The novel's ___ was so gripping that I finished all 400 pages in one night.","Plot","โครงเรื่อง",["Plot","Setting","Genre","Credit"]],
+["The spy was arrested and charged with ___ after leaking military secrets.","Espionage","การจารกรรม",["Espionage","Defamation","Evidence","Sacrifice"]],
+["New lighting was installed to ___ the cozy atmosphere of the restaurant.","Enhance","เสริมให้บรรยากาศดีขึ้น",["Enhance","Boost","Transform","Maintain"]],
+["Her performance was ___ — not a single note out of place.","Impeccable","สมบูรณ์แบบ ไร้ที่ติ",["Impeccable","Extraordinary","Impressive","Terrific"]],
+["After reviewing all the data, the committee ___ that the project should be postponed.","Concluded","สรุปจากข้อมูลและเหตุผล",["Concluded","Communicated","Attempted","Threatened"]],
+["Living abroad forced him to become more ___ and solve problems on his own.","Independent","พึ่งพาตัวเอง",["Independent","Confident","Mature","Talkative"]],
+["The painting is now considered a ___ of 19th-century art.","Masterpiece","ผลงานชิ้นเอก",["Masterpiece","Creation","Canvas","Collection"]],
+["In his ___ to catch the last train, he left his laptop at the café.","Haste","เพราะความรีบร้อน",["Haste","Attempt","Struggle","Routine"]]
 ];
 
-// ---- Day 8 exam set: [word, meaning, synonym, emoji, example] ----
+// ---- Day 8 คำหลัก: [word, meaning, synonym, emoji, example] ----
 const DAY8 = [
 ["Impression","ความรู้สึกแรก ความประทับใจ (ความคิดที่เกิดขึ้นเองโดยยังไม่มีหลักฐานมาก)","feeling, idea","🤔","I had an impression that she was lying."],
 ["Conquer","พิชิต ยึดครอง (ด้วยกำลัง)","defeat, take over","⚔️","The Magyars conquered Hungary in the Middle Ages."],
@@ -474,6 +491,23 @@ const DAY8 = [
 ["Thriller","นิยาย/หนังระทึกขวัญ มักมีอาชญากรรม","suspense story","🔪","Children don't watch thriller movies."]
 ];
 
+// ---- Day 8 คำเสริม (คำขีดเส้นใต้/คำสำคัญในนิยามของชีท) ----
+const DAY8_EXTRA = [
+["Conscious","รู้ตัว มีสติ","aware","💭","without conscious thought = โดยไม่ทันรู้ตัว (ในนิยาม Impression)"],
+["Evidence","หลักฐาน","proof","🔍","on the basis of little evidence = จากหลักฐานเพียงน้อยนิด"],
+["Overcome","เอาชนะ ก้าวข้าม","defeat, get past","🏔️","Conquer = overcome and take control"],
+["Take control","เข้าควบคุม ยึดอำนาจ","take over","🎮","...take control of a place or people"],
+["Reasoning","การใช้เหตุผล","logical thinking","🧮","Conclude = decide by reasoning"],
+["Composition","งานประพันธ์ / การจัดองค์ประกอบ","artistic work","🎼","Genre = a category of artistic composition"],
+["Distinctive","โดดเด่นเฉพาะตัว","special, unique style","💫","marked by a distinctive style = มีสไตล์เฉพาะตัว"],
+["Audience","ผู้ชม คนดู","viewers, crowd","🙋","Theatre has tiered seats for an audience"],
+["Enhance","เสริมให้ดีขึ้น ยกระดับ","improve, upgrade","📈","Effects enhance a stage, film, or broadcast"],
+["Plot","โครงเรื่อง","storyline","📖","A thriller has an exciting plot"],
+["Espionage","การจารกรรม งานสายลับ","spying","🕵️","Thriller involves crime or espionage"]
+];
+
+const DAY8_ALL = [...DAY8, ...DAY8_EXTRA];
+
 const D8SENT = [
 ["The ___ of the story is Bangkok in 1990.","Setting","ฉากของเรื่องคือกรุงเทพฯ ปี 1990"],
 ["Avatar is a famous ___ movie.","Sci-fi","อวตารเป็นหนังไซไฟชื่อดัง"],
@@ -484,10 +518,15 @@ const D8SENT = [
 ["I watch movies at the ___ every weekend.","Theatre","ดูหนังที่โรงหนังทุกสุดสัปดาห์"],
 ["My first ___ of him was very good.","Impression","ความรู้สึกแรกที่มีต่อเขาดีมาก"],
 ["A ___ movie is full of crime and suspense.","Thriller","หนังระทึกขวัญเต็มไปด้วยอาชญากรรม"],
-["The ___ at the front of the book show the sources.","Credit","เครดิตหน้าแรกของหนังสือบอกแหล่งที่มา"]
+["The ___ at the front of the book show the sources.","Credit","เครดิตหน้าแรกของหนังสือบอกแหล่งที่มา"],
+["The spy was charged with ___.","Espionage","สายลับถูกตั้งข้อหาจารกรรม"],
+["Good lighting can ___ the beauty of the stage.","Enhance","แสงที่ดีช่วยเสริมความงามของเวที"],
+["The ___ clapped loudly after the show.","Audience","ผู้ชมปรบมือดังลั่นหลังการแสดง"],
+["This novel has an exciting ___ full of twists.","Plot","นิยายเรื่องนี้โครงเรื่องหักมุมตลอด"],
+["He made his decision by careful ___.","Reasoning","เขาตัดสินใจด้วยการใช้เหตุผล"]
 ];
 
-// ---- Bieber set: [word, meaning, synonym, song, emoji] ----
+// ---- Bieber: [word, meaning, synonym, song, emoji] ----
 const BIEBER = [
 ["Sorry","ขอโทษ เสียใจ","apologize","Sorry","🙏"],
 ["Forgive","ให้อภัย","pardon","Sorry","🤍"],
@@ -541,8 +580,7 @@ $('fc-prev').onclick = ()=>{ fcIdx=(fcIdx-1+deck.length)%deck.length; renderCard
 $('fc-shuffle').onclick = ()=>{ deck=shuffle(deck); fcIdx=0; renderCard(); };
 renderCard();
 
-// ================= GENERIC QUIZ FACTORY =================
-// data: array where [0]=word, [1]=meaning ; extra = optional fn(item)=>badge text
+// ================= GENERIC QUIZ =================
 function makeQuiz(data, ids, opts={}){
   let score=0,total=0,streak=0;
   function newQ(){
@@ -554,7 +592,14 @@ function makeQuiz(data, ids, opts={}){
     const choices = shuffle([cur,...wrongs]);
     $(ids.label).textContent = reverse ? 'คำนี้ภาษาอังกฤษว่าอะไร?' : 'คำนี้แปลว่าอะไร?';
     $(ids.word).textContent = reverse ? cur[1] : cur[0];
-    if(ids.badge && opts.badge) $(ids.badge).textContent = '🎵 ' + opts.badge(cur);
+    // คำใบ้แบบซ่อน (เช่น ชื่อเพลง)
+    if(ids.hintarea && opts.hint){
+      const area = $(ids.hintarea); area.innerHTML='';
+      const hb=document.createElement('span');
+      hb.className='hint-btn'; hb.textContent='💡 ขอคำใบ้ชื่อเพลง';
+      hb.onclick=()=>{ hb.outerHTML = `<span class="song-badge">🎵 ${opts.hint(cur)}</span>`; };
+      area.appendChild(hb);
+    }
     const box = $(ids.choices); box.innerHTML='';
     choices.forEach(c=>{
       const b=document.createElement('button');
@@ -570,6 +615,8 @@ function makeQuiz(data, ids, opts={}){
         }
         $(ids.score).textContent=score; $(ids.total).textContent=total;
         $(ids.streak).textContent = streak>=2 ? `🔥 ถูกติดกัน ${streak} ข้อ!` : '';
+        // เฉลยชื่อเพลงหลังตอบ
+        if(ids.hintarea && opts.hint) $(ids.hintarea).innerHTML = `<span class="song-badge">🎵 ${opts.hint(cur)}</span>`;
         $(ids.next).classList.remove('hidden');
       };
       box.appendChild(b);
@@ -579,40 +626,45 @@ function makeQuiz(data, ids, opts={}){
   newQ();
 }
 
-// main quiz
 makeQuiz(VOCAB, {label:'qz-label',word:'qz-word',choices:'qz-choices',next:'qz-next',score:'qz-score',total:'qz-total',streak:'qz-streak'});
 
-// Bieber quiz (badge = ชื่อเพลง)
-makeQuiz(BIEBER, {label:'jb-label',word:'jb-word',choices:'jb-choices',next:'jb-next',score:'jb-score',total:'jb-total',streak:'jb-streak',badge:'jb-song'},
-  {badge: item => item[3], reverseRate: 0.5});
+makeQuiz(BIEBER, {label:'jb-label',word:'jb-word',choices:'jb-choices',next:'jb-next',score:'jb-score',total:'jb-total',streak:'jb-streak',hintarea:'jb-hintarea'},
+  {hint: item => item[3], reverseRate: 0.5});
 
-// Day8 quiz
-makeQuiz(DAY8, {label:'d8q-label',word:'d8q-word',choices:'d8q-choices',next:'d8q-next',score:'d8q-score',total:'d8q-total',streak:'d8q-streak'});
+makeQuiz(DAY8_ALL, {label:'d8q-label',word:'d8q-word',choices:'d8q-choices',next:'d8q-next',score:'d8q-score',total:'d8q-total',streak:'d8q-streak'});
 
-// ================= GENERIC FILL FACTORY (คำใบ้ซ่อน กดค่อยโชว์) =================
-function makeFill(sentences, wordPool, ids){
+// ================= GENERIC FILL =================
+// item: [sentence, answer, hint] หรือ [sentence, answer, hint, choices[4]]
+// opts.ordered = ไม่สุ่มลำดับ (สำหรับไล่ระดับความยาก), opts.levelFn(i) = ป้ายระดับ
+function makeFill(sentences, wordPool, ids, opts={}){
   let order=[],idx=0,score=0;
   function start(){
-    order=shuffle([...sentences]); idx=0; score=0;
+    order = opts.ordered ? [...sentences] : shuffle([...sentences]);
+    idx=0; score=0;
     $(ids.total).textContent=order.length;
     $(ids.end).classList.add('hidden'); $(ids.play).classList.remove('hidden');
     render();
   }
   function render(){
-    $(ids.done).textContent=idx;
+    $(ids.done).textContent=idx+1;
     $(ids.scoreTxt).textContent=`ถูก ${score} ข้อ`;
+    if(ids.level && opts.levelFn) $(ids.level).innerHTML = opts.levelFn(idx);
     $(ids.next).classList.add('hidden');
-    const [en,ans,th]=order[idx];
+    const item=order[idx];
+    const [en,ans,th]=item;
     const sEl = $(ids.sentence);
     sEl.innerHTML = en.replace('___','<span class="blank">______</span>');
-    // hidden hint + button
     const hb=document.createElement('span');
     hb.className='hint-btn'; hb.textContent='💡 ขอคำใบ้';
     hb.onclick=()=>{ hb.outerHTML = `<span class="th-hint">💡 ${th}</span>`; };
     sEl.appendChild(document.createElement('br'));
     sEl.appendChild(hb);
-    const wrongs = shuffle(wordPool.filter(v=>v[0]!==ans)).slice(0,3).map(v=>v[0]);
-    const choices = shuffle([ans,...wrongs]);
+    let choices;
+    if(item[3]) choices = shuffle([...item[3]]);
+    else{
+      const wrongs = shuffle(wordPool.filter(v=>v[0]!==ans)).slice(0,3).map(v=>v[0]);
+      choices = shuffle([ans,...wrongs]);
+    }
     const box=$(ids.choices); box.innerHTML='';
     choices.forEach(c=>{
       const b=document.createElement('button');
@@ -644,28 +696,47 @@ function makeFill(sentences, wordPool, ids){
   start();
 }
 
-// main fill
+// main fill: เรียงตามระดับ 1→40
+const LEVELS = [
+  [0,'<span class="level-badge lv1">🌱 Beginner</span>'],
+  [10,'<span class="level-badge lv2">🌿 Normal</span>'],
+  [20,'<span class="level-badge lv3">🔥 Hard</span>'],
+  [30,'<span class="level-badge lv4">👑 Native</span>']
+];
 makeFill(SENTENCES, VOCAB, {
   total:'fi-total',done:'fi-done',scoreTxt:'fi-score',sentence:'fi-sentence',
-  choices:'fi-choices',next:'fi-next',play:'fi-play',end:'fi-end',result:'fi-result',restart:'fi-restart'
+  choices:'fi-choices',next:'fi-next',play:'fi-play',end:'fi-end',result:'fi-result',restart:'fi-restart',
+  level:'fi-level'
+},{
+  ordered:true,
+  levelFn: i => LEVELS.filter(l=>i>=l[0]).pop()[1]
 });
 
-// day8 fill (ตัวเลือกจากคำ Day 8 เท่านั้น = โหดขึ้น เหมือนข้อสอบ)
-makeFill(D8SENT, DAY8, {
+// day8 fill
+makeFill(D8SENT, DAY8_ALL, {
   total:'d8f-total',done:'d8f-done',scoreTxt:'d8f-score',sentence:'d8f-sentence',
   choices:'d8f-choices',next:'d8f-next',play:'d8f-play',end:'d8f-end',result:'d8f-result',restart:'d8f-restart'
 });
 
 // ================= DAY 8 STUDY LIST =================
-$('d8-study').innerHTML = DAY8.map(([en,th,syn,emo,ex])=>`
+$('d8-study').innerHTML =
+  '<div class="section-head">⭐ คำหลัก 10 คำ (ออกสอบแน่)</div>' +
+  DAY8.map(([en,th,syn,emo,ex])=>`
   <div class="study-card">
     <div class="w">${emo} ${en}</div>
     <div class="m">${th}</div>
     <div class="s">≈ ${syn}</div>
     <div class="ex">"${ex}"</div>
+  </div>`).join('') +
+  '<div class="section-head">💜 คำเสริมจากชีท (คำขีดเส้นใต้ / คำในนิยาม)</div>' +
+  DAY8_EXTRA.map(([en,th,syn,emo,ex])=>`
+  <div class="study-card extra">
+    <div class="w">${emo} ${en}</div>
+    <div class="m">${th}</div>
+    <div class="s">≈ ${syn}</div>
+    <div class="ex">${ex}</div>
   </div>`).join('');
 
-// Day8 subtabs
 document.querySelectorAll('[data-d8]').forEach(t=>{
   t.onclick=()=>{
     document.querySelectorAll('[data-d8]').forEach(x=>x.classList.remove('active'));
@@ -674,7 +745,7 @@ document.querySelectorAll('[data-d8]').forEach(t=>{
   };
 });
 
-// ================= BIEBER LIST + subtabs =================
+// ================= BIEBER LIST =================
 $('jb-list').innerHTML = BIEBER.map(([en,th,syn,song,emo])=>`
   <div class="jb-card">
     <div class="w">${emo} ${en} <span class="song-badge">🎵 ${song}</span></div>
