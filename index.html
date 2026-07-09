@@ -36,16 +36,15 @@ h1 .heart{color:var(--pink)}
 .stage{width:100%;max-width:430px}
 
 .card-wrap{perspective:1000px;margin-bottom:14px}
-.card{position:relative;width:100%;height:250px;cursor:pointer;transform-style:preserve-3d;transition:transform .45s}
+.card{position:relative;width:100%;height:240px;cursor:pointer;transform-style:preserve-3d;transition:transform .45s}
 .card.flipped{transform:rotateY(180deg)}
 .face{
   position:absolute;inset:0;backface-visibility:hidden;background:#fff;
   border:2.5px solid var(--purple);border-radius:20px;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;padding:20px;box-shadow:var(--shadow);gap:6px;
+  align-items:center;justify-content:center;padding:20px;box-shadow:var(--shadow);gap:8px;
 }
 .face.back{transform:rotateY(180deg);background:var(--pink-soft);border-color:var(--pink)}
-.emo{font-size:3rem;line-height:1}
-.word{font-family:'Mali',cursive;font-size:1.9rem;font-weight:700;color:var(--purple-dark);text-align:center}
+.word{font-family:'Mali',cursive;font-size:2rem;font-weight:700;color:var(--purple-dark);text-align:center}
 .meaning{font-family:'Mali',cursive;font-size:1.4rem;font-weight:600;text-align:center;line-height:1.4}
 .syn{font-size:.8rem;color:#a06a85;text-align:center}
 .hint{font-size:.72rem;color:#a89bc0}
@@ -57,6 +56,7 @@ h1 .heart{color:var(--pink)}
 }
 .btn:active{transform:translateY(2px);box-shadow:none}
 .btn.primary{background:var(--purple);border-color:var(--purple);color:#fff}
+.btn.small{font-size:.8rem;padding:6px 13px}
 .counter{text-align:center;font-size:.85rem;color:#8a7fa0;margin-bottom:10px}
 
 .q-box{background:#fff;border:2.5px solid var(--purple);border-radius:20px;padding:20px 16px;box-shadow:var(--shadow);margin-bottom:14px;text-align:center}
@@ -88,14 +88,31 @@ h1 .heart{color:var(--pink)}
 .streak{color:var(--pink);font-weight:600}
 .next-row{margin-top:14px;text-align:center;min-height:48px}
 
-.sentence{font-size:1.02rem;line-height:1.7;background:#fff;border:2.5px solid var(--purple);border-radius:20px;padding:18px 16px;box-shadow:var(--shadow);margin-bottom:14px}
+.sentence{font-size:1.05rem;line-height:1.9;background:#fff;border:2.5px solid var(--purple);border-radius:20px;padding:18px 16px;box-shadow:var(--shadow);margin-bottom:6px}
 .blank{display:inline-block;min-width:90px;border-bottom:2.5px dashed var(--pink);text-align:center;font-family:'Mali',cursive;font-weight:700;color:var(--purple-dark)}
+.tapw{cursor:pointer;border-radius:6px;padding:0 2px}
+.tapw.lit{background:var(--gold)}
+.wordtip{
+  min-height:26px;font-size:.85rem;color:var(--purple-dark);background:#fff8e1;
+  border:1.5px dashed var(--gold);border-radius:10px;padding:5px 12px;margin-bottom:10px;
+}
+.wordtip.empty{visibility:hidden}
+.tap-note{font-size:.7rem;color:#a89bc0;text-align:center;margin-bottom:8px}
 .th-hint{display:block;margin-top:10px;font-size:.85rem;color:#8a7fa0}
 .hint-btn{
   display:inline-block;margin-top:10px;font-size:.78rem;font-family:'Prompt',sans-serif;
   border:1.5px dashed var(--pink);background:var(--pink-soft);color:#b05a7e;
   border-radius:999px;padding:4px 14px;cursor:pointer;
 }
+.type-row{display:flex;gap:8px;margin-bottom:4px}
+.type-input{
+  flex:1;font-family:'Prompt',sans-serif;font-size:1rem;padding:11px 14px;
+  border:2px solid var(--ink);border-radius:14px;background:#fff;box-shadow:var(--shadow);
+  outline:none;
+}
+.type-input.ok{background:var(--green);border-color:var(--green);color:#fff}
+.type-input.bad{background:var(--red);border-color:var(--red);color:#fff}
+.mode-row{text-align:center;margin-bottom:12px}
 .done-box{background:var(--pink-soft);border:2.5px solid var(--pink);border-radius:20px;padding:26px 18px;text-align:center;box-shadow:var(--shadow)}
 .done-box .big{font-family:'Mali',cursive;font-size:1.55rem;font-weight:700;color:var(--purple-dark);margin-bottom:6px}
 .hidden{display:none}
@@ -106,6 +123,14 @@ h1 .heart{color:var(--pink)}
   border:2px solid var(--gold);background:#fff;color:#b8860b;cursor:pointer;box-shadow:var(--shadow);
 }
 .subtab.active{background:var(--gold);color:var(--ink)}
+.subtab.pinkish{border-color:var(--pink);color:#b05a7e}
+.subtab.pinkish.active{background:var(--pink);color:#fff}
+.day-select{display:flex;gap:8px;justify-content:center;margin-bottom:12px}
+.day-btn{
+  font-family:'Mali',cursive;font-weight:700;font-size:.9rem;padding:8px 16px;border-radius:14px;
+  border:2px solid var(--purple);background:#fff;color:var(--purple);cursor:pointer;box-shadow:var(--shadow);
+}
+.day-btn.active{background:var(--purple);color:#fff}
 .section-head{
   font-family:'Mali',cursive;font-weight:700;font-size:1rem;color:var(--purple-dark);
   margin:14px 0 8px;text-align:center;
@@ -141,7 +166,7 @@ h1 .heart{color:var(--pink)}
   <button class="tab" data-mode="quiz">✏️ ควิซ</button>
   <button class="tab" data-mode="fill">📝 เติมคำ</button>
   <button class="tab" data-mode="bieber">🎤 Bieber</button>
-  <button class="tab exam" data-mode="day8">⭐ สอบ Day 8</button>
+  <button class="tab exam" data-mode="exam">⭐ ติวสอบ</button>
 </div>
 
 <div class="stage">
@@ -152,7 +177,6 @@ h1 .heart{color:var(--pink)}
     <div class="card-wrap">
       <div class="card" id="fc-card">
         <div class="face front">
-          <div class="emo" id="fc-emo"></div>
           <div class="word" id="fc-word"></div>
           <div class="hint">แตะเพื่อดูความหมาย</div>
         </div>
@@ -184,23 +208,8 @@ h1 .heart{color:var(--pink)}
     <div class="next-row"><button class="btn primary hidden" id="qz-next">ข้อต่อไป →</button></div>
   </div>
 
-  <!-- FILL IN -->
-  <div id="fill" class="hidden">
-    <div class="scorebar">
-      <span>ข้อ <b id="fi-done">0</b>/<span id="fi-total">0</span><span id="fi-level"></span></span>
-      <span class="streak" id="fi-score"></span>
-    </div>
-    <div id="fi-play">
-      <div class="sentence" id="fi-sentence"></div>
-      <div class="choices" id="fi-choices"></div>
-      <div class="next-row"><button class="btn primary hidden" id="fi-next">ประโยคต่อไป →</button></div>
-    </div>
-    <div id="fi-end" class="done-box hidden">
-      <div class="big">สุดยอดไปเลย! 🎉</div>
-      <div id="fi-result"></div><br>
-      <button class="btn primary" id="fi-restart">เล่นอีกรอบ</button>
-    </div>
-  </div>
+  <!-- FILL IN (main) -->
+  <div id="fill" class="hidden"></div>
 
   <!-- BIEBER -->
   <div id="bieber" class="hidden">
@@ -208,8 +217,8 @@ h1 .heart{color:var(--pink)}
       🎧 ศัพท์จากเพลง Justin Bieber — ตอบก่อน ถ้านึกไม่ออกค่อยกดขอคำใบ้ชื่อเพลง!
     </div>
     <div class="subtabs">
-      <button class="subtab active" data-jb="quiz" style="border-color:var(--pink);color:#b05a7e">✏️ ควิซ</button>
-      <button class="subtab" data-jb="list" style="border-color:var(--pink);color:#b05a7e">📖 ดูศัพท์ทั้งหมด</button>
+      <button class="subtab pinkish active" data-jb="quiz">✏️ ควิซ</button>
+      <button class="subtab pinkish" data-jb="list">📖 ดูศัพท์ทั้งหมด</button>
     </div>
     <div id="jb-quiz">
       <div class="scorebar">
@@ -227,347 +236,426 @@ h1 .heart{color:var(--pink)}
     <div id="jb-list" class="hidden"></div>
   </div>
 
-  <!-- DAY 8 EXAM -->
-  <div id="day8" class="hidden">
-    <div class="exam-banner">⭐ ติวเข้มก่อนสอบ — คำหลัก 10 คำ + คำเสริมจากชีทอีก 11 คำ สู้ๆ นะ! ⭐</div>
-    <div class="subtabs">
-      <button class="subtab active" data-d8="study">📖 ท่อง</button>
-      <button class="subtab" data-d8="quiz">✏️ ควิซ</button>
-      <button class="subtab" data-d8="fill">📝 เติมคำ</button>
-    </div>
-
-    <div id="d8-study"></div>
-
-    <div id="d8-quiz" class="hidden">
-      <div class="scorebar">
-        <span>คะแนน: <b id="d8q-score">0</b>/<span id="d8q-total">0</span></span>
-        <span class="streak" id="d8q-streak"></span>
-      </div>
-      <div class="q-box" style="border-color:var(--gold)">
-        <div class="q-label" id="d8q-label"></div>
-        <div class="q-word" id="d8q-word"></div>
-      </div>
-      <div class="choices" id="d8q-choices"></div>
-      <div class="next-row"><button class="btn primary hidden" id="d8q-next">ข้อต่อไป →</button></div>
-    </div>
-
-    <div id="d8-fill" class="hidden">
-      <div class="scorebar">
-        <span>ข้อ <b id="d8f-done">0</b>/<span id="d8f-total">0</span></span>
-        <span class="streak" id="d8f-score"></span>
-      </div>
-      <div id="d8f-play">
-        <div class="sentence" id="d8f-sentence" style="border-color:var(--gold)"></div>
-        <div class="choices" id="d8f-choices"></div>
-        <div class="next-row"><button class="btn primary hidden" id="d8f-next">ประโยคต่อไป →</button></div>
-      </div>
-      <div id="d8f-end" class="done-box hidden" style="background:#fff8e1;border-color:var(--gold)">
-        <div class="big">พร้อมสอบแล้ว! 💪</div>
-        <div id="d8f-result"></div><br>
-        <button class="btn primary" id="d8f-restart">เล่นอีกรอบ</button>
-      </div>
-    </div>
+  <!-- EXAM HUB -->
+  <div id="exam" class="hidden">
+    <div class="exam-banner">⭐ ติวเข้มก่อนสอบ — เลือกบทที่จะสอบได้เลย สู้ๆ นะ! ⭐</div>
+    <div class="day-select" id="day-select"></div>
+    <div id="exam-days"></div>
   </div>
 
 </div>
 
 <script>
-// ================= DATA =================
-// [English, ความหมายไทย, synonym/คำใกล้เคียง, emoji]
+// ============================================================
+// DATA — [English, ความหมายไทย, synonym]
+// ============================================================
 const VOCAB = [
-["Consonant","พยัญชนะ","letter (not a e i o u)","🔤"],
-["Vowel","สระ","a e i o u","🅰️"],
-["Colleague","เพื่อนร่วมงาน","co-worker","👔"],
-["Ambiguous","คลุมเครือ ไม่ชัดเจน","unclear, vague","🌫️"],
-["Approach","เข้าใกล้ / เข้าหา","come near","🚶"],
-["Scold","ดุ, ด่า","tell off","😠"],
-["Certain","มั่นใจ, แน่นอน","sure, definite","✔️"],
-["Sighting","การพบเห็น (สิ่งแปลกๆ)","seeing something","👀"],
-["Saucer","จานรอง / จานบิน","small plate; UFO","🛸"],
-["Moderate","ปานกลาง","average, medium","🌗"],
-["Struck","ชน, กระแทก","hit (past of strike)","💥"],
-["Remain","คงเหลือ, ยังอยู่","stay, be left","🪨"],
-["Evidence","หลักฐาน","proof","🔍"],
-["Experiment","การทดลอง","test, trial","🧪"],
-["Conclusion","บทสรุป","ending, summary","🏁"],
-["Exist","มีอยู่, ดำรงอยู่","be, live","🌱"],
-["Continent","ทวีป","landmass","🌏"],
-["Crowded","แออัด คนเยอะ","packed, full","👥"],
-["Etiquette","มารยาท","manners","🙇"],
-["Defamation","การหมิ่นประมาท","libel, slander","🗯️"],
-["Sue","ฟ้องร้อง","take to court","👨‍⚖️"],
-["Dignity","ศักดิ์ศรี","self-respect","🦁"],
-["Depression","ภาวะซึมเศร้า","deep sadness","🌧️"],
-["Anxiety","ความวิตกกังวล","worry, nervousness","😰"],
-["Fiery","เผ็ดร้อน / ร้อนแรง","spicy, burning","🔥"],
-["Various","หลากหลาย","many kinds, diverse","🌈"],
-["Bland","จืดชืด ไม่มีรสชาติ","tasteless, plain","🥣"],
-["Decade","ทศวรรษ (10 ปี)","ten years","🔟"],
-["Contain","บรรจุ, มี...อยู่ข้างใน","hold, include","📦"],
-["Flu","ไข้หวัดใหญ่","influenza","🤒"],
-["Barely","แทบจะไม่","hardly, almost not","🤏"],
-["Cub","ลูกสัตว์","baby animal","🐻"],
-["Curious","สงสัย อยากรู้","want to know","🧐"],
-["Independent","เป็นอิสระ พึ่งตัวเอง","free, self-reliant","🕊️"],
-["Sacrifice","เสียสละ","give up for others","💝"],
-["Struggle","ดิ้นรน, ต่อสู้","fight, try hard","💪"],
-["Elderly","ผู้สูงอายุ","old people, seniors","👵"],
-["Wit","ไหวพริบ ความฉลาด","cleverness, humor","🧠"],
-["Athlete","นักกีฬา","sports player","🏃"],
-["Tummy","ท้อง (คำน่ารัก)","stomach, belly","👶"],
-["Bandage","ผ้าพันแผล","plaster, dressing","🩹"],
-["Tablet","ยาเม็ด","pill","💊"],
-["Fabric softener","น้ำยาปรับผ้านุ่ม","makes clothes soft","🧺"],
-["Laundry detergent","ผงซักฟอก","washing powder","🧼"],
-["Mature","เป็นผู้ใหญ่ มีความรับผิดชอบ","grown-up, responsible","🎓"],
-["Tease","แกล้ง, ล้อเลียน","make fun of","😜"],
-["Impeccable","ไร้ที่ติ สมบูรณ์แบบ","perfect, flawless","💯"],
-["Inherit","รับมรดก, สืบทอด","receive from family","🏠"],
-["Tense","เครียด, ตึงเครียด","nervous, stressed","😬"],
-["Swallow","กลืน","gulp down","🥤"],
-["Punctual","ตรงต่อเวลา","on time","⏰"],
-["Humor","อารมณ์ขัน","funny sense","😂"],
-["Believe","เชื่อ","think it's true","🙏"],
-["Contrast","เปรียบเทียบความแตกต่าง","compare differences","🆚"],
-["Control","ควบคุม","manage, rule","🎮"],
-["Depend","พึ่งพา","rely on","🤲"],
-["Duty","หน้าที่","responsibility, task","📋"],
-["Important","สำคัญ","significant, necessary","⭐"],
-["Ordinary","ธรรมดา","normal, common","🍞"],
-["Personality","บุคลิกภาพ","character","🪞"],
-["Talkative","ช่างพูด","talks a lot, chatty","🗣️"],
-["Worry","กังวล","be anxious","😟"],
-["Annual","ประจำปี","every year, yearly","📅"],
-["Attempt","พยายาม","try","🎯"],
-["Communicate","สื่อสาร","share information","📱"],
-["Emotional","มีอารมณ์ร่วม ซาบซึ้ง","full of feeling","🥹"],
-["Gathering","งานรวมตัว ปาร์ตี้","party, meeting","🎉"],
-["Maintain","รักษาไว้ ดูแลต่อเนื่อง","keep up, continue","🔧"],
-["Provide","จัดหาให้","supply, give","🎁"],
-["Reunion","งานพบปะคนที่ไม่เจอกันนาน","meeting again","🫂"],
-["Terrific","เยี่ยมมาก","excellent, great","🤩"],
-["Threaten","ขู่","warn to harm","⚠️"],
-["Affordable","ราคาจับต้องได้","cheap enough","💸"],
-["Bargain","ของราคาถูกกว่าจริง / ต่อรอง","good deal","🏷️"],
-["Boutique","ร้านแฟชั่นเล็กๆ มีสไตล์","small fashion shop","👗"],
-["Brand","แบรนด์ ยี่ห้อ","product name","™️"],
-["Choice","ตัวเลือก","option","🔀"],
-["Customer","ลูกค้า","buyer, client","🛍️"],
-["Design","ลวดลาย การออกแบบ","pattern, style","✏️"],
-["Imported","นำเข้าจากต่างประเทศ","from another country","✈️"],
-["Purchase","ซื้อ","buy","💳"],
-["Shop","เดินซื้อของ","go buying","🛒"],
-["Bored","เบื่อ","not interested","🥱"],
-["Bother","รบกวน กวนใจ","annoy","😤"],
-["Character","นิสัย ตัวตน","personality, nature","🎭"],
-["Free time","เวลาว่าง","leisure time","🏖️"],
-["Habit","สิ่งที่ทำเป็นประจำ","regular behavior","🔁"],
-["Interesting","น่าสนใจ","catches attention","💡"],
-["Routine","กิจวัตร","regular way of doing","📆"],
-["Satisfy","ทำให้พอใจ","please, make happy","😌"],
-["Secret","ความลับ","hidden thing","🤫"],
-["Transform","เปลี่ยนแปลงโดยสิ้นเชิง","change completely","🦋"],
-["Adventure","การผจญภัย","exciting journey","🗺️"],
-["Book (v.)","จอง (ตั๋ว/โรงแรม)","reserve","🎫"],
-["Cruise","ล่องเรือเที่ยว","pleasure voyage","🛳️"],
-["Haste","ความรีบร้อน","hurry, rush","⚡"],
-["Impressive","น่าประทับใจ","admirable, amazing","🏰"],
-["Itinerary","แผนการเดินทาง","travel plan","🧭"],
-["Native","พื้นเมือง ท้องถิ่น","original to a place","🦘"],
-["Scenery","ทิวทัศน์","view, landscape","🏞️"],
-["Brochure","แผ่นพับ โบรชัวร์","booklet, pamphlet","📰"],
-["Transportation","การเดินทางขนส่ง","way of traveling","🚌"],
-["Grain","ธัญพืช เมล็ดพืช","seeds for food","🌾"],
-["Compose","ประกอบขึ้นเป็น","form, make up","🧩"],
-["Luxurious","หรูหรา","fancy, costly","💎"],
-["Fast food","อาหารจานด่วน","quick cheap meal","🍔"],
-["Spicy","เผ็ด","hot taste","🌶️"],
-["Unhealthy","ไม่ดีต่อสุขภาพ","bad for health","🍟"],
-["Chef","เชฟ พ่อครัวมืออาชีพ","professional cook","👨‍🍳"],
-["Boost","กระตุ้น เสริม","support, improve","🚀"],
-["Nutritious","มีคุณค่าทางอาหาร","nourishing, healthy","🥦"],
-["Carbohydrate","คาร์โบไฮเดรต แป้ง","starch, sugar","🥔"],
-["Instrument","เครื่องดนตรี","musical device","🎸"],
-["Lyrics","เนื้อเพลง","words of a song","📝"],
-["Idol","ไอดอล คนที่คลั่งไคล้","someone adored","🌟"],
-["Tune","ทำนอง","melody","🎵"],
-["Rhythm","จังหวะ","beat","🥁"],
-["Download","ดาวน์โหลด","copy from internet","⬇️"],
-["Classic","คลาสสิก ระดับตำนาน","timeless, top quality","🏛️"],
-["Soothing","ผ่อนคลาย ชวนสงบ","calming, gentle","🌊"],
-["Emotion","อารมณ์ความรู้สึก","feeling","💗"],
-["Melody","ท่วงทำนอง","tune, notes","🎶"],
-["Impression","ความรู้สึกแรก ความประทับใจ","feeling, idea","🤔"],
-["Conquer","พิชิต ยึดครอง","defeat, take over","⚔️"],
-["Credit","เครดิต การอ้างอิงแหล่งที่มา","recognition note","🧾"],
-["Conclude","สรุป ตัดสินใจจากเหตุผล","decide, sum up","✅"],
-["Setting","ฉาก (เวลา+สถานที่ของเรื่อง)","time & place of a story","🎬"],
-["Genre","ประเภท แนว (หนัง/เพลง/หนังสือ)","category, type","🗂️"],
-["Theatre","โรงภาพยนตร์ โรงละคร","cinema, playhouse","🎦"],
-["Effects","เทคนิคพิเศษ แสง สี เสียง","special effects","✨"],
-["Sci-fi","นิยายวิทยาศาสตร์","science fiction","👽"],
-["Thriller","แนวระทึกขวัญ","suspense story","🔪"],
-["Opinion","ความคิดเห็น","view, judgment","💬"],
-["Site","สถานที่ก่อสร้าง / ที่ตั้ง","location, area","🏗️"],
-["Hangout","ที่ที่ไปประจำ","favorite place","☕"],
-["Skip","โดด(เรียน) ข้าม","miss, not attend","⏭️"],
-["Regularly","เป็นประจำ สม่ำเสมอ","at regular times","🔂"],
-["Hobby","งานอดิเรก","leisure activity","🎣"],
-["Couch","โซฟา","sofa","🛋️"],
-["Collection","ของสะสม การสะสม","collected things","🗃️"],
-["Decide","ตัดสินใจ","make a decision","☑️"],
-["Frequent","ไปบ่อยๆ","visit often","🔄"],
-["Abstract","นามธรรม จับต้องไม่ได้","idea, not physical","🌀"],
-["Expressive","แสดงความรู้สึกได้ดี","showing feeling","🎨"],
-["Showcase","จัดแสดง โชว์","exhibit, display","🖼️"],
-["Culture","วัฒนธรรม","customs, arts","🏮"],
-["Creation","ผลงานสร้างสรรค์","something made","🛠️"],
-["Extraordinary","พิเศษเหนือธรรมดา","remarkable, unusual","🦄"],
-["Canvas","ภาพวาดสีน้ำมัน / ผ้าใบ","oil painting","🖌️"],
-["Unique","มีหนึ่งเดียว ไม่เหมือนใคร","one of a kind","🧿"],
-["Visual","มองเห็นได้ด้วยตา","seen by the eye","👁️"],
-["Masterpiece","ผลงานชิ้นเอก","great work","🏆"]
+["Consonant","พยัญชนะ","letter (not a e i o u)"],
+["Vowel","สระ","a e i o u"],
+["Colleague","เพื่อนร่วมงาน","co-worker"],
+["Ambiguous","คลุมเครือ ไม่ชัดเจน","unclear, vague"],
+["Approach","เข้าใกล้ / เข้าหา","come near"],
+["Scold","ดุ, ด่า","tell off"],
+["Certain","มั่นใจ, แน่นอน","sure, definite"],
+["Sighting","การพบเห็น (สิ่งแปลกๆ)","seeing something"],
+["Saucer","จานรอง / จานบิน","small plate; UFO"],
+["Moderate","ปานกลาง","average, medium"],
+["Struck","ชน, กระแทก","hit (past of strike)"],
+["Remain","คงเหลือ, ยังอยู่","stay, be left"],
+["Evidence","หลักฐาน","proof"],
+["Experiment","การทดลอง","test, trial"],
+["Conclusion","บทสรุป","ending, summary"],
+["Exist","มีอยู่, ดำรงอยู่","be, live"],
+["Continent","ทวีป","landmass"],
+["Crowded","แออัด คนเยอะ","packed, full"],
+["Etiquette","มารยาท","manners"],
+["Defamation","การหมิ่นประมาท","libel, slander"],
+["Sue","ฟ้องร้อง","take to court"],
+["Dignity","ศักดิ์ศรี","self-respect"],
+["Depression","ภาวะซึมเศร้า","deep sadness"],
+["Anxiety","ความวิตกกังวล","worry, nervousness"],
+["Fiery","เผ็ดร้อน / ร้อนแรง","spicy, burning"],
+["Various","หลากหลาย","many kinds, diverse"],
+["Bland","จืดชืด ไม่มีรสชาติ","tasteless, plain"],
+["Decade","ทศวรรษ (10 ปี)","ten years"],
+["Contain","บรรจุ, มี...อยู่ข้างใน","hold, include"],
+["Flu","ไข้หวัดใหญ่","influenza"],
+["Barely","แทบจะไม่","hardly, almost not"],
+["Cub","ลูกสัตว์","baby animal"],
+["Curious","สงสัย อยากรู้","want to know"],
+["Independent","เป็นอิสระ พึ่งตัวเอง","free, self-reliant"],
+["Sacrifice","เสียสละ","give up for others"],
+["Struggle","ดิ้นรน, ต่อสู้","fight, try hard"],
+["Elderly","ผู้สูงอายุ","old people, seniors"],
+["Wit","ไหวพริบ ความฉลาด","cleverness"],
+["Athlete","นักกีฬา","sports player"],
+["Tummy","ท้อง (คำน่ารัก)","stomach, belly"],
+["Bandage","ผ้าพันแผล","plaster, dressing"],
+["Tablet","ยาเม็ด","pill"],
+["Fabric softener","น้ำยาปรับผ้านุ่ม","makes clothes soft"],
+["Laundry detergent","ผงซักฟอก","washing powder"],
+["Mature","เป็นผู้ใหญ่ มีความรับผิดชอบ","grown-up, responsible"],
+["Tease","แกล้ง, ล้อเลียน","make fun of"],
+["Impeccable","ไร้ที่ติ สมบูรณ์แบบ","perfect, flawless"],
+["Inherit","รับมรดก, สืบทอด","receive from family"],
+["Tense","เครียด, ตึงเครียด","nervous, stressed"],
+["Swallow","กลืน","gulp down"],
+["Punctual","ตรงต่อเวลา","on time"],
+["Humor","อารมณ์ขัน","funny sense"],
+["Believe","เชื่อ","think it's true"],
+["Contrast","เปรียบเทียบความแตกต่าง","compare differences"],
+["Control","ควบคุม","manage, rule"],
+["Depend","พึ่งพา","rely on"],
+["Duty","หน้าที่","responsibility, task"],
+["Important","สำคัญ","significant, necessary"],
+["Ordinary","ธรรมดา","normal, common"],
+["Personality","บุคลิกภาพ","character"],
+["Talkative","ช่างพูด","talks a lot, chatty"],
+["Worry","กังวล","be anxious"],
+["Annual","ประจำปี","every year, yearly"],
+["Attempt","พยายาม","try"],
+["Communicate","สื่อสาร","share information"],
+["Emotional","มีอารมณ์ร่วม ซาบซึ้ง","full of feeling"],
+["Gathering","งานรวมตัว ปาร์ตี้","party, meeting"],
+["Maintain","รักษาไว้ ดูแลต่อเนื่อง","keep up, continue"],
+["Provide","จัดหาให้","supply, give"],
+["Reunion","งานพบปะคนที่ไม่เจอกันนาน","meeting again"],
+["Terrific","เยี่ยมมาก","excellent, great"],
+["Threaten","ขู่","warn to harm"],
+["Affordable","ราคาจับต้องได้","cheap enough"],
+["Bargain","ของราคาถูกกว่าจริง / ต่อรอง","good deal"],
+["Boutique","ร้านแฟชั่นเล็กๆ มีสไตล์","small fashion shop"],
+["Brand","แบรนด์ ยี่ห้อ","product name"],
+["Choice","ตัวเลือก","option"],
+["Customer","ลูกค้า","buyer, client"],
+["Design","ลวดลาย การออกแบบ","pattern, style"],
+["Imported","นำเข้าจากต่างประเทศ","from another country"],
+["Purchase","ซื้อ","buy"],
+["Shop","เดินซื้อของ","go buying"],
+["Bored","เบื่อ","not interested"],
+["Bother","รบกวน กวนใจ","annoy"],
+["Character","นิสัย ตัวตน","personality, nature"],
+["Free time","เวลาว่าง","leisure time"],
+["Habit","สิ่งที่ทำเป็นประจำ","regular behavior"],
+["Interesting","น่าสนใจ","catches attention"],
+["Routine","กิจวัตร","regular way of doing"],
+["Satisfy","ทำให้พอใจ","please, make happy"],
+["Secret","ความลับ","hidden thing"],
+["Transform","เปลี่ยนแปลงโดยสิ้นเชิง","change completely"],
+["Adventure","การผจญภัย","exciting journey"],
+["Book (v.)","จอง (ตั๋ว/โรงแรม)","reserve"],
+["Cruise","ล่องเรือเที่ยว","pleasure voyage"],
+["Haste","ความรีบร้อน","hurry, rush"],
+["Impressive","น่าประทับใจ","admirable, amazing"],
+["Itinerary","แผนการเดินทาง","travel plan"],
+["Native","พื้นเมือง ท้องถิ่น","original to a place"],
+["Scenery","ทิวทัศน์","view, landscape"],
+["Brochure","แผ่นพับ โบรชัวร์","booklet, pamphlet"],
+["Transportation","การเดินทางขนส่ง","way of traveling"],
+["Grain","ธัญพืช เมล็ดพืช","seeds for food"],
+["Compose","ประกอบขึ้นเป็น","form, make up"],
+["Luxurious","หรูหรา","fancy, costly"],
+["Fast food","อาหารจานด่วน","quick cheap meal"],
+["Spicy","เผ็ด","hot taste"],
+["Unhealthy","ไม่ดีต่อสุขภาพ","bad for health"],
+["Chef","เชฟ พ่อครัวมืออาชีพ","professional cook"],
+["Boost","กระตุ้น เสริม","support, improve"],
+["Nutritious","มีคุณค่าทางอาหาร","nourishing, healthy"],
+["Carbohydrate","คาร์โบไฮเดรต แป้ง","starch, sugar"],
+["Instrument","เครื่องดนตรี","musical device"],
+["Lyrics","เนื้อเพลง","words of a song"],
+["Idol","ไอดอล คนที่คลั่งไคล้","someone adored"],
+["Tune","ทำนอง","melody"],
+["Rhythm","จังหวะ","beat"],
+["Download","ดาวน์โหลด","copy from internet"],
+["Classic","คลาสสิก ระดับตำนาน","timeless, top quality"],
+["Soothing","ผ่อนคลาย ชวนสงบ","calming, gentle"],
+["Emotion","อารมณ์ความรู้สึก","feeling"],
+["Melody","ท่วงทำนอง","tune, notes"],
+["Impression","ความรู้สึกแรก ความประทับใจ","feeling, idea"],
+["Conquer","พิชิต ยึดครอง","defeat, take over"],
+["Credit","เครดิต การอ้างอิงแหล่งที่มา","recognition note"],
+["Conclude","สรุป ตัดสินใจจากเหตุผล","decide, sum up"],
+["Setting","ฉาก (เวลา+สถานที่ของเรื่อง)","time & place of a story"],
+["Genre","ประเภท แนว (หนัง/เพลง/หนังสือ)","category, type"],
+["Theatre","โรงภาพยนตร์ โรงละคร","cinema, playhouse"],
+["Effects","เทคนิคพิเศษ แสง สี เสียง","special effects"],
+["Sci-fi","นิยายวิทยาศาสตร์","science fiction"],
+["Thriller","แนวระทึกขวัญ","suspense story"],
+["Opinion","ความคิดเห็น","view, judgment"],
+["Site","สถานที่ก่อสร้าง / ที่ตั้ง","location, area"],
+["Hangout","ที่ที่ไปประจำ","favorite place"],
+["Skip","โดด(เรียน) ข้าม","miss, not attend"],
+["Regularly","เป็นประจำ สม่ำเสมอ","at regular times"],
+["Hobby","งานอดิเรก","leisure activity"],
+["Couch","โซฟา","sofa"],
+["Collection","ของสะสม การสะสม","collected things"],
+["Decide","ตัดสินใจ","make a decision"],
+["Frequent","ไปบ่อยๆ","visit often"],
+["Abstract","นามธรรม จับต้องไม่ได้","idea, not physical"],
+["Expressive","แสดงความรู้สึกได้ดี","showing feeling"],
+["Showcase","จัดแสดง โชว์","exhibit, display"],
+["Culture","วัฒนธรรม","customs, arts"],
+["Creation","ผลงานสร้างสรรค์","something made"],
+["Extraordinary","พิเศษเหนือธรรมดา","remarkable, unusual"],
+["Canvas","ภาพวาดสีน้ำมัน / ผ้าใบ","oil painting"],
+["Unique","มีหนึ่งเดียว ไม่เหมือนใคร","one of a kind"],
+["Visual","มองเห็นได้ด้วยตา","seen by the eye"],
+["Masterpiece","ผลงานชิ้นเอก","great work"]
 ];
 
-// ---- เติมคำ 40 ข้อ ไล่ระดับ: [ประโยค, คำตอบ, คำใบ้ไทย, ตัวเลือก 4 ตัว] ----
+// ============================================================
+// เติมคำ 40 ข้อ — [ประโยค, คำตอบ, คำใบ้, ตัวเลือก4]
+// ตัวเลือกเป็นคำชนิดเดียวกัน ใส่แล้วไวยากรณ์ถูกหมด ต้องเข้าใจความหมาย
+// ============================================================
 const SENTENCES = [
-// ===== ข้อ 1-10 : 🌱 Beginner =====
-["I brush my teeth every morning. It is my ___.","Habit","สิ่งที่ทำเป็นประจำทุกวัน",["Habit","Hobby","Duty","Secret"]],
-["My ___ hurts because I ate too much!","Tummy","ท้อง (คำน่ารัก)",["Tummy","Tablet","Bandage","Couch"]],
-["A guitar is a musical ___.","Instrument","เครื่องดนตรี",["Instrument","Melody","Lyrics","Rhythm"]],
-["This food is very ___! I need water!","Spicy","เผ็ดมาก",["Spicy","Bland","Nutritious","Luxurious"]],
-["A baby lion is called a ___.","Cub","ลูกสัตว์",["Cub","Athlete","Chef","Idol"]],
-["I ___ songs from the internet to my phone.","Download","โหลดเพลงจากเน็ต",["Download","Purchase","Contain","Provide"]],
-["She works with me at the office. She is my ___.","Colleague","เพื่อนร่วมงาน",["Colleague","Customer","Elderly","Athlete"]],
-["Asia is the biggest ___ in the world.","Continent","ทวีป",["Continent","Culture","Scenery","Site"]],
-["I love drawing in my free time. It is my ___.","Hobby","งานอดิเรก",["Hobby","Habit","Routine","Duty"]],
-["The doctor said: take this ___ after dinner.","Tablet","ยาเม็ด",["Tablet","Bandage","Grain","Saucer"]],
-// ===== ข้อ 11-20 : 🌿 Normal =====
-["The bus was so ___ that I couldn't find a seat.","Crowded","คนแน่นมาก",["Crowded","Moderate","Various","Impressive"]],
-["He never comes late to work. He is very ___.","Punctual","ตรงต่อเวลา",["Punctual","Talkative","Mature","Curious"]],
-["Our travel ___ includes Tokyo, Osaka, and Kyoto.","Itinerary","แผนการเดินทาง",["Itinerary","Brochure","Transportation","Adventure"]],
-["Vitamin C can ___ your immune system.","Boost","ช่วยเสริมให้แข็งแรงขึ้น",["Boost","Contain","Maintain","Transform"]],
-["The judge asked for more ___ before making a decision.","Evidence","หลักฐาน",["Evidence","Opinion","Impression","Conclusion"]],
-["My father will ___ this land from my grandfather.","Inherit","รับมรดกที่ดิน",["Inherit","Purchase","Provide","Sacrifice"]],
-["The hotel offers free ___ to the airport.","Transportation","บริการรับส่ง",["Transportation","Itinerary","Reunion","Gathering"]],
-["Don't ___ your little sister — she will cry!","Tease","แกล้ง ล้อเล่น",["Tease","Scold","Bother","Threaten"]],
-["Eating vegetables keeps you strong because they are ___.","Nutritious","มีคุณค่าทางอาหาร",["Nutritious","Unhealthy","Bland","Fiery"]],
-["We had a big class ___ after not seeing each other for 10 years.","Reunion","งานเจอเพื่อนเก่า",["Reunion","Gathering","Collection","Hangout"]],
-// ===== ข้อ 21-30 : 🔥 Hard =====
-["The manager tried to ___ a good relationship with every customer, even the difficult ones.","Maintain","รักษา(ความสัมพันธ์)ไว้ต่อเนื่อง",["Maintain","Contain","Attempt","Conclude"]],
-["His answer was so ___ that nobody knew if he meant yes or no.","Ambiguous","ฟังแล้วไม่ชัดเจน ตีความได้หลายทาง",["Ambiguous","Certain","Distinctive","Impeccable"]],
-["She could ___ hold back her tears during the emotional speech.","Barely","แทบจะกลั้นน้ำตาไม่อยู่",["Barely","Regularly","Certainly","Annually"]],
-["The company was ___ for defamation after publishing the false report.","Sued","ถูกฟ้องร้อง",["Sued","Scolded","Threatened","Conquered"]],
-["Winning is not everything — what matters is how you ___ difficulties.","Overcome","เอาชนะ ก้าวข้าม(อุปสรรค)",["Overcome","Conclude","Conquer","Contain"]],
-["The movie's special ___ made the space battle look completely real.","Effects","เทคนิคพิเศษในหนัง",["Effects","Settings","Genres","Credits"]],
-["Each region of Thailand has its own ___ style of cooking.","Distinctive","เป็นเอกลักษณ์เฉพาะตัว",["Distinctive","Ambiguous","Ordinary","Abstract"]],
-["He answered the difficult question with quick ___.","Wit","ไหวพริบ",["Wit","Humor","Emotion","Opinion"]],
-["The story's ___ takes place in a small village in northern Thailand.","Setting","ฉาก = เวลา+สถานที่ของเรื่อง",["Setting","Plot","Genre","Theatre"]],
-["Doctors advise patients to exercise ___ to stay healthy.","Regularly","อย่างสม่ำเสมอ",["Regularly","Barely","Annually","Ordinarily"]],
-// ===== ข้อ 31-40 : 👑 Native =====
-["Despite the harsh criticism, she maintained her ___ and left the room with her head held high.","Dignity","ศักดิ์ศรี ความสง่างาม",["Dignity","Impression","Personality","Etiquette"]],
-["The documentary ___ the struggles of immigrant families in the 1960s.","Portrays","นำเสนอ ถ่ายทอดภาพ",["Portrays","Composes","Showcases","Contains"]],
-["The novel's ___ was so gripping that I finished all 400 pages in one night.","Plot","โครงเรื่อง",["Plot","Setting","Genre","Credit"]],
-["The spy was arrested and charged with ___ after leaking military secrets.","Espionage","การจารกรรม",["Espionage","Defamation","Evidence","Sacrifice"]],
-["New lighting was installed to ___ the cozy atmosphere of the restaurant.","Enhance","เสริมให้บรรยากาศดีขึ้น",["Enhance","Boost","Transform","Maintain"]],
-["Her performance was ___ — not a single note out of place.","Impeccable","สมบูรณ์แบบ ไร้ที่ติ",["Impeccable","Extraordinary","Impressive","Terrific"]],
-["After reviewing all the data, the committee ___ that the project should be postponed.","Concluded","สรุปจากข้อมูลและเหตุผล",["Concluded","Communicated","Attempted","Threatened"]],
-["Living abroad forced him to become more ___ and solve problems on his own.","Independent","พึ่งพาตัวเอง",["Independent","Confident","Mature","Talkative"]],
-["The painting is now considered a ___ of 19th-century art.","Masterpiece","ผลงานชิ้นเอก",["Masterpiece","Creation","Canvas","Collection"]],
-["In his ___ to catch the last train, he left his laptop at the café.","Haste","เพราะความรีบร้อน",["Haste","Attempt","Struggle","Routine"]]
+// 1-10 Beginner
+["She drinks coffee every morning before work. It is her daily ___.","Habit","สิ่งที่ทำประจำ",["Habit","Hobby","Duty","Choice"]],
+["The little boy fell down, so the nurse put a ___ on his knee.","Bandage","ปิดแผลที่เข่า",["Bandage","Tablet","Bottle","Napkin"]],
+["My ___ is full — I can't eat any more cake!","Tummy","อิ่มมากแล้ว",["Tummy","Elbow","Shoulder","Ankle"]],
+["He plays three musical ___: piano, guitar, and drums.","Instruments","เปียโน กีตาร์ กลอง คือ...",["Instruments","Melodies","Lyrics","Rhythms"]],
+["Tom Yum soup is too ___ for my little brother.","Spicy","น้องกินเผ็ดไม่ได้",["Spicy","Bland","Sweet","Cold"]],
+["The mother bear watched her ___ playing in the snow.","Cub","ลูกของหมีเรียกว่า...",["Cub","Calf","Chick","Puppy"]],
+["I ___ the new song to my phone so I can listen offline.","Downloaded","เอาเพลงจากเน็ตลงเครื่อง",["Downloaded","Uploaded","Printed","Deleted"]],
+["Sarah is my ___ — we sit next to each other at the office.","Colleague","คนที่ทำงานด้วยกัน",["Colleague","Customer","Neighbor","Cousin"]],
+["Africa is a large ___ with 54 countries.","Continent","ใหญ่กว่าประเทศ",["Continent","Country","Island","Ocean"]],
+["Reading comic books is my favorite ___ on weekends.","Hobby","ทำตอนว่างเพื่อความสนุก",["Hobby","Habit","Duty","Job"]],
+// 11-20 Normal
+["The morning train was so ___ that people were pushing to get in.","Crowded","คนแน่นจนต้องเบียด",["Crowded","Narrow","Noisy","Busy"]],
+["Everyone trusts him with meetings because he is always ___.","Punctual","ไม่เคยมาสาย",["Punctual","Talkative","Curious","Generous"]],
+["Check the ___ — I think we visit the temple before lunch, not after.","Itinerary","เอกสารบอกแผนเที่ยว",["Itinerary","Brochure","Passport","Ticket"]],
+["Regular exercise can ___ your energy during the day.","Boost","ทำให้พลังงานเพิ่มขึ้น",["Boost","Maintain","Control","Measure"]],
+["The police cannot arrest him — there is not enough ___.","Evidence","สิ่งที่ใช้พิสูจน์ความผิด",["Evidence","Opinion","Rumor","News"]],
+["When his aunt passed away, he ___ her old house by the river.","Inherited","ได้รับต่อจากญาติที่เสียชีวิต",["Inherited","Purchased","Rented","Borrowed"]],
+["Bangkok has many kinds of public ___: buses, boats, and trains.","Transportation","รถเมล์ เรือ รถไฟ คือ...",["Transportation","Communication","Construction","Information"]],
+["Stop ___ your sister about her new haircut — she's getting upset.","Teasing","ล้อจนเขาจะร้องไห้",["Teasing","Praising","Helping","Watching"]],
+["Brown rice is more ___ than white rice.","Nutritious","ดีต่อร่างกายมากกว่า",["Nutritious","Delicious","Expensive","Popular"]],
+["We are planning a family ___ because we haven't met for five years.","Reunion","กลับมาเจอกันหลังห่างหายไปนาน",["Reunion","Meeting","Vacation","Ceremony"]],
+// 21-30 Hard
+["Despite the argument, both companies want to ___ their business relationship.","Maintain","รักษาความสัมพันธ์ไว้ต่อ",["Maintain","Conclude","Attempt","Threaten"]],
+["The politician gave an ___ answer, so reporters kept asking the same question.","Ambiguous","ตอบแบบตีความได้หลายทาง",["Ambiguous","Impressive","Emotional","Impeccable"]],
+["After the operation, grandpa could ___ walk without help.","Barely","เกือบจะเดินไม่ได้เลย",["Barely","Slowly","Safely","Bravely"]],
+["The actress decided to ___ the magazine for printing false stories about her.","Sue","ดำเนินคดีทางกฎหมาย",["Sue","Scold","Blame","Warn"]],
+["It took her years to ___ her fear of speaking in public.","Overcome","ก้าวข้ามความกลัว",["Overcome","Maintain","Express","Admit"]],
+["The film won an award for its stunning visual ___.","Effects","CG แสง สี ในหนัง",["Effects","Settings","Credits","Genres"]],
+["You can recognize her paintings immediately — her style is very ___.","Distinctive","เห็นปุ๊บรู้เลยว่าของเธอ",["Distinctive","Ordinary","Ambiguous","Traditional"]],
+["Good comedy needs perfect timing and sharp ___.","Wit","ความฉลาดแบบเร็วๆ",["Wit","Emotion","Dignity","Courage"]],
+["The director changed the ___ of the play from London to Bangkok.","Setting","เวลาและสถานที่ของเรื่อง",["Setting","Plot","Genre","Audience"]],
+["Small daily savings, done ___, can grow into a large amount.","Regularly","ทำสม่ำเสมอไม่ขาด",["Regularly","Barely","Suddenly","Recently"]],
+// 31-40 Native
+["Even after losing everything, the old man never lost his ___.","Dignity","ความภูมิใจในตัวเอง",["Dignity","Fortune","Memory","Balance"]],
+["The novel ___ life in rural Thailand with honesty and warmth.","Portrays","วาดภาพ/ถ่ายทอดเรื่องราว",["Portrays","Maintains","Concludes","Inherits"]],
+["Critics praised the film's complex ___, full of unexpected twists.","Plot","เนื้อเรื่องตั้งแต่ต้นจนจบ",["Plot","Setting","Genre","Theatre"]],
+["During the Cold War, both sides used ___ to steal military secrets.","Espionage","งานของสายลับ",["Espionage","Defamation","Diplomacy","Propaganda"]],
+["A good soundtrack can greatly ___ the emotional impact of a scene.","Enhance","ทำให้ดียิ่งขึ้นไปอีก",["Enhance","Replace","Disturb","Follow"]],
+["Her manners were ___ — every guest felt perfectly welcomed.","Impeccable","ไม่มีอะไรให้ติเลย",["Impeccable","Adequate","Casual","Familiar"]],
+["From the fingerprints on the glass, the detective ___ that the thief was left-handed.","Concluded","ใช้เหตุผลจากหลักฐานแล้วตัดสิน",["Concluded","Suspected","Announced","Denied"]],
+["Moving out at eighteen taught her to be financially ___.","Independent","ดูแลตัวเองไม่พึ่งใคร",["Independent","Confident","Generous","Ambitious"]],
+["Many consider this temple the ___ of Ayutthaya-period architecture.","Masterpiece","ผลงานที่ดีที่สุดของยุค",["Masterpiece","Collection","Creation","Monument"]],
+["In her ___ to reply to the angry email, she forgot to check the attachment.","Haste","รีบจนพลาด",["Haste","Effort","Delay","Silence"]]
 ];
 
-// ---- Day 8 คำหลัก: [word, meaning, synonym, emoji, example] ----
-const DAY8 = [
-["Impression","ความรู้สึกแรก ความประทับใจ (ความคิดที่เกิดขึ้นเองโดยยังไม่มีหลักฐานมาก)","feeling, idea","🤔","I had an impression that she was lying."],
-["Conquer","พิชิต ยึดครอง (ด้วยกำลัง)","defeat, take over","⚔️","The Magyars conquered Hungary in the Middle Ages."],
-["Credit","เครดิต ข้อความอ้างอิงแหล่งที่มา","recognition note","🧾","The credits are usually printed at the front of a book."],
-["Conclude","สรุป ตัดสินใจโดยใช้เหตุผล","decide, sum up","✅","We concluded that it was cheaper to rent than to buy a house."],
-["Setting","ฉาก = เวลา+สถานที่ที่เรื่องเกิดขึ้น","time & place of a story","🎬","The setting of the novel is Paris in the 1920s."],
-["Genre","ประเภท/แนวของงานศิลปะ เพลง หนัง หนังสือ","category, type","🗂️","Horror and sci-fi are my favorite genres."],
-["Theatre","โรงภาพยนตร์ โรงละคร (ห้องใหญ่มีเวทีและที่นั่ง)","cinema, playhouse","🎦","I don't normally watch movies in the theatre."],
-["Effects","เทคนิคพิเศษ แสง สี เสียง ประกอบหนัง/ละคร","special effects","✨","Cool movies always have amazing sound effects."],
-["Sci-fi","นิยายวิทยาศาสตร์ (อนาคต อวกาศ เทคโนโลยี)","science fiction","👽","Avatar is the best sci-fi movie for me."],
-["Thriller","นิยาย/หนังระทึกขวัญ มักมีอาชญากรรม","suspense story","🔪","Children don't watch thriller movies."]
-];
+// ============================================================
+// EXAM DATA — Day 8 / 9 / 10
+// main+extra: [word, meaning, synonym, example]
+// sent: [ประโยค, คำตอบ, คำใบ้, ตัวเลือก4]
+// ============================================================
+const EXAMS = {
+d8:{ name:"Day 8", banner:"หนัง ละคร วรรณกรรม",
+main:[
+["Impression","ความรู้สึกแรก ความประทับใจ (เกิดขึ้นเองโดยยังไม่มีหลักฐานมาก)","feeling, idea","I had an impression that she was lying."],
+["Conquer","พิชิต ยึดครอง (ด้วยกำลัง)","defeat, take over","The Magyars conquered Hungary in the Middle Ages."],
+["Credit","เครดิต ข้อความอ้างอิงแหล่งที่มา","recognition note","The credits are usually printed at the front of a book."],
+["Conclude","สรุป ตัดสินใจโดยใช้เหตุผล","decide, sum up","We concluded that it was cheaper to rent than to buy a house."],
+["Setting","ฉาก = เวลา+สถานที่ที่เรื่องเกิดขึ้น","time & place of a story","The setting of the novel is Paris in the 1920s."],
+["Genre","ประเภท/แนวของงานศิลปะ เพลง หนัง หนังสือ","category, type","Horror and sci-fi are my favorite genres."],
+["Theatre","โรงภาพยนตร์ โรงละคร","cinema, playhouse","I don't normally watch movies in the theatre."],
+["Effects","เทคนิคพิเศษ แสง สี เสียง","special effects","Cool movies always have amazing sound effects."],
+["Sci-fi","นิยายวิทยาศาสตร์ (อนาคต อวกาศ)","science fiction","Avatar is the best sci-fi movie for me."],
+["Thriller","นิยาย/หนังระทึกขวัญ มักมีอาชญากรรม","suspense story","Children don't watch thriller movies."]
+],
+extra:[
+["Conscious","รู้ตัว มีสติ","aware","without conscious thought = โดยไม่ทันรู้ตัว"],
+["Evidence","หลักฐาน","proof","on the basis of little evidence = จากหลักฐานน้อยนิด"],
+["Overcome","เอาชนะ ก้าวข้าม","defeat, get past","Conquer = overcome and take control"],
+["Take control","เข้าควบคุม ยึดอำนาจ","take over","...take control of a place or people"],
+["Reasoning","การใช้เหตุผล","logical thinking","Conclude = decide by reasoning"],
+["Composition","งานประพันธ์ / การจัดองค์ประกอบ","artistic work","Genre = a category of artistic composition"],
+["Distinctive","โดดเด่นเฉพาะตัว","special, unique style","marked by a distinctive style"],
+["Audience","ผู้ชม คนดู","viewers, crowd","tiered seats for an audience"],
+["Enhance","เสริมให้ดีขึ้น ยกระดับ","improve, upgrade","Effects enhance a stage, film, or broadcast"],
+["Plot","โครงเรื่อง","storyline","A thriller has an exciting plot"],
+["Espionage","การจารกรรม งานสายลับ","spying","Thriller involves crime or espionage"]
+],
+sent:[
+["The ___ of the story is a small town in the 1980s.","Setting","เวลา+สถานที่ของเรื่อง",["Setting","Plot","Genre","Credit"]],
+["The Romans ___ most of Europe two thousand years ago.","Conquered","ยึดครองด้วยกำลังทหาร",["Conquered","Concluded","Enhanced","Portrayed"]],
+["From the muddy footprints, she ___ that someone had entered the house.","Concluded","ใช้เหตุผลจากร่องรอย",["Concluded","Suspected","Ignored","Announced"]],
+["Romance is a popular ___ among teenagers.","Genre","แนว/ประเภทของหนังหรือหนังสือ",["Genre","Setting","Theatre","Effects"]],
+["The magician's show used smoke and lighting ___.","Effects","เทคนิคพิเศษบนเวที",["Effects","Credits","Plots","Settings"]],
+["The old ___ near my house shows classic films every Sunday.","Theatre","สถานที่ฉายหนัง",["Theatre","Site","Hangout","Couch"]],
+["My first ___ of the new manager was that he was very strict.","Impression","ความรู้สึกแรกที่ได้เจอ",["Impression","Opinion","Evidence","Emotion"]],
+["A good ___ keeps you guessing until the last page.","Thriller","แนวหนังสือที่ลุ้นระทึก",["Thriller","Credit","Audience","Composition"]],
+["The ___ at the beginning of the film lists all the actors.","Credits","รายชื่อทีมงานในหนัง",["Credits","Effects","Settings","Genres"]],
+["The James Bond series is all about ___ and secret missions.","Espionage","งานสายลับ",["Espionage","Defamation","Reasoning","Composition"]],
+["The ___ cheered when the hero appeared on stage.","Audience","คนที่นั่งดูการแสดง",["Audience","Athlete","Customer","Colleague"]],
+["Fresh herbs can ___ the flavor of any dish.","Enhance","ทำให้รสชาติดีขึ้น",["Enhance","Swallow","Contain","Conclude"]],
+["The movie's ___ was confusing — too many characters and stories.","Plot","โครงเรื่อง",["Plot","Setting","Credit","Genre"]],
+["He made the decision without ___ thought — and regretted it later.","Conscious","ทำโดยไม่ทันรู้ตัว/ไม่ได้คิด",["Conscious","Distinctive","Ambiguous","Emotional"]],
+["Every band wants a ___ sound that fans recognize instantly.","Distinctive","เอกลักษณ์ที่จำได้ทันที",["Distinctive","Ordinary","Moderate","Various"]]
+]},
+d9:{ name:"Day 9", banner:"ไลฟ์สไตล์ กิจวัตร",
+main:[
+["Opinion","ความคิดเห็น (ไม่จำเป็นต้องอิงข้อเท็จจริง)","view, judgment","I always value my father's opinion."],
+["Site","สถานที่ก่อสร้าง / ที่ตั้ง","location, area","Hard hats must be worn on the construction sites."],
+["Hangout","ที่ที่ไปประจำ ที่แฮงเอาท์","favorite place","I drink beer at my favorite college hangout."],
+["Skip","โดด ข้าม ไม่เข้า(เรียน)","miss, not attend","I wanted to skip my English lesson to visit my grandmother."],
+["Regularly","เป็นประจำ สม่ำเสมอ","at regular times","It is advisable to exercise regularly."],
+["Hobby","งานอดิเรก","leisure activity","Playing volleyball is one of my favorite hobbies."],
+["Couch","โซฟา","sofa","I usually lie down on the couch when I'm at home."],
+["Collection","ของสะสม / การสะสม","collected things","I have a lot of collections of ballad music."],
+["Decide","ตัดสินใจ","make a decision","He decided to join the group."],
+["Frequent (v.)","ไปบ่อยๆ ไปประจำ","visit often","I frequent the movie theaters during the summer."]
+],
+extra:[
+["Judgment","การตัดสิน ความเห็น","opinion, decision","Opinion = a view or judgment"],
+["Construction","การก่อสร้าง","building work","construction site = ไซต์ก่อสร้าง"],
+["Spare time","เวลาว่าง","free time","Hangout = where one spends spare time"],
+["Attend","เข้าร่วม เข้าเรียน","join, go to","Skip = fail to attend"],
+["Advisable","ควรทำ แนะนำให้ทำ","recommended, wise","It is advisable to exercise regularly."],
+["Leisure","เวลาว่างพักผ่อน","free time, relaxation","Hobby = done in leisure time for pleasure"],
+["Interval","ช่วงเวลาห่างกัน","gap of time","Regularly = at regular intervals"],
+["Furniture","เฟอร์นิเจอร์","tables, chairs, sofas","Couch is a piece of furniture"],
+["Lie down","เอนตัวลงนอน","rest, recline","lie down on the couch"],
+["Process","กระบวนการ ขั้นตอน","steps, method","Collection = the process of collecting"]
+],
+sent:[
+["In my ___, the food here is overpriced.","Opinion","ความเห็นส่วนตัว",["Opinion","Habit","Duty","Choice"]],
+["Workers must wear helmets at the construction ___.","Site","สถานที่ที่กำลังสร้างตึก",["Site","Couch","Hangout","Theatre"]],
+["This café is our favorite ___ after class.","Hangout","ที่ที่แวะไปกันประจำ",["Hangout","Site","Collection","Routine"]],
+["Don't ___ class again, or the teacher will call your parents.","Skip","ไม่ไปเรียน",["Skip","Attend","Decide","Frequent"]],
+["It is advisable to back up your phone ___.","Regularly","ทำเป็นประจำสม่ำเสมอ",["Regularly","Barely","Recently","Suddenly"]],
+["Collecting stamps used to be a very popular ___.","Hobby","กิจกรรมยามว่าง",["Hobby","Habit","Duty","Career"]],
+["Grandma fell asleep on the ___ while watching TV.","Couch","เฟอร์นิเจอร์ในห้องนั่งเล่น",["Couch","Site","Canvas","Cabinet"]],
+["His ___ of old coins is worth a lot of money.","Collection","ของที่สะสมมาทั้งหมด",["Collection","Creation","Selection","Connection"]],
+["She couldn't ___ between the blue dress and the red one.","Decide","เลือกไม่ถูก",["Decide","Attend","Conclude","Skip"]],
+["Tourists ___ this market every weekend for cheap clothes.","Frequent","มาบ่อยๆ เป็นประจำ",["Frequent","Skip","Maintain","Approach"]],
+["Playing games all night is not ___ before an exam.","Advisable","ไม่ควรทำ",["Advisable","Regular","Frequent","Available"]],
+["I read novels in my ___ time.","Leisure","ช่วงที่ว่างจากงาน",["Leisure","Collection","Opinion","Interval"]]
+]},
+d10:{ name:"Day 10", banner:"ศิลปะ ความคิดสร้างสรรค์",
+main:[
+["Abstract","นามธรรม มีอยู่ในความคิด จับต้องไม่ได้","idea, not physical","He uses abstract concepts in his paintings."],
+["Expressive","แสดงความรู้สึก/ความคิดได้ดี","showing feeling","His eyes are expressive enough to show his real feeling."],
+["Showcase","จัดแสดง โชว์","exhibit, display","Her album showcases her strong singing voice."],
+["Culture","วัฒนธรรม (ขนบ ศิลปะ ความสำเร็จของชนชาติ)","customs, arts","The cultures in Asia are so much different from the West."],
+["Creation","ผลงานสร้างสรรค์ สิ่งที่ถูกสร้างขึ้น","something made","She treats fictional creations as if they were real people."],
+["Extraordinary","พิเศษเหนือธรรมดา น่าทึ่ง","remarkable, unusual","He made an extraordinary invention."],
+["Canvas","ภาพวาดสีน้ำมัน / ผ้าใบวาดภาพ","oil painting","There are only few canvas painters these days."],
+["Unique","มีหนึ่งเดียว ไม่เหมือนใคร","one of a kind","His drawing is unique."],
+["Visual","เกี่ยวกับการมองเห็น","seen by the eye","I was impressed by the dramatic visual effect."],
+["Masterpiece","ผลงานชิ้นเอก","great work","His masterpiece is unique compared to other students."]
+],
+extra:[
+["Concept","แนวคิด","idea","abstract concepts = แนวคิดนามธรรม"],
+["Convey","สื่อ ถ่ายทอด (ความรู้สึก/ความหมาย)","communicate","Expressive = conveying thought or feeling"],
+["Exhibit","จัดแสดง","display, show","Showcase = to exhibit or display"],
+["Customs","ขนบธรรมเนียม ประเพณี","traditions","Culture = the customs, arts... of a nation"],
+["Achievement","ความสำเร็จ","success","...and achievements of a social group"],
+["Invention","สิ่งประดิษฐ์","new creation","He made an extraordinary invention."],
+["Remarkable","น่าทึ่ง โดดเด่น","amazing, notable","Extraordinary = very unusual or remarkable"],
+["Artistry","ฝีมือทางศิลปะ","artistic skill","Masterpiece = outstanding artistry"],
+["Fictional","ที่แต่งขึ้น ไม่มีอยู่จริง","made-up, imaginary","fictional creations = ตัวละครที่แต่งขึ้น"],
+["Workmanship","ฝีมือช่าง ความประณีต","craft quality","outstanding workmanship"]
+],
+sent:[
+["Love and freedom are ___ ideas — you cannot touch them.","Abstract","จับต้องไม่ได้",["Abstract","Concrete","Visual","Unique"]],
+["Her face is so ___ that you always know how she feels.","Expressive","อ่านความรู้สึกได้จากหน้า",["Expressive","Attractive","Impressive","Aggressive"]],
+["The gallery will ___ young Thai artists next month.","Showcase","นำผลงานมาแสดง",["Showcase","Purchase","Conclude","Compose"]],
+["Respecting elders is an important part of Thai ___.","Culture","ขนบและวิถีของคนไทย",["Culture","History","Religion","Language"]],
+["The artist's latest ___ is made entirely of recycled plastic.","Creation","ผลงานที่สร้างขึ้น",["Creation","Collection","Correction","Connection"]],
+["She has an ___ memory — she remembers every phone number.","Extraordinary","เหนือกว่าคนทั่วไปมาก",["Extraordinary","Ordinary","Necessary","Temporary"]],
+["The old ___ hanging in the museum is worth millions.","Canvas","ภาพวาดสีน้ำมัน",["Canvas","Couch","Curtain","Cabinet"]],
+["Every fingerprint is ___ — no two people share the same one.","Unique","ไม่มีอันไหนซ้ำกันเลย",["Unique","Similar","Typical","Regular"]],
+["The concert was amazing, with dramatic ___ effects on the big screen.","Visual","เกี่ยวกับสิ่งที่ตามองเห็น",["Visual","Verbal","Vocal","Virtual"]],
+["The Mona Lisa is Leonardo's most famous ___.","Masterpiece","ผลงานที่ดีที่สุด",["Masterpiece","Creation","Canvas","Collection"]],
+["A picture can ___ feelings that words cannot.","Convey","สื่อความรู้สึกออกมา",["Convey","Contain","Conclude","Conquer"]],
+["Winning the gold medal was her greatest ___.","Achievement","ความสำเร็จสูงสุด",["Achievement","Agreement","Arrangement","Announcement"]]
+]}
+};
 
-// ---- Day 8 คำเสริม (คำขีดเส้นใต้/คำสำคัญในนิยามของชีท) ----
-const DAY8_EXTRA = [
-["Conscious","รู้ตัว มีสติ","aware","💭","without conscious thought = โดยไม่ทันรู้ตัว (ในนิยาม Impression)"],
-["Evidence","หลักฐาน","proof","🔍","on the basis of little evidence = จากหลักฐานเพียงน้อยนิด"],
-["Overcome","เอาชนะ ก้าวข้าม","defeat, get past","🏔️","Conquer = overcome and take control"],
-["Take control","เข้าควบคุม ยึดอำนาจ","take over","🎮","...take control of a place or people"],
-["Reasoning","การใช้เหตุผล","logical thinking","🧮","Conclude = decide by reasoning"],
-["Composition","งานประพันธ์ / การจัดองค์ประกอบ","artistic work","🎼","Genre = a category of artistic composition"],
-["Distinctive","โดดเด่นเฉพาะตัว","special, unique style","💫","marked by a distinctive style = มีสไตล์เฉพาะตัว"],
-["Audience","ผู้ชม คนดู","viewers, crowd","🙋","Theatre has tiered seats for an audience"],
-["Enhance","เสริมให้ดีขึ้น ยกระดับ","improve, upgrade","📈","Effects enhance a stage, film, or broadcast"],
-["Plot","โครงเรื่อง","storyline","📖","A thriller has an exciting plot"],
-["Espionage","การจารกรรม งานสายลับ","spying","🕵️","Thriller involves crime or espionage"]
-];
-
-const DAY8_ALL = [...DAY8, ...DAY8_EXTRA];
-
-const D8SENT = [
-["The ___ of the story is Bangkok in 1990.","Setting","ฉากของเรื่องคือกรุงเทพฯ ปี 1990"],
-["Avatar is a famous ___ movie.","Sci-fi","อวตารเป็นหนังไซไฟชื่อดัง"],
-["After the meeting, we ___ that renting is cheaper.","Conclude","หลังประชุม เราสรุปว่าเช่าถูกกว่า"],
-["Horror is my favorite ___.","Genre","สยองขวัญคือแนวโปรดของฉัน"],
-["The Romans ___ many countries long ago.","Conquer","ชาวโรมันพิชิตหลายประเทศ"],
-["The sound ___ in that movie were amazing!","Effects","เทคนิคเสียงในหนังเรื่องนั้นสุดยอด"],
-["I watch movies at the ___ every weekend.","Theatre","ดูหนังที่โรงหนังทุกสุดสัปดาห์"],
-["My first ___ of him was very good.","Impression","ความรู้สึกแรกที่มีต่อเขาดีมาก"],
-["A ___ movie is full of crime and suspense.","Thriller","หนังระทึกขวัญเต็มไปด้วยอาชญากรรม"],
-["The ___ at the front of the book show the sources.","Credit","เครดิตหน้าแรกของหนังสือบอกแหล่งที่มา"],
-["The spy was charged with ___.","Espionage","สายลับถูกตั้งข้อหาจารกรรม"],
-["Good lighting can ___ the beauty of the stage.","Enhance","แสงที่ดีช่วยเสริมความงามของเวที"],
-["The ___ clapped loudly after the show.","Audience","ผู้ชมปรบมือดังลั่นหลังการแสดง"],
-["This novel has an exciting ___ full of twists.","Plot","นิยายเรื่องนี้โครงเรื่องหักมุมตลอด"],
-["He made his decision by careful ___.","Reasoning","เขาตัดสินใจด้วยการใช้เหตุผล"]
-];
-
-// ---- Bieber: [word, meaning, synonym, song, emoji] ----
+// ============================================================
+// Bieber — [word, meaning, synonym, song]
+// ============================================================
 const BIEBER = [
-["Sorry","ขอโทษ เสียใจ","apologize","Sorry","🙏"],
-["Forgive","ให้อภัย","pardon","Sorry","🤍"],
-["Purpose","จุดมุ่งหมาย เป้าหมายชีวิต","goal, intention","Purpose","🎯"],
-["Lonely","เหงา โดดเดี่ยว","alone, sad","Lonely","🌙"],
-["Ghost","ผี / ความทรงจำถึงคนที่จากไป","spirit, memory","Ghost","👻"],
-["Confident","มั่นใจในตัวเอง","sure of yourself","Confident","😎"],
-["Intentions","ความตั้งใจ (ดีๆ)","plans, aims","Intentions","💐"],
-["Holy","ศักดิ์สิทธิ์","sacred","Holy","⛪"],
-["Company","การอยู่เป็นเพื่อนกัน","being together","Company","🫂"],
-["Mean","หมายความว่า","signify","What Do You Mean?","❓"],
-["Stay","อยู่ต่อ ไม่ไปไหน","remain","Stay","🕐"],
-["Anyone","ใครสักคน","any person","Anyone","🥊"],
-["Peaches","ลูกพีช","a sweet fruit","Peaches","🍑"],
-["Baby","ที่รัก / เด็กทารก","darling; infant","Baby","💘"],
-["Never","ไม่มีวัน ไม่เคยเลย","not ever","Never Say Never","🚫"],
-["Beauty","ความงาม","prettiness","Beauty and a Beat","💄"],
-["Mistletoe","ต้นมิสเซิลโท (ของคริสต์มาส)","Christmas plant","Mistletoe","🎄"],
-["Believe","เชื่อ ศรัทธา","trust","อัลบั้ม Believe","✨"]
+["Sorry","ขอโทษ เสียใจ","apologize","Sorry"],
+["Forgive","ให้อภัย","pardon","Sorry"],
+["Purpose","จุดมุ่งหมาย เป้าหมายชีวิต","goal, intention","Purpose"],
+["Lonely","เหงา โดดเดี่ยว","alone, sad","Lonely"],
+["Ghost","ผี / ความทรงจำถึงคนที่จากไป","spirit, memory","Ghost"],
+["Confident","มั่นใจในตัวเอง","sure of yourself","Confident"],
+["Intentions","ความตั้งใจ (ดีๆ)","plans, aims","Intentions"],
+["Holy","ศักดิ์สิทธิ์","sacred","Holy"],
+["Company","การอยู่เป็นเพื่อนกัน","being together","Company"],
+["Mean","หมายความว่า","signify","What Do You Mean?"],
+["Stay","อยู่ต่อ ไม่ไปไหน","remain","Stay"],
+["Anyone","ใครสักคน","any person","Anyone"],
+["Peaches","ลูกพีช","a sweet fruit","Peaches"],
+["Baby","ที่รัก / เด็กทารก","darling; infant","Baby"],
+["Never","ไม่มีวัน ไม่เคยเลย","not ever","Never Say Never"],
+["Beauty","ความงาม","prettiness","Beauty and a Beat"],
+["Mistletoe","ต้นมิสเซิลโท (ของคริสต์มาส)","Christmas plant","Mistletoe"],
+["Believe","เชื่อ ศรัทธา","trust","อัลบั้ม Believe"]
 ];
 
-// ================= HELPERS =================
+// ============================================================
+// DICTIONARY — แตะคำในประโยคเพื่อดูคำแปล
+// ============================================================
+const DICT = {
+"a":"หนึ่ง (คำนำหน้านาม)","an":"หนึ่ง (คำนำหน้านาม)","the":"(คำนำหน้านามชี้เฉพาะ)",
+"she":"เธอ (ผู้หญิง)","he":"เขา (ผู้ชาย)","it":"มัน","i":"ฉัน","we":"พวกเรา","you":"คุณ","they":"พวกเขา",
+"her":"ของเธอ / เธอ","his":"ของเขา","my":"ของฉัน","your":"ของคุณ","their":"ของพวกเขา","our":"ของพวกเรา","its":"ของมัน","him":"เขา","them":"พวกเขา","me":"ฉัน","us":"พวกเรา",
+"is":"คือ / เป็น","are":"คือ / เป็น (พหูพจน์)","was":"เคยเป็น (อดีต)","were":"เคยเป็น (อดีต พหูพจน์)","be":"เป็น อยู่ คือ","been":"เป็น (ช่อง 3)","am":"เป็น (กับ I)",
+"do":"ทำ","does":"ทำ","did":"ทำ (อดีต)","done":"ทำ (ช่อง 3)","don't":"ไม่","doesn't":"ไม่","didn't":"ไม่ (อดีต)",
+"can":"สามารถ","cannot":"ไม่สามารถ","can't":"ไม่สามารถ","could":"สามารถ (อดีต)","couldn't":"ไม่สามารถ (อดีต)","will":"จะ","would":"จะ (สุภาพ/สมมติ)","must":"ต้อง","should":"ควร",
+"and":"และ","or":"หรือ","but":"แต่","so":"ดังนั้น / มากจน","because":"เพราะว่า","if":"ถ้า","that":"ว่า / นั้น","this":"นี้","these":"เหล่านี้","those":"เหล่านั้น","which":"ซึ่ง","who":"ผู้ซึ่ง / ใคร","when":"เมื่อ","while":"ในขณะที่","until":"จนกระทั่ง",
+"in":"ใน","on":"บน","at":"ที่","to":"ไปยัง / เพื่อ","of":"ของ","with":"กับ / ด้วย","for":"สำหรับ / เพื่อ","from":"จาก","by":"โดย / ข้างๆ","about":"เกี่ยวกับ","into":"เข้าไปใน","between":"ระหว่าง","during":"ในระหว่าง","after":"หลังจาก","before":"ก่อน","without":"โดยปราศจาก","among":"ท่ามกลาง","near":"ใกล้",
+"not":"ไม่","no":"ไม่","never":"ไม่เคย","always":"เสมอ","again":"อีกครั้ง","too":"เกินไป / ด้วย","very":"มาก","more":"มากกว่า","most":"ที่สุด","many":"หลาย / มาก","much":"มาก","any":"ใดๆ","some":"บาง","all":"ทั้งหมด","every":"ทุกๆ","each":"แต่ละ","only":"เท่านั้น","also":"ด้วย","both":"ทั้งสอง","enough":"เพียงพอ","few":"น้อย","little":"เล็ก / น้อย","other":"อื่นๆ","another":"อีกอันหนึ่ง","same":"เหมือนเดิม","such":"เช่นนั้น",
+"drinks":"ดื่ม","coffee":"กาแฟ","morning":"ตอนเช้า","work":"งาน / ทำงาน","daily":"ประจำวัน","boy":"เด็กผู้ชาย","fell":"ล้ม / ตก (อดีตของ fall)","down":"ลง","nurse":"พยาบาล","put":"วาง / ติด","knee":"หัวเข่า","full":"เต็ม / อิ่ม","eat":"กิน","cake":"เค้ก","plays":"เล่น","three":"สาม","piano":"เปียโน","guitar":"กีตาร์","drums":"กลอง","musical":"ทางดนตรี","soup":"ซุป","brother":"พี่ชาย / น้องชาย","mother":"แม่","bear":"หมี","watched":"เฝ้าดู (อดีต)","playing":"กำลังเล่น","snow":"หิมะ","new":"ใหม่","song":"เพลง","phone":"โทรศัพท์","listen":"ฟัง","offline":"แบบไม่ใช้เน็ต","sit":"นั่ง","next":"ถัดไป / ข้างๆ","office":"ออฟฟิศ / ที่ทำงาน","large":"ใหญ่","countries":"ประเทศ (พหูพจน์)","country":"ประเทศ","reading":"การอ่าน","comic":"การ์ตูน","books":"หนังสือ","book":"หนังสือ / จอง","favorite":"ที่ชอบที่สุด","weekends":"สุดสัปดาห์","weekend":"สุดสัปดาห์",
+"train":"รถไฟ","people":"ผู้คน","pushing":"เบียด / ดัน","get":"ได้ / ไปถึง","everyone":"ทุกคน","trusts":"ไว้ใจ","meetings":"การประชุม","meeting":"การประชุม","check":"ตรวจสอบ","think":"คิด","visit":"ไปเยี่ยม / ไปเที่ยว","temple":"วัด","lunch":"อาหารเที่ยง","regular":"สม่ำเสมอ / ปกติ","exercise":"ออกกำลังกาย","energy":"พลังงาน","day":"วัน","police":"ตำรวจ","arrest":"จับกุม","there":"ที่นั่น / มี","aunt":"ป้า / น้าสาว","passed":"ผ่าน / เสีย(ชีวิต)","away":"จากไป","old":"เก่า / แก่","house":"บ้าน","river":"แม่น้ำ","kinds":"ชนิด","public":"สาธารณะ","buses":"รถเมล์","boats":"เรือ","trains":"รถไฟ","stop":"หยุด","sister":"พี่สาว / น้องสาว","haircut":"ทรงผม","getting":"กำลังเริ่ม","upset":"เสียใจ / หงุดหงิด","brown":"สีน้ำตาล","rice":"ข้าว","white":"สีขาว","than":"กว่า","planning":"กำลังวางแผน","family":"ครอบครัว","haven't":"ยังไม่ได้","met":"พบ (อดีตของ meet)","five":"ห้า","years":"ปี",
+"despite":"ทั้งๆ ที่","argument":"การโต้เถียง ทะเลาะ","companies":"บริษัท (พหูพจน์)","company":"บริษัท / การอยู่เป็นเพื่อน","want":"ต้องการ","business":"ธุรกิจ","relationship":"ความสัมพันธ์","politician":"นักการเมือง","gave":"ให้ (อดีตของ give)","answer":"คำตอบ","reporters":"นักข่าว","kept":"ยังคง (อดีตของ keep)","asking":"ถาม","question":"คำถาม","operation":"การผ่าตัด","grandpa":"คุณปู่ / คุณตา","walk":"เดิน","help":"ช่วยเหลือ","actress":"นักแสดงหญิง","decided":"ตัดสินใจ (อดีต)","magazine":"นิตยสาร","printing":"การตีพิมพ์","false":"เท็จ ไม่จริง","stories":"เรื่องราว","story":"เรื่อง","took":"ใช้เวลา (อดีตของ take)","fear":"ความกลัว","speaking":"การพูด","film":"ภาพยนตร์","won":"ชนะ / ได้รับ (อดีตของ win)","award":"รางวัล","stunning":"สวยงามตะลึง","recognize":"จำได้","paintings":"ภาพวาด","painting":"ภาพวาด","immediately":"ทันที","style":"สไตล์ ลีลา","good":"ดี","comedy":"ตลก","needs":"ต้องการ","perfect":"สมบูรณ์แบบ","timing":"จังหวะเวลา","sharp":"เฉียบคม","director":"ผู้กำกับ","changed":"เปลี่ยน (อดีต)","play":"ละครเวที / เล่น","small":"เล็ก","savings":"เงินออม","grow":"เติบโต","amount":"จำนวน",
+"even":"แม้แต่","losing":"การสูญเสีย","everything":"ทุกสิ่ง","man":"ผู้ชาย","lost":"สูญเสีย (อดีต)","novel":"นิยาย","life":"ชีวิต","rural":"ชนบท","honesty":"ความซื่อสัตย์","warmth":"ความอบอุ่น","critics":"นักวิจารณ์","praised":"ชื่นชม (อดีต)","complex":"ซับซ้อน","unexpected":"คาดไม่ถึง","twists":"จุดหักมุม","cold":"เย็น / หนาว","war":"สงคราม","sides":"ฝ่าย","used":"ใช้ (อดีต)","steal":"ขโมย","military":"ทางทหาร","secrets":"ความลับ","secret":"ความลับ","soundtrack":"เพลงประกอบ","greatly":"อย่างมาก","emotional":"ทางอารมณ์ ซาบซึ้ง","impact":"ผลกระทบ","scene":"ฉาก (ในหนัง)","manners":"มารยาท","guest":"แขก","felt":"รู้สึก (อดีตของ feel)","perfectly":"อย่างสมบูรณ์","welcomed":"ได้รับการต้อนรับ","fingerprints":"ลายนิ้วมือ","fingerprint":"ลายนิ้วมือ","glass":"แก้ว","detective":"นักสืบ","thief":"ขโมย (คน)","left-handed":"ถนัดมือซ้าย","moving":"การย้าย","out":"ออก","eighteen":"สิบแปด","taught":"สอน (อดีตของ teach)","financially":"ทางการเงิน","consider":"ถือว่า / มองว่า","architecture":"สถาปัตยกรรม","reply":"ตอบกลับ","angry":"โกรธ","email":"อีเมล","forgot":"ลืม (อดีตของ forget)","attachment":"ไฟล์แนบ",
+"town":"เมืองเล็กๆ","romans":"ชาวโรมัน","europe":"ทวีปยุโรป","two":"สอง","thousand":"พัน","ago":"ที่แล้ว","muddy":"เปื้อนโคลน","footprints":"รอยเท้า","someone":"ใครบางคน","entered":"เข้าไป (อดีต)","romance":"แนวรัก โรแมนติก","popular":"เป็นที่นิยม","teenagers":"วัยรุ่น","magician's":"ของนักมายากล","magician":"นักมายากล","show":"การแสดง","smoke":"ควัน","lighting":"แสงไฟ","classic":"คลาสสิก","films":"ภาพยนตร์","sunday":"วันอาทิตย์","first":"แรก","manager":"ผู้จัดการ","strict":"เข้มงวด","keeps":"ทำให้...ตลอด","guessing":"เดา","last":"สุดท้าย","page":"หน้า (หนังสือ)","beginning":"ตอนต้น","lists":"แสดงรายชื่อ","actors":"นักแสดง","james":"เจมส์ (ชื่อคน)","bond":"บอนด์ (ชื่อคน)","series":"ซีรีส์ / ชุด","missions":"ภารกิจ","cheered":"ส่งเสียงเชียร์","hero":"พระเอก / ฮีโร่","appeared":"ปรากฏตัว","stage":"เวที","fresh":"สด","herbs":"สมุนไพร","flavor":"รสชาติ","dish":"จานอาหาร","confusing":"น่าสับสน","characters":"ตัวละคร","decision":"การตัดสินใจ","regretted":"เสียใจภายหลัง","later":"ภายหลัง","band":"วงดนตรี","sound":"เสียง","fans":"แฟนคลับ","instantly":"ในทันที",
+"food":"อาหาร","here":"ที่นี่","overpriced":"แพงเกินจริง","workers":"คนงาน","wear":"สวมใส่","helmets":"หมวกนิรภัย","construction":"การก่อสร้าง","café":"คาเฟ่","class":"คาบเรียน / ชั้นเรียน","teacher":"ครู","call":"โทรหา / เรียก","parents":"พ่อแม่","advisable":"ควรทำ","back":"กลับ / สำรอง","up":"ขึ้น","collecting":"การสะสม","stamps":"แสตมป์","grandma":"คุณย่า / คุณยาย","asleep":"หลับ","watching":"กำลังดู","tv":"ทีวี","coins":"เหรียญ","worth":"มีมูลค่า","lot":"มาก","money":"เงิน","blue":"สีน้ำเงิน / ฟ้า","dress":"ชุดเดรส","red":"สีแดง","one":"หนึ่ง / อันหนึ่ง","tourists":"นักท่องเที่ยว","market":"ตลาด","cheap":"ราคาถูก","clothes":"เสื้อผ้า","games":"เกม","night":"กลางคืน","exam":"การสอบ","novels":"นิยาย","time":"เวลา",
+"love":"ความรัก","freedom":"อิสรภาพ","ideas":"ความคิด","touch":"สัมผัส","face":"ใบหน้า","know":"รู้","how":"อย่างไร","feels":"รู้สึก","gallery":"หอศิลป์","young":"หนุ่มสาว / รุ่นใหม่","thai":"ไทย","artists":"ศิลปิน","artist's":"ของศิลปิน","month":"เดือน","respecting":"การเคารพ","elders":"ผู้อาวุโส","important":"สำคัญ","part":"ส่วน","latest":"ล่าสุด","made":"ทำ / สร้าง (อดีต)","entirely":"ทั้งหมด","recycled":"รีไซเคิล","plastic":"พลาสติก","memory":"ความจำ","remembers":"จำได้","number":"หมายเลข","hanging":"แขวนอยู่","museum":"พิพิธภัณฑ์","millions":"หลายล้าน","share":"แบ่งปัน / มีร่วมกัน","concert":"คอนเสิร์ต","amazing":"น่าทึ่ง","dramatic":"น่าตื่นตา","big":"ใหญ่","screen":"จอ","picture":"รูปภาพ","feelings":"ความรู้สึก","words":"คำพูด","winning":"การชนะ","gold":"ทอง","medal":"เหรียญรางวัล","greatest":"ยิ่งใหญ่ที่สุด",
+"buy":"ซื้อ","rent":"เช่า","cheaper":"ถูกกว่า","house.":"บ้าน","home":"บ้าน","watch":"ดู","movies":"หนัง","children":"เด็กๆ","valuable":"มีค่า","because":"เพราะ","says":"พูดว่า","wanted":"ต้องการ (อดีต)","lesson":"บทเรียน","grandmother":"คุณย่า / คุณยาย","volleyball":"วอลเลย์บอล","usually":"โดยปกติ","lie":"นอนเอน / โกหก","ballad":"เพลงช้า (บัลลาด)","music":"ดนตรี เพลง","join":"เข้าร่วม","group":"กลุ่ม","theaters":"โรงหนัง","summer":"ฤดูร้อน","hats":"หมวก","hard":"แข็ง / ยาก","worn":"สวมใส่ (ช่อง 3)","beer":"เบียร์","college":"วิทยาลัย","value":"ให้คุณค่า","father's":"ของพ่อ"
+};
+
+// ============================================================
+// HELPERS
+// ============================================================
 const shuffle = a => a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);
 const $ = id => document.getElementById(id);
 
-// ================= TABS =================
+// ============================================================
+// MAIN TABS
+// ============================================================
 document.querySelectorAll('.tab').forEach(t=>{
   t.onclick=()=>{
     document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
-    ['flash','quiz','fill','bieber','day8'].forEach(m=>$(m).classList.toggle('hidden', m!==t.dataset.mode));
+    ['flash','quiz','fill','bieber','exam'].forEach(m=>$(m).classList.toggle('hidden', m!==t.dataset.mode));
   };
 });
 
-// ================= FLASHCARDS =================
+// ============================================================
+// FLASHCARDS
+// ============================================================
 let deck = shuffle([...VOCAB]), fcIdx = 0;
 function renderCard(){
   $('fc-card').classList.remove('flipped');
   setTimeout(()=>{
-    const [en,th,syn,emo] = deck[fcIdx];
-    $('fc-emo').textContent = emo;
+    const [en,th,syn] = deck[fcIdx];
     $('fc-word').textContent = en;
     $('fc-meaning').textContent = th;
     $('fc-syn').textContent = '≈ ' + syn;
@@ -580,7 +668,9 @@ $('fc-prev').onclick = ()=>{ fcIdx=(fcIdx-1+deck.length)%deck.length; renderCard
 $('fc-shuffle').onclick = ()=>{ deck=shuffle(deck); fcIdx=0; renderCard(); };
 renderCard();
 
-// ================= GENERIC QUIZ =================
+// ============================================================
+// GENERIC QUIZ
+// ============================================================
 function makeQuiz(data, ids, opts={}){
   let score=0,total=0,streak=0;
   function newQ(){
@@ -592,7 +682,6 @@ function makeQuiz(data, ids, opts={}){
     const choices = shuffle([cur,...wrongs]);
     $(ids.label).textContent = reverse ? 'คำนี้ภาษาอังกฤษว่าอะไร?' : 'คำนี้แปลว่าอะไร?';
     $(ids.word).textContent = reverse ? cur[1] : cur[0];
-    // คำใบ้แบบซ่อน (เช่น ชื่อเพลง)
     if(ids.hintarea && opts.hint){
       const area = $(ids.hintarea); area.innerHTML='';
       const hb=document.createElement('span');
@@ -615,7 +704,6 @@ function makeQuiz(data, ids, opts={}){
         }
         $(ids.score).textContent=score; $(ids.total).textContent=total;
         $(ids.streak).textContent = streak>=2 ? `🔥 ถูกติดกัน ${streak} ข้อ!` : '';
-        // เฉลยชื่อเพลงหลังตอบ
         if(ids.hintarea && opts.hint) $(ids.hintarea).innerHTML = `<span class="song-badge">🎵 ${opts.hint(cur)}</span>`;
         $(ids.next).classList.remove('hidden');
       };
@@ -627,132 +715,239 @@ function makeQuiz(data, ids, opts={}){
 }
 
 makeQuiz(VOCAB, {label:'qz-label',word:'qz-word',choices:'qz-choices',next:'qz-next',score:'qz-score',total:'qz-total',streak:'qz-streak'});
-
 makeQuiz(BIEBER, {label:'jb-label',word:'jb-word',choices:'jb-choices',next:'jb-next',score:'jb-score',total:'jb-total',streak:'jb-streak',hintarea:'jb-hintarea'},
   {hint: item => item[3], reverseRate: 0.5});
 
-makeQuiz(DAY8_ALL, {label:'d8q-label',word:'d8q-word',choices:'d8q-choices',next:'d8q-next',score:'d8q-score',total:'d8q-total',streak:'d8q-streak'});
+// ============================================================
+// GENERIC FILL — สร้าง HTML เอง + แตะคำดูคำแปล + โหมดพิมพ์
+// ============================================================
+function buildFillHTML(prefix, borderColor){
+  return `
+  <div class="mode-row">
+    <button class="btn small" id="${prefix}-modebtn">⌨️ สลับเป็นโหมดพิมพ์เอง</button>
+  </div>
+  <div class="scorebar">
+    <span>ข้อ <b id="${prefix}-done">0</b>/<span id="${prefix}-total">0</span><span id="${prefix}-level"></span></span>
+    <span class="streak" id="${prefix}-score"></span>
+  </div>
+  <div id="${prefix}-play">
+    <div class="tap-note">👆 แตะคำศัพท์ในประโยคเพื่อดูคำแปล</div>
+    <div class="sentence" id="${prefix}-sentence" style="border-color:${borderColor}"></div>
+    <div class="wordtip empty" id="${prefix}-tip"></div>
+    <div class="choices" id="${prefix}-choices"></div>
+    <div class="type-row hidden" id="${prefix}-typerow">
+      <input class="type-input" id="${prefix}-input" placeholder="พิมพ์คำตอบ..." autocomplete="off" autocapitalize="off">
+      <button class="btn primary" id="${prefix}-checkbtn">ตรวจ</button>
+    </div>
+    <div class="next-row"><button class="btn primary hidden" id="${prefix}-next">ข้อต่อไป →</button></div>
+  </div>
+  <div id="${prefix}-end" class="done-box hidden">
+    <div class="big">สุดยอดไปเลย! 🎉</div>
+    <div id="${prefix}-result"></div><br>
+    <button class="btn primary" id="${prefix}-restart">เล่นอีกรอบ</button>
+  </div>`;
+}
 
-// ================= GENERIC FILL =================
-// item: [sentence, answer, hint] หรือ [sentence, answer, hint, choices[4]]
-// opts.ordered = ไม่สุ่มลำดับ (สำหรับไล่ระดับความยาก), opts.levelFn(i) = ป้ายระดับ
-function makeFill(sentences, wordPool, ids, opts={}){
-  let order=[],idx=0,score=0;
+function renderTappable(el, text, tipEl){
+  el.innerHTML='';
+  text.split(' ').forEach((tok,i)=>{
+    if(i>0) el.appendChild(document.createTextNode(' '));
+    if(tok.includes('___')){
+      const bl=document.createElement('span');
+      bl.className='blank'; bl.textContent='______';
+      el.appendChild(bl);
+      const rest=tok.replace('___','');
+      if(rest) el.appendChild(document.createTextNode(rest));
+      return;
+    }
+    const sp=document.createElement('span');
+    sp.className='tapw'; sp.textContent=tok;
+    sp.onclick=()=>{
+      el.querySelectorAll('.tapw').forEach(x=>x.classList.remove('lit'));
+      sp.classList.add('lit');
+      const clean=tok.toLowerCase().replace(/[.,!?;:'"—()]/g,'').replace(/'s$/,'');
+      const tr = DICT[tok.toLowerCase().replace(/[.,!?;:"—()]/g,'')] || DICT[clean];
+      tipEl.classList.remove('empty');
+      tipEl.textContent = tr ? `🔎 ${tok.replace(/[.,!?;:]/g,'')} = ${tr}` : `🔎 ${tok} — ยังไม่มีคำแปลในระบบ`;
+    };
+    el.appendChild(sp);
+  });
+}
+
+function makeFill(sentences, prefix, opts={}){
+  let order=[],idx=0,score=0,typing=false;
+  const id = s => prefix+'-'+s;
   function start(){
     order = opts.ordered ? [...sentences] : shuffle([...sentences]);
     idx=0; score=0;
-    $(ids.total).textContent=order.length;
-    $(ids.end).classList.add('hidden'); $(ids.play).classList.remove('hidden');
+    $(id('total')).textContent=order.length;
+    $(id('end')).classList.add('hidden'); $(id('play')).classList.remove('hidden');
     render();
   }
+  function reveal(correct, ans, th){
+    const s=$(id('sentence'));
+    renderTappable(s, order[idx][0].replace('___', ans), $(id('tip')));
+    const hint=document.createElement('span');
+    hint.className='th-hint'; hint.textContent='💡 '+th;
+    s.appendChild(hint);
+    $(id('score')).textContent=`ถูก ${score} ข้อ`;
+    $(id('next')).classList.remove('hidden');
+  }
   function render(){
-    $(ids.done).textContent=idx+1;
-    $(ids.scoreTxt).textContent=`ถูก ${score} ข้อ`;
-    if(ids.level && opts.levelFn) $(ids.level).innerHTML = opts.levelFn(idx);
-    $(ids.next).classList.add('hidden');
-    const item=order[idx];
-    const [en,ans,th]=item;
-    const sEl = $(ids.sentence);
-    sEl.innerHTML = en.replace('___','<span class="blank">______</span>');
+    $(id('done')).textContent=idx+1;
+    $(id('score')).textContent=`ถูก ${score} ข้อ`;
+    if(opts.levelFn) $(id('level')).innerHTML = opts.levelFn(idx);
+    $(id('next')).classList.add('hidden');
+    $(id('tip')).classList.add('empty');
+    const [en,ans,th,fixed]=order[idx];
+    renderTappable($(id('sentence')), en, $(id('tip')));
+    // hint button
     const hb=document.createElement('span');
     hb.className='hint-btn'; hb.textContent='💡 ขอคำใบ้';
-    hb.onclick=()=>{ hb.outerHTML = `<span class="th-hint">💡 ${th}</span>`; };
-    sEl.appendChild(document.createElement('br'));
-    sEl.appendChild(hb);
-    let choices;
-    if(item[3]) choices = shuffle([...item[3]]);
-    else{
-      const wrongs = shuffle(wordPool.filter(v=>v[0]!==ans)).slice(0,3).map(v=>v[0]);
-      choices = shuffle([ans,...wrongs]);
-    }
-    const box=$(ids.choices); box.innerHTML='';
-    choices.forEach(c=>{
-      const b=document.createElement('button');
-      b.className='choice'; b.textContent=c;
-      b.onclick=()=>{
-        box.querySelectorAll('.choice').forEach(x=>x.disabled=true);
-        if(c===ans){ b.classList.add('correct'); score++;
-          $(ids.sentence).innerHTML = en.replace('___',`<span class="blank">${ans}</span>`) + `<span class="th-hint">💡 ${th}</span>`;
-        } else {
-          b.classList.add('wrong');
-          [...box.children].find(x=>x.textContent===ans).classList.add('correct');
-        }
-        $(ids.scoreTxt).textContent=`ถูก ${score} ข้อ`;
-        $(ids.next).classList.remove('hidden');
+    hb.onclick=()=>{ hb.outerHTML=`<span class="th-hint">💡 ${th}</span>`; };
+    $(id('sentence')).appendChild(document.createElement('br'));
+    $(id('sentence')).appendChild(hb);
+    // choices vs typing
+    const box=$(id('choices'));
+    if(typing){
+      box.innerHTML='';
+      const inp=$(id('input'));
+      inp.className='type-input'; inp.value=''; inp.disabled=false;
+      $(id('checkbtn')).disabled=false;
+      const check=()=>{
+        if(inp.disabled) return;
+        const guess=inp.value.trim().toLowerCase();
+        const target=ans.toLowerCase().replace(/\s*\(v\.\)/,'');
+        inp.disabled=true; $(id('checkbtn')).disabled=true;
+        if(guess===target){ inp.classList.add('ok'); score++; }
+        else{ inp.classList.add('bad'); inp.value=inp.value+' → '+ans; }
+        reveal(guess===target, ans, th);
       };
-      box.appendChild(b);
-    });
+      $(id('checkbtn')).onclick=check;
+      inp.onkeydown=e=>{ if(e.key==='Enter') check(); };
+      setTimeout(()=>inp.focus(),100);
+    } else {
+      let choices;
+      if(fixed) choices=shuffle([...fixed]);
+      else{
+        const pool=(opts.pool||[]).filter(v=>v[0]!==ans);
+        choices=shuffle([ans,...shuffle(pool).slice(0,3).map(v=>v[0])]);
+      }
+      box.innerHTML='';
+      choices.forEach(c=>{
+        const b=document.createElement('button');
+        b.className='choice'; b.textContent=c;
+        b.onclick=()=>{
+          box.querySelectorAll('.choice').forEach(x=>x.disabled=true);
+          if(c===ans){ b.classList.add('correct'); score++; }
+          else{
+            b.classList.add('wrong');
+            [...box.children].find(x=>x.textContent===ans).classList.add('correct');
+          }
+          reveal(c===ans, ans, th);
+        };
+        box.appendChild(b);
+      });
+    }
   }
-  $(ids.next).onclick=()=>{
+  $(id('modebtn')).onclick=()=>{
+    typing=!typing;
+    $(id('modebtn')).textContent = typing ? '🔘 สลับเป็นโหมดตัวเลือก' : '⌨️ สลับเป็นโหมดพิมพ์เอง';
+    $(id('typerow')).classList.toggle('hidden', !typing);
+    $(id('choices')).classList.toggle('hidden', typing);
+    render();
+  };
+  $(id('next')).onclick=()=>{
     idx++;
     if(idx>=order.length){
-      $(ids.play).classList.add('hidden');
-      $(ids.end).classList.remove('hidden');
-      $(ids.done).textContent=order.length;
-      $(ids.result).textContent=`ตอบถูก ${score} จาก ${order.length} ประโยค`;
+      $(id('play')).classList.add('hidden');
+      $(id('end')).classList.remove('hidden');
+      $(id('done')).textContent=order.length;
+      $(id('result')).textContent=`ตอบถูก ${score} จาก ${order.length} ประโยค`;
     } else render();
   };
-  $(ids.restart).onclick=start;
+  $(id('restart')).onclick=start;
   start();
 }
 
-// main fill: เรียงตามระดับ 1→40
-const LEVELS = [
-  [0,'<span class="level-badge lv1">🌱 Beginner</span>'],
-  [10,'<span class="level-badge lv2">🌿 Normal</span>'],
-  [20,'<span class="level-badge lv3">🔥 Hard</span>'],
-  [30,'<span class="level-badge lv4">👑 Native</span>']
-];
-makeFill(SENTENCES, VOCAB, {
-  total:'fi-total',done:'fi-done',scoreTxt:'fi-score',sentence:'fi-sentence',
-  choices:'fi-choices',next:'fi-next',play:'fi-play',end:'fi-end',result:'fi-result',restart:'fi-restart',
-  level:'fi-level'
-},{
-  ordered:true,
-  levelFn: i => LEVELS.filter(l=>i>=l[0]).pop()[1]
-});
+// main fill
+$('fill').innerHTML = buildFillHTML('fi','var(--purple)');
+const LEVELS=[[0,'<span class="level-badge lv1">🌱 Beginner</span>'],[10,'<span class="level-badge lv2">🌿 Normal</span>'],[20,'<span class="level-badge lv3">🔥 Hard</span>'],[30,'<span class="level-badge lv4">👑 Native</span>']];
+makeFill(SENTENCES,'fi',{ordered:true, levelFn:i=>LEVELS.filter(l=>i>=l[0]).pop()[1]});
 
-// day8 fill
-makeFill(D8SENT, DAY8_ALL, {
-  total:'d8f-total',done:'d8f-done',scoreTxt:'d8f-score',sentence:'d8f-sentence',
-  choices:'d8f-choices',next:'d8f-next',play:'d8f-play',end:'d8f-end',result:'d8f-result',restart:'d8f-restart'
-});
-
-// ================= DAY 8 STUDY LIST =================
-$('d8-study').innerHTML =
-  '<div class="section-head">⭐ คำหลัก 10 คำ (ออกสอบแน่)</div>' +
-  DAY8.map(([en,th,syn,emo,ex])=>`
-  <div class="study-card">
-    <div class="w">${emo} ${en}</div>
-    <div class="m">${th}</div>
-    <div class="s">≈ ${syn}</div>
-    <div class="ex">"${ex}"</div>
-  </div>`).join('') +
-  '<div class="section-head">💜 คำเสริมจากชีท (คำขีดเส้นใต้ / คำในนิยาม)</div>' +
-  DAY8_EXTRA.map(([en,th,syn,emo,ex])=>`
-  <div class="study-card extra">
-    <div class="w">${emo} ${en}</div>
-    <div class="m">${th}</div>
-    <div class="s">≈ ${syn}</div>
-    <div class="ex">${ex}</div>
-  </div>`).join('');
-
-document.querySelectorAll('[data-d8]').forEach(t=>{
-  t.onclick=()=>{
-    document.querySelectorAll('[data-d8]').forEach(x=>x.classList.remove('active'));
-    t.classList.add('active');
-    ['study','quiz','fill'].forEach(m=>$('d8-'+m).classList.toggle('hidden', m!==t.dataset.d8));
+// ============================================================
+// EXAM HUB — Day 8 / 9 / 10
+// ============================================================
+const daySel=$('day-select'), dayWrap=$('exam-days');
+Object.keys(EXAMS).forEach((key,ki)=>{
+  const ex=EXAMS[key];
+  // day button
+  const db=document.createElement('button');
+  db.className='day-btn'+(ki===0?' active':''); db.textContent='⭐ '+ex.name;
+  db.onclick=()=>{
+    daySel.querySelectorAll('.day-btn').forEach(x=>x.classList.remove('active'));
+    db.classList.add('active');
+    dayWrap.querySelectorAll('.exam-day').forEach(x=>x.classList.add('hidden'));
+    $('ed-'+key).classList.remove('hidden');
   };
+  daySel.appendChild(db);
+  // day container
+  const c=document.createElement('div');
+  c.className='exam-day'+(ki===0?'':' hidden'); c.id='ed-'+key;
+  c.innerHTML=`
+    <div class="exam-banner">📚 ${ex.name} — ${ex.banner} | คำหลัก ${ex.main.length} + คำเสริม ${ex.extra.length}</div>
+    <div class="subtabs">
+      <button class="subtab active" data-ex="${key}" data-sm="study">📖 ท่อง</button>
+      <button class="subtab" data-ex="${key}" data-sm="quiz">✏️ ควิซ</button>
+      <button class="subtab" data-ex="${key}" data-sm="fill">📝 เติมคำ</button>
+    </div>
+    <div id="${key}-study"></div>
+    <div id="${key}-quiz" class="hidden">
+      <div class="scorebar">
+        <span>คะแนน: <b id="${key}q-score">0</b>/<span id="${key}q-total">0</span></span>
+        <span class="streak" id="${key}q-streak"></span>
+      </div>
+      <div class="q-box" style="border-color:var(--gold)">
+        <div class="q-label" id="${key}q-label"></div>
+        <div class="q-word" id="${key}q-word"></div>
+      </div>
+      <div class="choices" id="${key}q-choices"></div>
+      <div class="next-row"><button class="btn primary hidden" id="${key}q-next">ข้อต่อไป →</button></div>
+    </div>
+    <div id="${key}-fill" class="hidden">${buildFillHTML(key+'f','var(--gold)')}</div>`;
+  dayWrap.appendChild(c);
+  // study list
+  $(key+'-study').innerHTML =
+    `<div class="section-head">⭐ คำหลัก (ออกสอบแน่)</div>` +
+    ex.main.map(([en,th,syn,exm])=>`
+      <div class="study-card"><div class="w">${en}</div><div class="m">${th}</div><div class="s">≈ ${syn}</div><div class="ex">"${exm}"</div></div>`).join('') +
+    `<div class="section-head">💜 คำเสริมจากชีท (คำขีดเส้นใต้ / คำในนิยาม)</div>` +
+    ex.extra.map(([en,th,syn,exm])=>`
+      <div class="study-card extra"><div class="w">${en}</div><div class="m">${th}</div><div class="s">≈ ${syn}</div><div class="ex">${exm}</div></div>`).join('');
+  // quiz + fill
+  const all=[...ex.main, ...ex.extra];
+  makeQuiz(all, {label:key+'q-label',word:key+'q-word',choices:key+'q-choices',next:key+'q-next',score:key+'q-score',total:key+'q-total',streak:key+'q-streak'});
+  makeFill(ex.sent, key+'f', {pool:all});
+});
+// exam submode switching
+dayWrap.addEventListener('click',e=>{
+  const t=e.target.closest('[data-ex]');
+  if(!t) return;
+  const key=t.dataset.ex;
+  $('ed-'+key).querySelectorAll('[data-ex]').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  ['study','quiz','fill'].forEach(m=>$(key+'-'+m).classList.toggle('hidden', m!==t.dataset.sm));
 });
 
-// ================= BIEBER LIST =================
-$('jb-list').innerHTML = BIEBER.map(([en,th,syn,song,emo])=>`
+// ============================================================
+// BIEBER LIST + subtabs
+// ============================================================
+$('jb-list').innerHTML = BIEBER.map(([en,th,syn,song])=>`
   <div class="jb-card">
-    <div class="w">${emo} ${en} <span class="song-badge">🎵 ${song}</span></div>
+    <div class="w">${en} <span class="song-badge">🎵 ${song}</span></div>
     <div class="m">${th}</div>
     <div class="s">≈ ${syn}</div>
   </div>`).join('');
-
 document.querySelectorAll('[data-jb]').forEach(t=>{
   t.onclick=()=>{
     document.querySelectorAll('[data-jb]').forEach(x=>x.classList.remove('active'));
