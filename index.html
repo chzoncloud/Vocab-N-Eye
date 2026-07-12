@@ -58,6 +58,16 @@ h1 .heart{color:var(--pink)}
 .btn.primary{background:var(--purple);border-color:var(--purple);color:#fff}
 .btn.small{font-size:.8rem;padding:6px 13px}
 .counter{text-align:center;font-size:.85rem;color:#8a7fa0;margin-bottom:10px}
+.fc-icon{
+  position:absolute;top:12px;border:none;background:transparent;font-size:1.35rem;
+  cursor:pointer;line-height:1;padding:4px;border-radius:10px;z-index:2;
+}
+.fc-icon:active{transform:scale(.88)}
+.fc-icon.speak{right:12px}
+.fc-icon.mark{left:12px;filter:grayscale(1);opacity:.4}
+.fc-icon.mark.on{filter:none;opacity:1}
+.fc-review-row{text-align:center;margin:-2px 0 12px}
+#fc-review.active{background:var(--pink);border-color:var(--pink);color:#fff}
 
 .q-box{background:#fff;border:2.5px solid var(--purple);border-radius:20px;padding:20px 16px;box-shadow:var(--shadow);margin-bottom:14px;text-align:center}
 .q-label{font-size:.78rem;color:#a89bc0;margin-bottom:6px}
@@ -193,15 +203,21 @@ h1 .heart{color:var(--pink)}
     <div class="card-wrap">
       <div class="card" id="fc-card">
         <div class="face front">
+          <button class="fc-icon mark" id="fc-mark" title="ยังจำไม่ได้ — กดเก็บไว้ทบทวน">🔖</button>
+          <button class="fc-icon speak" id="fc-speak" title="ฟังเสียงอ่าน">🔊</button>
           <div class="word" id="fc-word"></div>
           <div class="hint">แตะเพื่อดูความหมาย</div>
         </div>
         <div class="face back">
+          <button class="fc-icon speak" id="fc-speak2" title="ฟังเสียงอ่าน">🔊</button>
           <div class="meaning" id="fc-meaning"></div>
           <div class="syn" id="fc-syn"></div>
           <div class="hint">แตะเพื่อกลับ</div>
         </div>
       </div>
+    </div>
+    <div class="fc-review-row">
+      <button class="btn small" id="fc-review">🔖 ทบทวนคำที่ยังจำไม่ได้ (<span id="fc-markcount">0</span>)</button>
     </div>
     <div class="controls">
       <button class="btn" id="fc-prev">←</button>
@@ -738,21 +754,60 @@ document.querySelectorAll('.tab').forEach(t=>{
 // ============================================================
 // FLASHCARDS
 // ============================================================
-let deck = shuffle([...VOCAB]), fcIdx = 0;
+let marked = new Set(JSON.parse(localStorage.getItem('neye_marked')||'[]'));
+let fullDeck = shuffle([...VOCAB]), deck = fullDeck, fcIdx = 0, reviewMode = false;
+const saveMarked = ()=> localStorage.setItem('neye_marked', JSON.stringify([...marked]));
+function speak(w){
+  try{
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(w);
+    u.lang='en-US'; u.rate=.9;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function updateMarkUI(){
+  const mc=$('fc-markcount'); if(mc) mc.textContent=marked.size;
+  const cur=deck[fcIdx];
+  $('fc-mark').classList.toggle('on', !!(cur && marked.has(cur[0])));
+}
 function renderCard(){
+  if(!deck.length) return;
   $('fc-card').classList.remove('flipped');
   setTimeout(()=>{
     const [en,th,syn] = deck[fcIdx];
     $('fc-word').textContent = en;
     $('fc-meaning').textContent = th;
     $('fc-syn').textContent = '≈ ' + syn;
-    $('fc-counter').textContent = `การ์ดที่ ${fcIdx+1} / ${deck.length}`;
+    $('fc-counter').textContent = (reviewMode?'🔖 ทบทวน — ':'') + `การ์ดที่ ${fcIdx+1} / ${deck.length}`;
+    updateMarkUI();
   },150);
 }
 $('fc-card').onclick = ()=> $('fc-card').classList.toggle('flipped');
 $('fc-next').onclick = ()=>{ fcIdx=(fcIdx+1)%deck.length; renderCard(); };
 $('fc-prev').onclick = ()=>{ fcIdx=(fcIdx-1+deck.length)%deck.length; renderCard(); };
 $('fc-shuffle').onclick = ()=>{ deck=shuffle(deck); fcIdx=0; renderCard(); };
+$('fc-speak').onclick = e=>{ e.stopPropagation(); speak($('fc-word').textContent); };
+$('fc-speak2').onclick = e=>{ e.stopPropagation(); speak($('fc-word').textContent); };
+$('fc-mark').onclick = e=>{
+  e.stopPropagation();
+  const cur=deck[fcIdx]; if(!cur) return;
+  if(marked.has(cur[0])) marked.delete(cur[0]); else marked.add(cur[0]);
+  saveMarked(); updateMarkUI();
+};
+$('fc-review').onclick = ()=>{
+  if(!reviewMode){
+    if(marked.size===0){ $('fc-counter').textContent='ยังไม่มีคำที่มาร์คไว้ — กด 🔖 บนการ์ดเพื่อเก็บคำที่ยังจำไม่ได้'; return; }
+    reviewMode=true; deck=shuffle(VOCAB.filter(v=>marked.has(v[0]))); fcIdx=0;
+    $('fc-review').classList.add('active');
+    $('fc-review').innerHTML='↩️ ดูการ์ดทั้งหมด';
+  } else {
+    reviewMode=false; deck=fullDeck; fcIdx=0;
+    $('fc-review').classList.remove('active');
+    $('fc-review').innerHTML='🔖 ทบทวนคำที่ยังจำไม่ได้ (<span id="fc-markcount">'+marked.size+'</span>)';
+  }
+  renderCard();
+};
 renderCard();
 
 // ============================================================
