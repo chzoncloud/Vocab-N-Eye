@@ -627,6 +627,58 @@ const BIEBER = [
 ["Believe","เชื่อ ศรัทธา","trust","อัลบั้ม Believe"]
 ];
 
+// ============================================================
+// FORMAL — คำพูดเล่นๆ ในชีวิตประจำวัน -> คำทางการที่ใช้ตอนเขียนเมล/รายงาน
+// [casual, formal, ความหมายไทย, ตัวอย่างประโยคทางการ]
+// ============================================================
+const FORMAL = [
+["so","therefore / thus","ดังนั้น","The results were inconclusive; therefore, further testing is required."],
+["but","however","แต่ / อย่างไรก็ตาม","The plan is sound; however, the budget remains a concern."],
+["also","moreover / furthermore","อีกทั้ง / ยิ่งไปกว่านั้น","The design is elegant; moreover, it is cost-effective."],
+["get","obtain / receive","ได้รับ","Please ensure you obtain approval before proceeding."],
+["buy","purchase","ซื้อ","The company will purchase new equipment next quarter."],
+["help","assist","ช่วยเหลือ","Our team is available to assist you with the transition."],
+["need","require","ต้องการ / จำเป็นต้อง","This position requires three years of experience."],
+["use","utilize / employ","ใช้","We utilize advanced tools to ensure accuracy."],
+["show","demonstrate / indicate","แสดง / บ่งชี้","The figures demonstrate a clear upward trend."],
+["tell","inform / notify","แจ้ง / บอกให้ทราบ","Please inform us of any changes in advance."],
+["ask","request / inquire","ขอ / สอบถาม","We kindly request your response by Friday."],
+["start","commence","เริ่ม","The meeting will commence at 9 a.m. sharp."],
+["end","conclude","จบ / สรุป","The report concludes with several recommendations."],
+["find out","ascertain / discover","หาข้อมูล / ตรวจสอบให้แน่ใจ","We must ascertain the cause before taking action."],
+["fix","resolve","แก้ไข","We are working to resolve the issue promptly."],
+["give","provide","ให้ / จัดหา","The vendor will provide full documentation."],
+["want","wish","ต้องการ / ปรารถนา","We wish to express our gratitude for your support."],
+["a lot of","numerous / a great deal of","จำนวนมาก","The proposal received numerous positive responses."],
+["enough","sufficient","เพียงพอ","Please ensure sufficient funds are available."],
+["about (number)","approximately","ประมาณ (จำนวน)","The project will take approximately six weeks."],
+["about (topic)","regarding / concerning","เกี่ยวกับ (เรื่อง)","I am writing regarding your recent inquiry."],
+["because","due to / as","เพราะว่า / เนื่องจาก","The event was postponed due to bad weather."],
+["before","prior to","ก่อน","Please review the terms prior to signing."],
+["after","following","หลังจาก","Following the meeting, minutes will be circulated."],
+["happen","occur","เกิดขึ้น","Should any problems occur, please contact support."],
+["try","attempt","พยายาม","We will attempt to accommodate your request."],
+["next","subsequent","ถัดไป / ที่ตามมา","Details will be shared in a subsequent email."],
+["now","currently / at present","ตอนนี้ / ในปัจจุบัน","The system is currently undergoing maintenance."],
+["soon","shortly","เร็วๆ นี้","We will respond to your message shortly."],
+["big","significant / substantial","ใหญ่ / สำคัญมาก","The change had a significant impact on sales."],
+["maybe","perhaps / possibly","บางที / อาจจะ","Perhaps a follow-up meeting would be beneficial."],
+["say","state","พูด / ระบุ","As stated in the contract, payment is due monthly."],
+["let","allow / permit","อนุญาต / ทำให้","This upgrade will allow faster processing."],
+["keep","retain / maintain","เก็บ / รักษาไว้","Please retain a copy for your records."],
+["make sure","ensure","ทำให้แน่ใจ","Please ensure all fields are completed."],
+["put off","postpone","เลื่อนออกไป","The launch has been postponed until further notice."],
+["go up","increase","เพิ่มขึ้น","Prices are expected to increase next year."],
+["go down","decrease / decline","ลดลง","Sales declined slightly in the third quarter."],
+["cheap","affordable / inexpensive","ราคาถูก","We offer affordable solutions for small businesses."],
+["job","position","งาน / ตำแหน่ง","She was offered a senior position at the firm."],
+["boss","supervisor / superior","เจ้านาย / หัวหน้า","Please forward the request to your supervisor."],
+["in short","in summary / to conclude","กล่าวโดยสรุป","In summary, the strategy proved highly effective."],
+["sorry","apologize / regret","ขอโทษ / เสียใจ","We regret to inform you of the delay."],
+["really","considerably / genuinely","อย่างมาก","Efficiency improved considerably after the update."],
+["free","complimentary","ฟรี / ไม่มีค่าใช้จ่าย","Members receive complimentary access to all events."]
+];
+
 const DICT = {
 "a":"หนึ่ง (คำนำหน้านาม)","an":"หนึ่ง (คำนำหน้านาม)","the":"(คำนำหน้านามชี้เฉพาะ)",
 "she":"เธอ (ผู้หญิง)","he":"เขา (ผู้ชาย)","it":"มัน","i":"ฉัน","we":"พวกเรา","you":"คุณ","they":"พวกเขา",

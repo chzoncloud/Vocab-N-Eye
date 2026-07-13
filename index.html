@@ -180,6 +180,16 @@ h1 .heart{color:var(--pink)}
 .match-item.sel{background:var(--gold);border-color:var(--gold);color:var(--ink)}
 .match-item.done{background:var(--green);border-color:var(--green);color:#fff;cursor:default;opacity:.6}
 .match-item.miss{background:var(--red);border-color:var(--red);color:#fff}
+
+.subtab.prpl{border-color:var(--purple);color:var(--purple)}
+.subtab.prpl.active{background:var(--purple);color:#fff}
+.fm-card{background:#fff;border:2px solid var(--grid);border-radius:14px;padding:12px 14px;margin-bottom:10px;box-shadow:var(--shadow)}
+.fm-card .pair{font-family:'Mali',cursive;font-weight:700;font-size:1.02rem}
+.fm-card .cas{color:#a06a85}
+.fm-card .arrow{color:#b8860b;margin:0 7px}
+.fm-card .frm{color:var(--purple-dark)}
+.fm-card .m{font-size:.85rem;margin-top:3px}
+.fm-card .ex{font-size:.8rem;color:#6c6284;margin-top:6px;font-style:italic;border-top:1px dashed var(--grid);padding-top:6px}
 </style>
 </head>
 <body>
@@ -191,6 +201,7 @@ h1 .heart{color:var(--pink)}
   <button class="tab" data-mode="quiz">✏️ ควิซ</button>
   <button class="tab" data-mode="fill">📝 เติมคำ</button>
   <button class="tab" data-mode="match">🔗 จับคู่</button>
+  <button class="tab" data-mode="formal">🎩 คำหรู</button>
   <button class="tab" data-mode="bieber">🎤 Bieber</button>
   <button class="tab exam" data-mode="exam">⭐ ติวสอบ</button>
 </div>
@@ -255,6 +266,30 @@ h1 .heart{color:var(--pink)}
       <div class="match-col" id="mt-right"></div>
     </div>
     <div class="next-row"><button class="btn primary hidden" id="mt-next">ชุดต่อไป →</button></div>
+  </div>
+
+  <!-- ==== คำหรู (formal register) ==== -->
+  <div id="formal" class="hidden">
+    <div class="exam-banner" style="background:#eef0fb;border-color:var(--purple)">
+      ✍️ คำพูดเล่นๆ ในชีวิตประจำวัน vs คำทางการที่ฝรั่งใช้ตอนเขียนเมล/รายงาน
+    </div>
+    <div class="subtabs">
+      <button class="subtab prpl active" data-fm="quiz">✏️ ควิซ</button>
+      <button class="subtab prpl" data-fm="list">📖 ดูคำทั้งหมด</button>
+    </div>
+    <div id="fm-quiz">
+      <div class="scorebar">
+        <span>คะแนน: <b id="fm-score">0</b>/<span id="fm-total">0</span></span>
+        <span class="streak" id="fm-streak"></span>
+      </div>
+      <div class="q-box" style="border-color:var(--purple)">
+        <div class="q-label" id="fm-label"></div>
+        <div class="q-word" id="fm-word"></div>
+      </div>
+      <div class="choices" id="fm-choices"></div>
+      <div class="next-row"><button class="btn primary hidden" id="fm-next">ข้อต่อไป →</button></div>
+    </div>
+    <div id="fm-list" class="hidden"></div>
   </div>
 
   <!-- BIEBER -->
@@ -334,7 +369,7 @@ document.querySelectorAll('.tab').forEach(t=>{
   t.onclick=()=>{
     document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
-    ['flash','quiz','fill','match','bieber','exam'].forEach(m=>$(m).classList.toggle('hidden', m!==t.dataset.mode));
+    ['flash','quiz','fill','match','formal','bieber','exam'].forEach(m=>$(m).classList.toggle('hidden', m!==t.dataset.mode));
   };
 });
 
@@ -409,7 +444,7 @@ function makeQuiz(data, ids, opts={}){
     const cur = pool[0];
     const wrongs = pool.slice(1,4);
     const choices = shuffle([cur,...wrongs]);
-    $(ids.label).textContent = reverse ? 'คำนี้ภาษาอังกฤษว่าอะไร?' : 'คำนี้แปลว่าอะไร?';
+    $(ids.label).textContent = reverse ? (opts.labelRev||'คำนี้ภาษาอังกฤษว่าอะไร?') : (opts.labelText||'คำนี้แปลว่าอะไร?');
     $(ids.word).textContent = reverse ? cur[1] : cur[0];
     if(ids.hintarea && opts.hint){
       const area = $(ids.hintarea); area.innerHTML='';
@@ -749,6 +784,25 @@ function makeMatch(data){
   newRound();
 }
 makeMatch(VOCAB);
+
+// ============================================================
+// คำหรู (formal register) — ควิซ + รายการ
+// ============================================================
+makeQuiz(FORMAL, {label:'fm-label',word:'fm-word',choices:'fm-choices',next:'fm-next',score:'fm-score',total:'fm-total',streak:'fm-streak'},
+  {reverseRate:0, labelText:'✍️ เวลาเขียนทางการ ใช้คำว่าอะไร?'});
+$('fm-list').innerHTML = FORMAL.map(([cas,frm,th,ex])=>`
+  <div class="fm-card">
+    <div class="pair"><span class="cas">${cas}</span><span class="arrow">➜</span><span class="frm">${frm}</span></div>
+    <div class="m">${th}</div>
+    <div class="ex">"${ex}"</div>
+  </div>`).join('');
+document.querySelectorAll('[data-fm]').forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll('[data-fm]').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    ['quiz','list'].forEach(m=>$('fm-'+m).classList.toggle('hidden', m!==t.dataset.fm));
+  };
+});
 </script>
 </body>
 </html>
