@@ -202,6 +202,7 @@ h1 .heart{color:var(--pink)}
   <button class="tab" data-mode="fill">📝 เติมคำ</button>
   <button class="tab" data-mode="match">🔗 จับคู่</button>
   <button class="tab" data-mode="formal">🎩 คำหรู</button>
+  <button class="tab" data-mode="ielts">📚 IELTS</button>
   <button class="tab" data-mode="bieber">🎤 Bieber</button>
   <button class="tab exam" data-mode="exam">⭐ ติวสอบ</button>
 </div>
@@ -292,6 +293,30 @@ h1 .heart{color:var(--pink)}
     <div id="fm-list" class="hidden"></div>
   </div>
 
+  <!-- ==== IELTS (500 คำ) ==== -->
+  <div id="ielts" class="hidden">
+    <div class="exam-banner" style="background:#eef0fb;border-color:var(--purple)">
+      📚 คำศัพท์ IELTS ที่ออกสอบบ่อย — จาก chulatutor.com
+    </div>
+    <div class="subtabs">
+      <button class="subtab prpl active" data-il="quiz">✏️ ควิซ</button>
+      <button class="subtab prpl" data-il="list">📖 ดูคำทั้งหมด</button>
+    </div>
+    <div id="il-quiz">
+      <div class="scorebar">
+        <span>คะแนน: <b id="il-score">0</b>/<span id="il-total">0</span></span>
+        <span class="streak" id="il-streak"></span>
+      </div>
+      <div class="q-box" style="border-color:var(--purple)">
+        <div class="q-label" id="il-label"></div>
+        <div class="q-word" id="il-word"></div>
+      </div>
+      <div class="choices" id="il-choices"></div>
+      <div class="next-row"><button class="btn primary hidden" id="il-next">ข้อต่อไป →</button></div>
+    </div>
+    <div id="il-list" class="hidden"></div>
+  </div>
+
   <!-- BIEBER -->
   <div id="bieber" class="hidden">
     <div class="exam-banner" style="background:var(--pink-soft);border-color:var(--pink)">
@@ -369,7 +394,7 @@ document.querySelectorAll('.tab').forEach(t=>{
   t.onclick=()=>{
     document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
-    ['flash','quiz','fill','match','formal','bieber','exam'].forEach(m=>$(m).classList.toggle('hidden', m!==t.dataset.mode));
+    ['flash','quiz','fill','match','formal','ielts','bieber','exam'].forEach(m=>$(m).classList.toggle('hidden', m!==t.dataset.mode));
   };
 });
 
@@ -801,6 +826,25 @@ document.querySelectorAll('[data-fm]').forEach(t=>{
     document.querySelectorAll('[data-fm]').forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
     ['quiz','list'].forEach(m=>$('fm-'+m).classList.toggle('hidden', m!==t.dataset.fm));
+  };
+});
+
+// ============================================================
+// IELTS — ควิซ + รายการ (คำอังกฤษ -> เลือกคำแปลไทยที่ถูก)
+// ============================================================
+makeQuiz(IELTS, {label:'il-label',word:'il-word',choices:'il-choices',next:'il-next',score:'il-score',total:'il-total',streak:'il-streak'},
+  {reverseRate:0, labelText:'คำนี้แปลว่าอะไร?'});
+$('il-list').innerHTML = IELTS.map(([en,th,ex])=>`
+  <div class="fm-card">
+    <div class="pair"><span class="frm">${en}</span></div>
+    <div class="m">${th}</div>
+    <div class="ex">"${ex}"</div>
+  </div>`).join('');
+document.querySelectorAll('[data-il]').forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll('[data-il]').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    ['quiz','list'].forEach(m=>$('il-'+m).classList.toggle('hidden', m!==t.dataset.il));
   };
 });
 </script>
