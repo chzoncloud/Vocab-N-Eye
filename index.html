@@ -462,12 +462,17 @@ renderCard();
 // ============================================================
 function makeQuiz(data, ids, opts={}){
   let score=0,total=0,streak=0;
+  // แจกทุกคำจนหมดกองก่อน แล้วค่อยสับใหม่ — กันคำซ้ำก่อนครบทุกคำ
+  let queue=[];
+  function nextCur(){
+    if(queue.length===0) queue = shuffle([...data]);
+    return queue.pop();
+  }
   function newQ(){
     $(ids.next).classList.add('hidden');
     const reverse = Math.random() < (opts.reverseRate ?? 0.4);
-    const pool = shuffle([...data]);
-    const cur = pool[0];
-    const wrongs = pool.slice(1,4);
+    const cur = nextCur();
+    const wrongs = shuffle([...data].filter(x=>x!==cur)).slice(0,3);
     const choices = shuffle([cur,...wrongs]);
     $(ids.label).textContent = reverse ? (opts.labelRev||'คำนี้ภาษาอังกฤษว่าอะไร?') : (opts.labelText||'คำนี้แปลว่าอะไร?');
     $(ids.word).textContent = reverse ? cur[1] : cur[0];
