@@ -68,6 +68,8 @@ h1 .heart{color:var(--pink)}
 .fc-icon.mark.on{filter:none;opacity:1}
 .fc-review-row{text-align:center;margin:-2px 0 12px}
 #fc-review.active{background:var(--pink);border-color:var(--pink);color:#fff}
+.qz-mode-row{display:flex;gap:8px;justify-content:center;margin-bottom:12px}
+.qz-mode.active{background:var(--purple);border-color:var(--purple);color:#fff}
 
 .q-box{background:#fff;border:2.5px solid var(--purple);border-radius:20px;padding:20px 16px;box-shadow:var(--shadow);margin-bottom:14px;text-align:center}
 .q-label{font-size:.78rem;color:#a89bc0;margin-bottom:6px}
@@ -240,6 +242,10 @@ h1 .heart{color:var(--pink)}
 
   <!-- QUIZ -->
   <div id="quiz" class="hidden">
+    <div class="qz-mode-row">
+      <button class="btn small qz-mode active" id="qz-all">ทั้งหมด</button>
+      <button class="btn small qz-mode" id="qz-marked">🔖 เฉพาะที่มาร์ค (<span id="qz-markcount">0</span>)</button>
+    </div>
     <div class="scorebar">
       <span>คะแนน: <b id="qz-score">0</b>/<span id="qz-total">0</span></span>
       <span class="streak" id="qz-streak"></span>
@@ -395,6 +401,7 @@ document.querySelectorAll('.tab').forEach(t=>{
     document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
     ['flash','quiz','fill','match','formal','ielts','bieber','exam'].forEach(m=>$(m).classList.toggle('hidden', m!==t.dataset.mode));
+    if(t.dataset.mode==='quiz') refreshQzMarkCount();
   };
 });
 
@@ -465,13 +472,19 @@ function makeQuiz(data, ids, opts={}){
   // แจกทุกคำจนหมดกองก่อน แล้วค่อยสับใหม่ — กันคำซ้ำก่อนครบทุกคำ
   let queue=[];
   function nextCur(){
-    if(queue.length===0) queue = shuffle([...data]);
+    if(queue.length===0){
+      // คลังคำถามอาจเป็นชุดย่อย (เช่นเฉพาะคำที่มาร์ค) — ถ้าว่างให้ถอยกลับใช้ทั้งหมด
+      let src = opts.getQuestions ? opts.getQuestions() : data;
+      if(!src || !src.length) src = data;
+      queue = shuffle([...src]);
+    }
     return queue.pop();
   }
   function newQ(){
     $(ids.next).classList.add('hidden');
     const reverse = Math.random() < (opts.reverseRate ?? 0.4);
     const cur = nextCur();
+    // ตัวลวงดึงจากคลังเต็มเสมอ จะได้มีตัวเลือกหลากหลายพอ แม้คำที่มาร์คจะมีน้อย
     const wrongs = shuffle([...data].filter(x=>x!==cur)).slice(0,3);
     const choices = shuffle([cur,...wrongs]);
     $(ids.label).textContent = reverse ? (opts.labelRev||'คำนี้ภาษาอังกฤษว่าอะไร?') : (opts.labelText||'คำนี้แปลว่าอะไร?');
@@ -506,9 +519,27 @@ function makeQuiz(data, ids, opts={}){
   }
   $(ids.next).onclick=newQ;
   newQ();
+  return { restart(){ queue=[]; newQ(); } };
 }
 
-makeQuiz(VOCAB, {label:'qz-label',word:'qz-word',choices:'qz-choices',next:'qz-next',score:'qz-score',total:'qz-total',streak:'qz-streak'});
+let quizMarkedOnly = false;
+const markedVocab = ()=> VOCAB.filter(v=>marked.has(v[0]));
+const vocabQuiz = makeQuiz(VOCAB, {label:'qz-label',word:'qz-word',choices:'qz-choices',next:'qz-next',score:'qz-score',total:'qz-total',streak:'qz-streak'},
+  {getQuestions: ()=> quizMarkedOnly ? markedVocab() : VOCAB});
+// สลับโหมดควิซ: ทั้งหมด / เฉพาะคำที่มาร์ค
+function refreshQzMarkCount(){ $('qz-markcount').textContent = marked.size; }
+$('qz-all').onclick = ()=>{
+  quizMarkedOnly=false;
+  $('qz-all').classList.add('active'); $('qz-marked').classList.remove('active');
+  vocabQuiz.restart();
+};
+$('qz-marked').onclick = ()=>{
+  refreshQzMarkCount();
+  if(marked.size===0){ $('qz-label').textContent='ยังไม่มีคำที่มาร์ค — ไปกด 🔖 บนการ์ดก่อนนะ'; $('qz-word').textContent='🔖'; return; }
+  quizMarkedOnly=true;
+  $('qz-marked').classList.add('active'); $('qz-all').classList.remove('active');
+  vocabQuiz.restart();
+};
 makeQuiz(BIEBER, {label:'jb-label',word:'jb-word',choices:'jb-choices',next:'jb-next',score:'jb-score',total:'jb-total',streak:'jb-streak',hintarea:'jb-hintarea'},
   {hint: item => item[3], reverseRate: 0.5});
 
