@@ -270,7 +270,33 @@ const VOCAB = [
 ["Resembling","คล้ายกับ ดูเหมือน","looking like"],
 ["Nonchalant","เฉยเมย ไม่รู้ร้อนรู้หนาว วางเฉย","calm, unbothered"],
 ["Mandatory","ที่บังคับ ต้องทำตามข้อกำหนด","required, compulsory"],
-["Bribe","สินบน / ติดสินบน","illegal payment"]
+["Bribe","สินบน / ติดสินบน","illegal payment"],
+// ---- ชุดจากการฟัง (มีประโยคตัวอย่าง) ----
+["Recipients","ผู้รับ (ของ/บริการ/ข้อความ)","receivers","All the recipients got the same email."],
+["Wreck","ทำลายพังยับเยิน","destroy, ruin","One lie can wreck a friendship."],
+["Immersion","การดื่มด่ำจมอยู่กับสิ่งนั้นเต็มที่","total involvement","Living abroad gives you full immersion in the language."],
+["Skulk","ย่องหลบๆ ซ่อนๆ อย่างมีพิรุธ","sneak, lurk","A stranger was skulking around the parking lot at night."],
+["Glorious","รุ่งโรจน์ งดงาม น่าภาคภูมิใจ","wonderful, magnificent","We won the final — what a glorious day!"],
+["Fallible","ผิดพลาดได้ ไม่มีใครสมบูรณ์แบบ","able to make mistakes","Even the best doctors are fallible."],
+["Inevitably","อย่างหลีกเลี่ยงไม่ได้ ยังไงก็ต้องเกิด","unavoidably","If you rush, you'll inevitably make mistakes."],
+["Betray","ทรยศ หักหลัง","be disloyal to","It hurts most when someone close betrays you."],
+["Betrayal","การทรยศ การหักหลัง","act of betraying","She never forgave his betrayal."],
+["Blab","ปากโป้ง หลุดปากเผยความลับ","reveal secrets","Don't tell her anything — she'll blab it to everyone."],
+["Visionary","คนมองการณ์ไกล มีวิสัยทัศน์","forward-thinker","He was a true visionary, years ahead of his time."],
+["Atrocious","แย่สุดๆ เลวร้ายมาก","extremely bad","The service was atrocious; we waited an hour for water."],
+["Ironing out","ค่อยๆ แก้ปัญหา/ขจัดข้อขัดข้องให้เรียบ","resolving issues","We're still ironing out a few problems before the launch."],
+["Commitment","ความมุ่งมั่นทุ่มเท / คำมั่นสัญญา","dedication, promise","A good relationship takes commitment from both people."],
+["Imperious","วางอำนาจ เย่อหยิ่ง สั่งแบบไม่ฟังใคร","bossy, domineering","She spoke to the staff in a cold, imperious tone."],
+["Imperiously","อย่างวางอำนาจ อย่างเย่อหยิ่ง","in a bossy way","He snapped his fingers imperiously at the waiter."],
+["Prevent","ป้องกัน ยับยั้งไม่ให้เกิด","stop from happening","Washing your hands helps prevent getting sick."],
+["Poverty","ความยากจน","being poor","Millions of people still live in poverty."],
+["Puberty","วัยแรกรุ่น ช่วงร่างกายเปลี่ยนเป็นผู้ใหญ่","teenage body change","Kids' voices get deeper during puberty."],
+["Property","ทรัพย์สิน / อสังหาริมทรัพย์ (บ้าน ที่ดิน)","belongings; real estate","They bought a small property near the beach."],
+["Ferocious","ดุร้าย โหดเหี้ยม รุนแรง","fierce, savage","A ferocious dog guarded the gate."],
+["Beating","การถูกตี / การเต้น (หัวใจ)","a hard hit; throbbing","His heart was beating fast before the interview."],
+["Shrug","ยักไหล่ (แสดงว่าไม่รู้/ไม่สน)","raise the shoulders","When I asked why, he just shrugged."],
+["Accompany","ไปเป็นเพื่อน / มาพร้อมกับ","go along with","Her mother accompanied her to the hospital."],
+["Friar","นักบวช พระ (ศาสนาคริสต์)","monk","A friar in a brown robe walked past."]
 ];
 
 const SENTENCES = [

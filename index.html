@@ -47,6 +47,8 @@ h1 .heart{color:var(--pink)}
 .word{font-family:'Mali',cursive;font-size:2rem;font-weight:700;color:var(--purple-dark);text-align:center}
 .meaning{font-family:'Mali',cursive;font-size:1.4rem;font-weight:600;text-align:center;line-height:1.4}
 .syn{font-size:.8rem;color:#a06a85;text-align:center}
+.fc-ex{font-size:.82rem;color:#6c6284;text-align:center;font-style:italic;line-height:1.35;max-width:92%}
+.fc-ex:empty{display:none}
 .hint{font-size:.72rem;color:#a89bc0}
 .controls{display:flex;gap:10px;justify-content:center}
 .btn{
@@ -226,6 +228,7 @@ h1 .heart{color:var(--pink)}
           <button class="fc-icon speak" id="fc-speak2" title="ฟังเสียงอ่าน">🔊</button>
           <div class="meaning" id="fc-meaning"></div>
           <div class="syn" id="fc-syn"></div>
+          <div class="fc-ex" id="fc-ex"></div>
           <div class="hint">แตะเพื่อกลับ</div>
         </div>
       </div>
@@ -429,10 +432,11 @@ function renderCard(){
   if(!deck.length) return;
   $('fc-card').classList.remove('flipped');
   setTimeout(()=>{
-    const [en,th,syn] = deck[fcIdx];
+    const [en,th,syn,ex] = deck[fcIdx];
     $('fc-word').textContent = en;
     $('fc-meaning').textContent = th;
     $('fc-syn').textContent = '≈ ' + syn;
+    $('fc-ex').textContent = ex ? '“' + ex + '”' : '';
     $('fc-counter').textContent = (reviewMode?'🔖 ทบทวน — ':'') + `การ์ดที่ ${fcIdx+1} / ${deck.length}`;
     updateMarkUI();
   },150);
