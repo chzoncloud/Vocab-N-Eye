@@ -139,10 +139,11 @@ h1 .heart{color:var(--pink)}
 .subtab.active{background:var(--gold);color:var(--ink)}
 .subtab.pinkish{border-color:var(--pink);color:#b05a7e}
 .subtab.pinkish.active{background:var(--pink);color:#fff}
-.day-select{display:flex;gap:8px;justify-content:center;margin-bottom:12px}
+.day-select{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
 .day-btn{
-  font-family:'Mali',cursive;font-weight:700;font-size:.9rem;padding:8px 16px;border-radius:14px;
+  font-family:'Mali',cursive;font-weight:700;font-size:.82rem;padding:6px 12px;border-radius:12px;
   border:2px solid var(--purple);background:#fff;color:var(--purple);cursor:pointer;box-shadow:var(--shadow);
+  flex:0 0 auto;
 }
 .day-btn.active{background:var(--purple);color:#fff}
 .section-head{
@@ -471,6 +472,24 @@ renderCard();
 // ============================================================
 // GENERIC QUIZ
 // ============================================================
+// ============================================================
+// กันตัวเลือกชนกัน — คำที่ความหมาย/รูปคำใกล้กันเกินไป
+// (เช่น Accompanied vs Accompany, Betray vs Betrayal, Tablet vs Pill)
+// ห้ามอยู่ในข้อเดียวกัน ไม่งั้นจะมีตัวเลือกที่ถูกมากกว่าหนึ่ง
+// ============================================================
+const _norm = s => String(s).toLowerCase().replace(/[\s\/,\-—().]+/g,'');
+const _phrases = s => String(s).split(/[\/,]|\s+/).map(x=>x.trim()).filter(x=>x.length>=6);
+function tooSimilar(a,b){
+  const na=_norm(a), nb=_norm(b);
+  if(!na||!nb) return false;
+  if(na===nb) return true;
+  if(na.startsWith(nb)||nb.startsWith(na)) return true;      // Accompany / Accompanied
+  if(_phrases(a).some(p=>nb.includes(_norm(p)))) return true; // ความหมายทับกัน
+  if(_phrases(b).some(p=>na.includes(_norm(p)))) return true;
+  return false;
+}
+const clashes = (a,b) => tooSimilar(a[0],b[0]) || tooSimilar(a[1],b[1]);
+
 function makeQuiz(data, ids, opts={}){
   let score=0,total=0,streak=0;
   // แจกทุกคำจนหมดกองก่อน แล้วค่อยสับใหม่ — กันคำซ้ำก่อนครบทุกคำ
@@ -488,8 +507,21 @@ function makeQuiz(data, ids, opts={}){
     $(ids.next).classList.add('hidden');
     const reverse = Math.random() < (opts.reverseRate ?? 0.4);
     const cur = nextCur();
-    // ตัวลวงดึงจากคลังเต็มเสมอ จะได้มีตัวเลือกหลากหลายพอ แม้คำที่มาร์คจะมีน้อย
-    const wrongs = shuffle([...data].filter(x=>x!==cur)).slice(0,3);
+    // ตัวลวงดึงจากคลังเต็มเสมอ + ต้องไม่ชนกับคำตอบและไม่ชนกันเอง
+    const wrongs=[];
+    for(const c of shuffle([...data])){
+      if(wrongs.length>=3) break;
+      if(c===cur || clashes(c,cur)) continue;
+      if(wrongs.some(w=>clashes(w,c))) continue;
+      wrongs.push(c);
+    }
+    if(wrongs.length<3){ // คลังเล็กเกินไป — เติมให้ครบ 4 ตัวเลือก
+      for(const c of shuffle([...data])){
+        if(wrongs.length>=3) break;
+        if(c===cur || wrongs.includes(c)) continue;
+        wrongs.push(c);
+      }
+    }
     const choices = shuffle([cur,...wrongs]);
     $(ids.label).textContent = reverse ? (opts.labelRev||'คำนี้ภาษาอังกฤษว่าอะไร?') : (opts.labelText||'คำนี้แปลว่าอะไร?');
     $(ids.word).textContent = reverse ? cur[1] : cur[0];
@@ -808,7 +840,13 @@ function makeMatch(data){
   function newRound(){
     round++;
     $('mt-next').classList.add('hidden');
-    const pick=shuffle([...data]).slice(0,5);
+    // เลือก 5 คำที่ไม่ชนกัน (ทั้งคำ ความหมาย และคำเหมือน) จะได้ไม่จับคู่ได้หลายทาง
+    const pick=[];
+    for(const it of shuffle([...data])){
+      if(pick.length>=5) break;
+      if(pick.some(p=>clashes(p,it)||tooSimilar(p[2],it[2]))) continue;
+      pick.push(it);
+    }
     const total=pick.length;
     let selEl=null, matched=0;
     left.innerHTML=''; right.innerHTML='';
