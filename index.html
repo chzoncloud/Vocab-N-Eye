@@ -714,7 +714,7 @@ const FILL_MAIN=[
   ...SENTENCES.map((s,i)=>[...s, i<10?0:i<20?1:i<30?2:3]),
   ...NEW_SENTENCES,
   // ดึงข้อสอบวัน Beginner (d11-13) มาฝึกในโหมดเติมคำหลักด้วย
-  ...['d11','d12','d13'].flatMap(k=>(EXAMS[k]?EXAMS[k].sent:[]).map(s=>[...s,0]))
+  ...['d11','d12','d13','d15','d16','d17','d18','d19','d20'].flatMap(k=>(EXAMS[k]?EXAMS[k].sent:[]).map(s=>[...s,0]))
 ];
 makeFill(FILL_MAIN,'fi',{levelFn:item=>LVLBADGE[item[4]??0]});
 
@@ -738,7 +738,7 @@ Object.keys(EXAMS).forEach((key,ki)=>{
   const c=document.createElement('div');
   c.className='exam-day'+(ki===0?'':' hidden'); c.id='ed-'+key;
   c.innerHTML=`
-    <div class="exam-banner">📚 ${ex.name} — ${ex.banner} | คำหลัก ${ex.main.length} + คำเสริม ${ex.extra.length}</div>
+    <div class="exam-banner">📚 ${ex.name} — ${ex.banner} | คำหลัก ${ex.main.length}${ex.extra.length?` + คำเสริม ${ex.extra.length}`:''}</div>
     <div class="subtabs">
       <button class="subtab active" data-ex="${key}" data-sm="study">📖 ท่อง</button>
       <button class="subtab" data-ex="${key}" data-sm="quiz">✏️ ควิซ</button>
@@ -764,9 +764,9 @@ Object.keys(EXAMS).forEach((key,ki)=>{
     `<div class="section-head">⭐ คำหลัก (ออกสอบแน่)</div>` +
     ex.main.map(([en,th,syn,exm])=>`
       <div class="study-card"><div class="w">${en}</div><div class="m">${th}</div><div class="s">≈ ${syn}</div><div class="ex">"${exm}"</div></div>`).join('') +
-    `<div class="section-head">💜 คำเสริมจากชีท (คำขีดเส้นใต้ / คำในนิยาม)</div>` +
+    (ex.extra.length ? `<div class="section-head">💜 คำเสริมจากชีท (คำขีดเส้นใต้ / คำในนิยาม)</div>` +
     ex.extra.map(([en,th,syn,exm])=>`
-      <div class="study-card extra"><div class="w">${en}</div><div class="m">${th}</div><div class="s">≈ ${syn}</div><div class="ex">${exm}</div></div>`).join('');
+      <div class="study-card extra"><div class="w">${en}</div><div class="m">${th}</div><div class="s">≈ ${syn}</div><div class="ex">${exm}</div></div>`).join('') : '');
   // quiz + fill
   const all=[...ex.main, ...ex.extra];
   makeQuiz(all, {label:key+'q-label',word:key+'q-word',choices:key+'q-choices',next:key+'q-next',score:key+'q-score',total:key+'q-total',streak:key+'q-streak'});
