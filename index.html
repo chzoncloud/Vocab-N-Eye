@@ -208,6 +208,7 @@ h1 .heart{color:var(--pink)}
   <button class="tab" data-mode="match">🔗 จับคู่</button>
   <button class="tab" data-mode="formal">🎩 คำหรู</button>
   <button class="tab" data-mode="ielts">📚 IELTS</button>
+  <button class="tab" data-mode="biz">💼 ธุรกิจ</button>
   <button class="tab" data-mode="bieber">🎤 Bieber</button>
   <button class="tab exam" data-mode="exam">⭐ ติวสอบ</button>
 </div>
@@ -327,6 +328,30 @@ h1 .heart{color:var(--pink)}
     <div id="il-list" class="hidden"></div>
   </div>
 
+  <!-- ==== ธุรกิจ (Business English) ==== -->
+  <div id="biz" class="hidden">
+    <div class="exam-banner" style="background:#eef0fb;border-color:var(--purple)">
+      💼 ศัพท์ธุรกิจ — เมล ประชุม เจรจา การค้า การเงิน
+    </div>
+    <div class="subtabs">
+      <button class="subtab prpl active" data-bz="quiz">✏️ ควิซ</button>
+      <button class="subtab prpl" data-bz="list">📖 ดูคำทั้งหมด</button>
+    </div>
+    <div id="bz-quiz">
+      <div class="scorebar">
+        <span>คะแนน: <b id="bz-score">0</b>/<span id="bz-total">0</span></span>
+        <span class="streak" id="bz-streak"></span>
+      </div>
+      <div class="q-box" style="border-color:var(--purple)">
+        <div class="q-label" id="bz-label"></div>
+        <div class="q-word" id="bz-word"></div>
+      </div>
+      <div class="choices" id="bz-choices"></div>
+      <div class="next-row"><button class="btn primary hidden" id="bz-next">ข้อต่อไป →</button></div>
+    </div>
+    <div id="bz-list" class="hidden"></div>
+  </div>
+
   <!-- BIEBER -->
   <div id="bieber" class="hidden">
     <div class="exam-banner" style="background:var(--pink-soft);border-color:var(--pink)">
@@ -404,7 +429,7 @@ document.querySelectorAll('.tab').forEach(t=>{
   t.onclick=()=>{
     document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
-    ['flash','quiz','fill','match','formal','ielts','bieber','exam'].forEach(m=>$(m).classList.toggle('hidden', m!==t.dataset.mode));
+    ['flash','quiz','fill','match','formal','ielts','biz','bieber','exam'].forEach(m=>$(m).classList.toggle('hidden', m!==t.dataset.mode));
     if(t.dataset.mode==='quiz') refreshQzMarkCount();
   };
 });
@@ -923,6 +948,25 @@ document.querySelectorAll('[data-il]').forEach(t=>{
     document.querySelectorAll('[data-il]').forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
     ['quiz','list'].forEach(m=>$('il-'+m).classList.toggle('hidden', m!==t.dataset.il));
+  };
+});
+
+// ============================================================
+// ธุรกิจ (Business English) — ควิซ + รายการ
+// ============================================================
+makeQuiz(BIZ, {label:'bz-label',word:'bz-word',choices:'bz-choices',next:'bz-next',score:'bz-score',total:'bz-total',streak:'bz-streak'},
+  {reverseRate:0, labelText:'คำนี้แปลว่าอะไร?'});
+$('bz-list').innerHTML = BIZ.map(([en,th,ex])=>`
+  <div class="fm-card">
+    <div class="pair"><span class="frm">${en}</span></div>
+    <div class="m">${th}</div>
+    <div class="ex">"${ex}"</div>
+  </div>`).join('');
+document.querySelectorAll('[data-bz]').forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll('[data-bz]').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    ['quiz','list'].forEach(m=>$('bz-'+m).classList.toggle('hidden', m!==t.dataset.bz));
   };
 });
 </script>
