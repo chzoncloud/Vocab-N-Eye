@@ -634,6 +634,43 @@ function buildFillHTML(prefix, borderColor){
   </div>`;
 }
 
+// ============================================================
+// LOOKUP — รวมคำแปลจากทุกคลัง (VOCAB/IELTS/BIZ) + DICT
+// แล้วเวลาแตะคำ: ลองคำตรงๆ ก่อน ถ้าไม่เจอค่อยตัดรูปผัน (-s/-ed/-ing ฯลฯ)
+// ============================================================
+const LOOKUP = (function(){
+  const map = {};
+  const put = (w,th)=>{ const k=String(w).toLowerCase().trim(); if(k && !(k in map)) map[k]=th; };
+  // ศัพท์จากทุกโหมด (คำแปลของ IELTS/BIZ มี "(pos) " นำหน้า ตัดออกให้อ่านง่าย)
+  (typeof VOCAB!=='undefined'?VOCAB:[]).forEach(r=>put(r[0], r[1]));
+  [ (typeof IELTS!=='undefined'?IELTS:[]), (typeof BIZ!=='undefined'?BIZ:[]) ].forEach(arr=>
+    arr.forEach(r=>put(r[0], String(r[1]).replace(/^\([^)]*\)\s*/,''))));
+  if(typeof EXAMS!=='undefined') Object.values(EXAMS).forEach(ex=>
+    [...(ex.main||[]),...(ex.extra||[])].forEach(r=>put(r[0], r[1])));
+  // DICT ทับได้ (คำแปลคำเบสิกที่เกลาไว้ดีกว่า)
+  if(typeof DICT!=='undefined') Object.keys(DICT).forEach(k=>{ map[k.toLowerCase()]=DICT[k]; });
+  return map;
+})();
+function lookupWord(tok){
+  const w = tok.toLowerCase().replace(/[.,!?;:'"—()]/g,'').replace(/[’']s$/,'').trim();
+  if(!w) return null;
+  if(LOOKUP[w]) return LOOKUP[w];
+  // ลองคำฐานจากการตัดรูปผัน
+  const cands=[];
+  const add=x=>{ if(x.length>=2) cands.push(x); };
+  if(w.endsWith('ies')){ add(w.slice(0,-3)+'y'); }
+  if(w.endsWith('ied')){ add(w.slice(0,-3)+'y'); }
+  if(w.endsWith('es')){ add(w.slice(0,-2)); }
+  if(w.endsWith('s')){ add(w.slice(0,-1)); }
+  if(w.endsWith('ing')){ add(w.slice(0,-3)); add(w.slice(0,-3)+'e'); if(w.length>5&&w[w.length-4]===w[w.length-5]) add(w.slice(0,-4)); }
+  if(w.endsWith('ed')){ add(w.slice(0,-2)); add(w.slice(0,-1)); if(w.length>4&&w[w.length-3]===w[w.length-4]) add(w.slice(0,-3)); }
+  if(w.endsWith('er')){ add(w.slice(0,-2)); add(w.slice(0,-1)); }
+  if(w.endsWith('est')){ add(w.slice(0,-3)); add(w.slice(0,-2)); }
+  if(w.endsWith('ly')){ add(w.slice(0,-2)); }
+  for(const c of cands) if(LOOKUP[c]) return LOOKUP[c];
+  return null;
+}
+
 function renderTappable(el, text, tipEl){
   el.innerHTML='';
   text.split(' ').forEach((tok,i)=>{
@@ -651,8 +688,7 @@ function renderTappable(el, text, tipEl){
     sp.onclick=()=>{
       el.querySelectorAll('.tapw').forEach(x=>x.classList.remove('lit'));
       sp.classList.add('lit');
-      const clean=tok.toLowerCase().replace(/[.,!?;:'"—()]/g,'').replace(/'s$/,'');
-      const tr = DICT[tok.toLowerCase().replace(/[.,!?;:"—()]/g,'')] || DICT[clean];
+      const tr = lookupWord(tok);
       tipEl.classList.remove('empty');
       tipEl.textContent = tr ? `🔎 ${tok.replace(/[.,!?;:]/g,'')} = ${tr}` : `🔎 ${tok} — ยังไม่มีคำแปลในระบบ`;
     };
