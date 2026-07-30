@@ -807,7 +807,7 @@ const FILL_MAIN=[
   ...SENTENCES.map((s,i)=>[...s, i<10?0:i<20?1:i<30?2:3]),
   ...NEW_SENTENCES,
   // ดึงข้อสอบวัน Beginner (d11-13) มาฝึกในโหมดเติมคำหลักด้วย
-  ...['d11','d12','d13','d15','d16','d17','d18','d19','d20'].flatMap(k=>(EXAMS[k]?EXAMS[k].sent:[]).map(s=>[...s,0]))
+  ...['d11','d12','d13','d15','d16','d17','d18','d19','d20','d21','d22','d23','d24'].flatMap(k=>(EXAMS[k]?EXAMS[k].sent:[]).map(s=>[...s,0]))
 ];
 makeFill(FILL_MAIN,'fi',{levelFn:item=>LVLBADGE[item[4]??0]});
 

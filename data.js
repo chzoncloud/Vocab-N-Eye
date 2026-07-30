@@ -941,6 +941,134 @@ sent:[
 ["Getting a band score of 8 is my ___ in IELTS.","Goal","เป้าหมายที่ตั้งไว้",["Goal","Gold","Gap","Grade"]],
 ["One ___ to the store's success has been consistent customer service.","Key","ปัจจัยสำคัญที่สุด",["Key","Kick","Keep","Kind"]],
 ["My mom told me to ___ on my actions and calm down.","Meditate","ใคร่ครวญอย่างสงบ",["Meditate","Mediate","Motivate","Migrate"]]
+]},
+d21:{ name:"Day 21", banner:"ทัศนคติ การเผชิญ ความสำเร็จ",
+main:[
+["Attitude","ทัศนคติ ท่าที","way of thinking","He doesn't want anyone to disturb him, that's his attitude."],
+["Abandon","ละทิ้ง ทอดทิ้ง","desert, give up","I hate to abandon a friend in trouble."],
+["Product","ผลลัพธ์/ผลผลิต (จากความพยายาม)","result, outcome","My body is a product of long hours of exercise."],
+["Confront","เผชิญหน้า","face, deal with","I wish to confront my fears and overcome them."],
+["Cause","สาเหตุ ต้นเหตุ","reason","The cause of the tsunami was an earthquake."],
+["Setback","อุปสรรค ความสะดุด","obstacle","He suffered a serious setback in his political career."],
+["Dream","ความฝัน ความใฝ่ฝัน","aspiration","I have a dream of owning my own business."],
+["Succeed","ประสบความสำเร็จ","accomplish","Some people will succeed in their efforts to stop smoking."],
+["Gain","ได้รับมา (จากความพยายาม)","obtain, achieve","Sonia gained recognition for her hard work."],
+["Pursue","ไล่ตาม มุ่งมั่นทำต่อ","strive for","Don't be afraid to pursue the matter."]
+],
+extra:[
+["Allegiance","ความจงรักภักดี","loyalty","withdraw one's support or allegiance"],
+["Spite","ความอาฆาต เจตนาร้าย","ill will","in spite of duty"],
+["Consequence","ผลที่ตามมา","result","Product = a consequence of one's efforts"],
+["Circumstances","สภาพแวดล้อม สถานการณ์","conditions","a particular set of circumstances"],
+["Defiance","การท้าทาย ขัดขืน","open resistance","confront with defiance or hostility"],
+["Hostility","ความเป็นปฏิปักษ์","unfriendliness","face to face with hostility"],
+["Hinder","ขัดขวาง ถ่วง","hold back","a happening that hinders or impedes"],
+["Thwart","ขัดขวางจนล้มเหลว","frustrate, foil","something that is thwarting or frustrating"],
+["Aspiration","ความใฝ่ฝัน","ambition","an achievement that is longed for"],
+["Attain","บรรลุ ไปให้ถึง","reach","strive to attain a goal"]
+],
+sent:[
+["That's just his ___ — he doesn't like anyone bothering him.","Attitude","ท่าที/ทัศนคติ",["Attitude","Altitude","Gratitude","Latitude"]],
+["I hate to ___ a friend when they're in trouble.","Abandon","ทิ้งให้ลำบาก",["Abandon","Support","Rescue","Follow"]],
+["My fit body is the ___ of years of exercise.","Product","ผลลัพธ์จากความพยายาม",["Product","Project","Process","Protest"]],
+["I wish to ___ my fears and overcome them.","Confront","เผชิญหน้ากับ",["Confront","Avoid","Ignore","Escape"]],
+["The ___ of the tsunami was a powerful earthquake.","Cause","ต้นเหตุ",["Cause","Effect","Result","Chance"]],
+["Losing the election was a big ___ for the party.","Setback","อุปสรรคที่ทำให้ชะงัก",["Setback","Success","Reward","Bonus"]],
+["Owning my own business has always been my ___.","Dream","ความใฝ่ฝัน",["Dream","Doubt","Duty","Debt"]],
+["With hard work, you will ___ in the end.","Succeed","ทำได้สำเร็จ",["Succeed","Fail","Quit","Refuse"]],
+["She worked hard and ___ the respect of her team.","Gained","ได้รับมา",["Gained","Lost","Wasted","Missed"]],
+["If your request is denied, don't be afraid to ___ the matter.","Pursue","ตามเรื่องต่อ",["Pursue","Drop","Forget","Delay"]]
+]},
+d22:{ name:"Day 22", banner:"แบบอย่าง คุณค่า แรงจูงใจ",
+main:[
+["Role model","ต้นแบบ แบบอย่าง","person to emulate","Every child needs a role model in life."],
+["Remain","ยังคงอยู่ เหลืออยู่","stay, be left","The memory of that day will remain with me forever."],
+["Attention","ความสนใจ สมาธิ","focus","Tracking all the details requires your complete attention."],
+["Bright","ฉลาดหัวไว / สว่าง","clever; shining","Some kids are bright in one subject than another."],
+["Throughout","ตลอด (ทั้งช่วง)","all through","He was bored throughout the play."],
+["Lower","ที่อยู่ต่ำกว่า / ล่าง","below","He has short lower extremities."],
+["Quality","คุณสมบัติ / คุณภาพ","trait","The most vital quality a soldier can possess is self-confidence."],
+["Famous","มีชื่อเสียง โด่งดัง","renowned","Michael Jackson was a famous singer."],
+["Responsible","มีความรับผิดชอบ","accountable","The children are trained to be responsible adults."],
+["Charity","การกุศล การบริจาค","giving to the needy","She gave clothes to the poor out of charity."],
+["Motivation","แรงจูงใจ แรงผลักดัน","drive, reason","My primary motivation is to be better than my parents."]
+],
+extra:[
+["Extremities","ปลายแขนขา (มือเท้า)","hands and feet","short lower extremities"],
+["Liable","มีหน้าที่รับผิดชอบ / มีแนวโน้ม","accountable; likely","liable to give account of one's actions"]
+],
+sent:[
+["Every child needs a good ___ to look up to.","Role model","ต้นแบบให้เอาอย่าง",["Role model","Role play","Rock star","Real estate"]],
+["The memory of that day will ___ with me forever.","Remain","ยังคงอยู่",["Remain","Vanish","Forget","Leave"]],
+["Tracking all the details requires your complete ___.","Attention","สมาธิ/ความตั้งใจ",["Attention","Attraction","Intention","Invention"]],
+["Some kids are ___ in one subject than another.","Bright","หัวไว เรียนเก่ง",["Bright","Slow","Lazy","Dull"]],
+["He was bored ___ the entire play.","Throughout","ตลอดทั้งเรื่อง",["Throughout","Without","Within","Throughput"]],
+["He has short ___ legs and long arms.","Lower","ส่วนล่าง",["Lower","Higher","Upper","Wider"]],
+["The most vital ___ a soldier can have is self-confidence.","Quality","คุณสมบัติสำคัญ",["Quality","Quantity","Quarter","Quiet"]],
+["Michael Jackson was a ___ singer known worldwide.","Famous","โด่งดัง",["Famous","Fabulous","Furious","Nervous"]],
+["The children are trained to be ___ adults.","Responsible","มีความรับผิดชอบ",["Responsible","Reasonable","Removable","Remarkable"]],
+["My primary ___ in life is to be better than before.","Motivation","แรงผลักดัน",["Motivation","Motion","Mention","Donation"]]
+]},
+d23:{ name:"Day 23", banner:"สังคม มุมมอง ความคิดเห็น",
+main:[
+["Society","สังคม ผู้คนส่วนรวม","the public","Society came together to fight the existing crimes."],
+["View","มุมมอง ความคิดเห็น","opinion","In his view, rich people should pay more taxes."],
+["Treat","ปฏิบัติต่อ","behave toward","It is a norm to treat people with respect."],
+["Effect","ผล ผลกระทบ","result, outcome","The effect of the medicine will last two hours."],
+["Generation","รุ่น ยุคของคน","age group","All three generations lived together happily."],
+["Wonder","สงสัย ครุ่นคิด","question, doubt","I wonder how I can approach you."],
+["Expect","คาดหวัง / รอคอย","anticipate","I'm expecting a phone call from my mother."],
+["Excuse","ข้ออ้าง คำแก้ตัว","justification","The dean will not listen to your excuses."],
+["Gap","ช่องว่าง ความแตกต่าง","difference","As the generation gap exists, they see things differently."],
+["Interest","ความสนใจ","curiosity","Chess is his only interest."]
+],
+extra:[
+["Perception","การรับรู้ มุมมอง","understanding","judgment, or interpretation; an opinion"],
+["Interpretation","การตีความ","way of understanding","perception, judgment, or interpretation"],
+["Disparity","ความเหลื่อมล้ำ ความต่าง","inequality","a difference or disparity in attitudes"],
+["Offspring","ลูกหลาน ทายาท","young, children","the interval before the birth of their offspring"],
+["Curiosity","ความอยากรู้อยากเห็น","inquisitiveness","the sense of curiosity about something"]
+],
+sent:[
+["___ came together to fight the rising crime.","Society","ผู้คนในสังคม",["Society","Sobriety","Secrecy","Sincerity"]],
+["In his ___, rich people should pay more taxes.","View","ความคิดเห็น",["View","Voice","Value","Vote"]],
+["It is a norm to ___ people with respect.","Treat","ปฏิบัติต่อ",["Treat","Trick","Cheat","Trade"]],
+["The ___ of the medicine will last for two hours.","Effect","ผลของยา",["Effect","Affect","Defect","Effort"]],
+["All three ___ — kids, parents, grandparents — live together.","Generations","รุ่นของคน",["Generations","Operations","Decorations","Celebrations"]],
+["I ___ how I can approach you without being rude.","Wonder","สงสัย/ครุ่นคิด",["Wonder","Wander","Wound","Wind"]],
+["I'm ___ a phone call from my mother, so I can't go.","Expecting","กำลังรอ/คาดว่าจะได้",["Expecting","Exciting","Exporting","Expanding"]],
+["The dean will not listen to your ___.","Excuses","ข้ออ้าง",["Excuses","Accuses","Excludes","Executes"]],
+["The generation ___ makes young and old see things differently.","Gap","ช่องว่างระหว่างวัย",["Gap","Cap","Map","Gas"]],
+["Chess is his only ___ — he plays it every day.","Interest","สิ่งที่สนใจ",["Interest","Internet","Interval","Interior"]]
+]},
+d24:{ name:"Day 24", banner:"แฟชั่น การเปลี่ยนแปลง สไตล์",
+main:[
+["Include","รวม บรรจุ ประกอบด้วย","contain","Please include me on the list for the field trip."],
+["Category","ประเภท หมวดหมู่","group, class","Elements of culture can be divided into two categories."],
+["Imagine","จินตนาการ นึกภาพ","visualize, picture","Cathy imagined wearing a Chanel bag."],
+["Condition","สภาพ / เงื่อนไข","state","We bought a used car in excellent condition."],
+["Magazine","นิตยสาร","periodical","Her face was on the cover of every magazine."],
+["Alter","เปลี่ยนแปลง แก้ไข (เล็กน้อย)","change, modify","I took the coat back to have it altered."],
+["Show","การแสดง โชว์","display, exhibition","I saw that dress on the fashion show."],
+["Texture","เนื้อสัมผัส พื้นผิว","feel of a fabric","I buy clothes with a smooth texture."],
+["Trend","เทรนด์ กระแสนิยม","vogue, style","The new trend in women's apparel just came out."],
+["Sense","สัมผัสรับรู้ ความเข้าใจ","appreciation","My sister has a great sense of fashion."]
+],
+extra:[
+["Vogue","กระแสนิยม แฟชั่นที่ฮิต","fashion, trend","the popular taste; style; vogue"],
+["Woven","ที่ทอจากเส้นด้าย","made by weaving","the feel of a woven fabric"]
+],
+sent:[
+["Please ___ me on the list for the field trip.","Include","ใส่ชื่อรวมเข้าไป",["Include","Exclude","Conclude","Intrude"]],
+["Elements of culture can be divided into two ___.","Categories","หมวดหมู่",["Categories","Factories","Galleries","Batteries"]],
+["Cathy ___ herself wearing a Chanel bag to the party.","Imagined","นึกภาพในหัว",["Imagined","Examined","Imitated","Immigrated"]],
+["We bought a used car in excellent ___.","Condition","สภาพ",["Condition","Collection","Correction","Connection"]],
+["Her face was on the cover of every ___.","Magazine","นิตยสาร",["Magazine","Machine","Medicine","Message"]],
+["The coat was too long, so I had it ___.","Altered","แก้ให้เข้ารูป",["Altered","Ordered","Offered","Entered"]],
+["I saw that dress on the fashion ___.","Show","การแสดงแฟชั่น",["Show","Snow","Slow","Flow"]],
+["I like to buy clothes with a smooth ___.","Texture","เนื้อผ้า/สัมผัส",["Texture","Lecture","Gesture","Mixture"]],
+["The new ___ in women's clothing just came out.","Trend","กระแสแฟชั่น",["Trend","Trade","Trap","Tread"]],
+["My sister has a great ___ of fashion.","Sense","การรับรู้/รสนิยม",["Sense","Since","Scene","Sound"]]
 ]}
 };
 
@@ -2372,7 +2500,29 @@ const DICT = {
 "vaccines":"วัคซีน",
 "vital":"สำคัญยิ่ง/จำเป็นมาก",
 "win":"ชนะ",
-"wings":"ปีก"
+"wings":"ปีก",
+"afraid":"กลัว",
+"anyone":"ใครก็ตาม",
+"arms":"แขน/อาวุธ",
+"cathy":"เคที (ชื่อคน)",
+"chanel":"ชาแนล (แบรนด์)",
+"dean":"คณบดี",
+"denied":"ถูกปฏิเสธ (อดีต)",
+"divided":"แบ่ง (อดีต)",
+"election":"การเลือกตั้ง",
+"elements":"องค์ประกอบ/ธาตุ",
+"field":"สนาม/ทุ่ง/สาขา",
+"fit":"ฟิต/พอดี/แข็งแรง",
+"forever":"ตลอดไป",
+"grandparents":"ปู่ย่าตายาย",
+"hate":"เกลียด",
+"known":"เป็นที่รู้จัก (ช่อง 3)",
+"matter":"เรื่อง/สำคัญ",
+"rising":"ที่เพิ่มสูงขึ้น",
+"rude":"หยาบคาย",
+"theyre":"พวกเขาเป็น (they're)",
+"trouble":"ปัญหา/ความเดือดร้อน",
+"worldwide":"ทั่วโลก"
 };
 
 
