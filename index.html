@@ -171,6 +171,28 @@ h1 .heart{color:var(--pink)}
 .jb-card .m{font-size:.9rem}
 .jb-card .s{font-size:.75rem;color:#a06a85}
 
+/* ==== เล่นวันนี้ ==== */
+.daily-tab{border-color:var(--gold);color:#b8860b;font-size:.92rem}
+.daily-tab.active{background:linear-gradient(135deg,var(--gold),#ffb84d);color:#5a3d00;border-color:#e0a92e}
+.dl-hero{display:flex;justify-content:space-around;align-items:center;gap:8px;background:#fff;border:2.5px solid var(--gold);border-radius:22px;padding:20px 12px;box-shadow:var(--shadow);margin-bottom:20px}
+.dl-streak,.dl-mastered{display:flex;flex-direction:column;align-items:center;font-size:1.5rem;line-height:1.1;flex:1}
+.dl-streak b,.dl-mastered b{font-family:'Mali',cursive;color:var(--purple-dark);font-size:1.6rem}
+.dl-streak span,.dl-mastered span{font-size:.66rem;color:#8a7fa0;margin-top:2px}
+.dl-goalring{display:flex;flex-direction:column;align-items:center;justify-content:center;width:96px;height:96px;border-radius:50%;border:6px solid var(--pink-soft);background:radial-gradient(circle,#fff 60%,var(--pink-soft));flex:0 0 auto}
+.dl-goalnum{font-family:'Mali',cursive;font-size:1.5rem;font-weight:700;color:var(--purple-dark)}
+.dl-goalnum b{color:var(--pink)}
+.dl-goallabel{font-size:.66rem;color:#8a7fa0}
+.dl-start{display:block;width:100%;font-family:'Mali',cursive;font-size:1.4rem;font-weight:700;padding:18px;border-radius:20px;background:linear-gradient(135deg,var(--purple),var(--pink));border:none;box-shadow:0 6px 0 rgba(90,67,128,.35);transition:transform .12s}
+.dl-start:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(90,67,128,.35)}
+.dl-note{text-align:center;font-size:.82rem;color:#8a7fa0;margin-top:14px}
+.dl-bar-wrap{height:14px;background:var(--grid);border-radius:999px;overflow:hidden;margin-bottom:8px}
+.dl-bar{height:100%;width:0;background:linear-gradient(90deg,var(--green),#a5d6a7);border-radius:999px;transition:width .35s}
+.dl-qcount{text-align:center;font-size:.8rem;color:#8a7fa0;font-weight:600;margin-bottom:14px}
+.dl-fmt{text-align:center;font-size:.72rem;color:#a89bc0;margin-bottom:8px}
+.dl-sentence{font-size:1.1rem;line-height:1.8;text-align:center;color:var(--ink)}
+.dl-pop{animation:dlpop .3s}
+@keyframes dlpop{0%{transform:scale(.9);opacity:0}100%{transform:scale(1);opacity:1}}
+
 .match-note{font-size:.75rem;color:#a89bc0;text-align:center;margin-bottom:12px}
 .match-grid{display:flex;gap:10px}
 .match-col{flex:1;display:flex;flex-direction:column;gap:10px}
@@ -202,7 +224,8 @@ h1 .heart{color:var(--pink)}
 <div class="sub">ฝึกวันละนิด เก่งขึ้นทุกวัน!</div>
 
 <div class="tabs">
-  <button class="tab active" data-mode="flash">🃏 การ์ด</button>
+  <button class="tab daily-tab active" data-mode="daily">🎯 เล่นวันนี้</button>
+  <button class="tab" data-mode="flash">🃏 การ์ด</button>
   <button class="tab" data-mode="quiz">✏️ ควิซ</button>
   <button class="tab" data-mode="fill">📝 เติมคำ</button>
   <button class="tab" data-mode="match">🔗 จับคู่</button>
@@ -215,8 +238,38 @@ h1 .heart{color:var(--pink)}
 
 <div class="stage">
 
+  <!-- ==== เล่นวันนี้ (Daily Mix) ==== -->
+  <div id="daily">
+    <div id="dl-home">
+      <div class="dl-hero">
+        <div class="dl-streak">🔥 <b id="dl-streak">0</b><span>วันติด</span></div>
+        <div class="dl-goalring">
+          <div class="dl-goalnum"><b id="dl-goaldone">0</b>/<span id="dl-goaltarget">12</span></div>
+          <div class="dl-goallabel">คำวันนี้</div>
+        </div>
+        <div class="dl-mastered">⭐ <b id="dl-mastered">0</b><span>คำที่แม่นแล้ว</span></div>
+      </div>
+      <button class="btn primary dl-start" id="dl-start">▶️ เริ่มเล่นวันนี้</button>
+      <div class="dl-note" id="dl-note">เล่นวันละนิด ~2 นาที เดี๋ยวก็เก่ง 💪</div>
+    </div>
+
+    <div id="dl-play" class="hidden">
+      <div class="dl-bar-wrap"><div class="dl-bar" id="dl-bar"></div></div>
+      <div class="dl-qcount"><span id="dl-qnow">1</span>/<span id="dl-qtotal">12</span> · 🔥 <span id="dl-combo">0</span></div>
+      <div id="dl-stageq"></div>
+    </div>
+
+    <div id="dl-end" class="hidden">
+      <div class="done-box">
+        <div class="big" id="dl-endbig">เยี่ยมมาก! 🎉</div>
+        <div id="dl-endstats"></div><br>
+        <button class="btn primary" id="dl-again">เล่นอีกรอบ</button>
+      </div>
+    </div>
+  </div>
+
   <!-- FLASHCARDS -->
-  <div id="flash">
+  <div id="flash" class="hidden">
     <div class="counter" id="fc-counter"></div>
     <div class="card-wrap">
       <div class="card" id="fc-card">
@@ -429,8 +482,9 @@ document.querySelectorAll('.tab').forEach(t=>{
   t.onclick=()=>{
     document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
-    ['flash','quiz','fill','match','formal','ielts','biz','bieber','exam'].forEach(m=>$(m).classList.toggle('hidden', m!==t.dataset.mode));
+    ['daily','flash','quiz','fill','match','formal','ielts','biz','bieber','exam'].forEach(m=>$(m).classList.toggle('hidden', m!==t.dataset.mode));
     if(t.dataset.mode==='quiz') refreshQzMarkCount();
+    if(t.dataset.mode==='daily') dailyHome();
   };
 });
 
@@ -1005,6 +1059,138 @@ document.querySelectorAll('[data-bz]').forEach(t=>{
     ['quiz','list'].forEach(m=>$('bz-'+m).classList.toggle('hidden', m!==t.dataset.bz));
   };
 });
+
+// ============================================================
+// เล่นวันนี้ (Daily Mix) — เซสชันผสม + streak + ทวนคำอ่อน (เก็บใน localStorage)
+// ============================================================
+const DL_GOAL=12, DL_SESSION=12;
+const dlEsc=s=>String(s).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const dlToday=()=> new Date().toISOString().slice(0,10);
+const dlLoad=(k,def)=>{ try{ const v=JSON.parse(localStorage.getItem(k)); return v==null?def:v; }catch(e){ return def; } };
+const dlSaveStats=s=>localStorage.setItem('neye_stats',JSON.stringify(s));
+const dlSaveScores=s=>localStorage.setItem('neye_scores',JSON.stringify(s));
+const dlScores=()=>dlLoad('neye_scores',{});
+const dlMastered=sc=>Object.values(sc).filter(v=>v>=3).length;
+function dlStats(){
+  const s=dlLoad('neye_stats',{streak:0,last:'',mastered:0,xp:0,goalDate:'',goalCount:0});
+  if(s.goalDate!==dlToday()){ s.goalDate=dlToday(); s.goalCount=0; }
+  return s;
+}
+function dailyHome(){
+  const s=dlStats(); dlSaveStats(s); const sc=dlScores();
+  $('dl-streak').textContent=s.streak;
+  $('dl-mastered').textContent=dlMastered(sc);
+  $('dl-goaldone').textContent=Math.min(s.goalCount,DL_GOAL);
+  $('dl-goaltarget').textContent=DL_GOAL;
+  $('dl-home').classList.remove('hidden');
+  $('dl-play').classList.add('hidden');
+  $('dl-end').classList.add('hidden');
+  $('dl-note').textContent = s.goalCount>=DL_GOAL ? 'ครบเป้าวันนี้แล้ว เก่งมาก! เล่นต่อได้เรื่อยๆ 🌟'
+    : (s.streak>0 ? `รักษาสถิติ ${s.streak} วันไว้นะ 🔥` : 'เล่นวันละนิด ~2 นาที เดี๋ยวก็เก่ง 💪');
+}
+function dlPick(n){
+  const sc=dlScores(); const marked=new Set(dlLoad('neye_marked',[]));
+  const ranked=VOCAB.map(w=>{
+    const s=sc[w[0]]; let due;
+    if(marked.has(w[0])) due=-1; else if(s===undefined) due=1; else due=2+s;
+    return {w,due,r:Math.random()};
+  }).sort((a,b)=> a.due-b.due || a.r-b.r);
+  const pool=ranked.slice(0,Math.max(n*2,n)).map(x=>x.w);
+  return shuffle(pool).slice(0,n);
+}
+function dlDistractors(cur){
+  const wrongs=[];
+  for(const c of shuffle([...VOCAB])){
+    if(wrongs.length>=3) break;
+    if(c===cur||clashes(c,cur)) continue;
+    if(wrongs.some(w=>clashes(w,c))) continue;
+    wrongs.push(c);
+  }
+  while(wrongs.length<3){ const c=VOCAB[Math.floor(Math.random()*VOCAB.length)]; if(c!==cur&&!wrongs.includes(c)) wrongs.push(c); }
+  return wrongs;
+}
+let dlQueue=[],dlIdx=0,dlCorrect=0,dlCombo=0,dlNewMastered=0;
+function startDaily(){
+  dlQueue=dlPick(DL_SESSION);
+  if(dlQueue.length<4) return;
+  dlIdx=0;dlCorrect=0;dlCombo=0;dlNewMastered=0;
+  const s=dlStats(), t=dlToday();
+  if(s.last!==t){
+    const y=new Date(Date.now()-86400000).toISOString().slice(0,10);
+    s.streak=(s.last===y)?s.streak+1:1; s.last=t; dlSaveStats(s);
+  }
+  $('dl-home').classList.add('hidden'); $('dl-end').classList.add('hidden');
+  $('dl-play').classList.remove('hidden');
+  $('dl-qtotal').textContent=dlQueue.length;
+  dlRender();
+}
+function dlRender(){
+  const cur=dlQueue[dlIdx];
+  $('dl-qnow').textContent=dlIdx+1; $('dl-combo').textContent=dlCombo;
+  $('dl-bar').style.width=(dlIdx/dlQueue.length*100)+'%';
+  const box=$('dl-stageq'); box.innerHTML='';
+  const hasEx=cur.length===4&&cur[3];
+  const roll=Math.random();
+  const wrap=document.createElement('div'); wrap.className='dl-pop';
+  const qbox=document.createElement('div'); qbox.className='q-box';
+  const label=document.createElement('div'); label.className='q-label';
+  const wordEl=document.createElement('div'); wordEl.className='q-word';
+  let answerText, choices;
+  const fillRe = hasEx ? new RegExp('\\b'+dlEsc(cur[0])+'\\b','i') : null;
+  if(hasEx && roll<0.34 && fillRe.test(cur[3])){
+    label.textContent='📝 เติมคำในช่องว่าง';
+    wordEl.className='dl-sentence'; wordEl.textContent=cur[3].replace(fillRe,'______');
+    answerText=cur[0]; choices=shuffle([cur,...dlDistractors(cur)]).map(w=>w[0]);
+  } else if(roll<0.67){
+    label.textContent='คำนี้แปลว่าอะไร?'; wordEl.textContent=cur[0];
+    answerText=cur[1]; choices=shuffle([cur,...dlDistractors(cur)]).map(w=>w[1]);
+  } else {
+    label.textContent='คำแปลนี้คือคำไหน?'; wordEl.textContent=cur[1];
+    answerText=cur[0]; choices=shuffle([cur,...dlDistractors(cur)]).map(w=>w[0]);
+  }
+  qbox.appendChild(label); qbox.appendChild(wordEl); wrap.appendChild(qbox);
+  const cbox=document.createElement('div'); cbox.className='choices';
+  choices.forEach(txt=>{
+    const b=document.createElement('button'); b.className='choice'; b.textContent=txt;
+    b.onclick=()=>dlAnswer(b, txt===answerText, answerText, cur, cbox);
+    cbox.appendChild(b);
+  });
+  wrap.appendChild(cbox); box.appendChild(wrap);
+}
+function dlAnswer(btn, ok, answerText, cur, cbox){
+  cbox.querySelectorAll('.choice').forEach(x=>x.disabled=true);
+  const sc=dlScores(); const prev=sc[cur[0]]??0;
+  if(ok){
+    btn.classList.add('correct'); dlCorrect++; dlCombo++;
+    sc[cur[0]]=Math.min(prev+1,5);
+    if(prev<3 && sc[cur[0]]>=3) dlNewMastered++;
+  } else {
+    btn.classList.add('wrong'); dlCombo=0;
+    const right=[...cbox.children].find(x=>x.textContent===answerText); if(right) right.classList.add('correct');
+    sc[cur[0]]=Math.max(prev-1,0);
+  }
+  dlSaveScores(sc); $('dl-combo').textContent=dlCombo;
+  setTimeout(dlNext, ok?750:1400);
+}
+function dlNext(){ dlIdx++; if(dlIdx>=dlQueue.length) dlFinish(); else dlRender(); }
+function dlFinish(){
+  const s=dlStats();
+  s.xp=(s.xp||0)+dlCorrect*10;
+  s.goalCount=(s.goalCount||0)+dlQueue.length;
+  s.mastered=dlMastered(dlScores());
+  dlSaveStats(s);
+  $('dl-bar').style.width='100%';
+  $('dl-play').classList.add('hidden'); $('dl-end').classList.remove('hidden');
+  const pct=Math.round(dlCorrect/dlQueue.length*100);
+  $('dl-endbig').textContent = pct>=80?'สุดยอดไปเลย! 🎉' : pct>=50?'เก่งขึ้นเรื่อยๆ! 💪' : 'สู้ๆ พรุ่งนี้เอาใหม่! 🌱';
+  $('dl-endstats').innerHTML =
+    `ตอบถูก <b>${dlCorrect}/${dlQueue.length}</b> ข้อ<br>`+
+    `+${dlCorrect*10} XP · 🔥 streak ${s.streak} วัน`+
+    (dlNewMastered?`<br>⭐ แม่นเพิ่ม ${dlNewMastered} คำ!`:'');
+}
+$('dl-start').onclick=startDaily;
+$('dl-again').onclick=startDaily;
+dailyHome();
 </script>
 </body>
 </html>
