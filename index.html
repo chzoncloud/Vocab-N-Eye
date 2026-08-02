@@ -193,6 +193,13 @@ h1 .heart{color:var(--pink)}
 .dl-pop{animation:dlpop .3s}
 @keyframes dlpop{0%{transform:scale(.9);opacity:0}100%{transform:scale(1);opacity:1}}
 
+/* ==== เรื่องเล่า ==== */
+.rd-title{font-family:'Mali',cursive;font-weight:700;font-size:1.25rem;color:var(--purple-dark);text-align:center;margin-bottom:8px}
+.rd-para{font-size:1.06rem;line-height:2.1}
+.rd-score{position:sticky;top:0;background:var(--paper);text-align:center;font-family:'Mali',cursive;font-weight:700;color:var(--purple-dark);padding:8px;border-radius:12px;margin:14px 0;z-index:3}
+.rd-q .q-word,.rd-q .q-label{text-align:left}
+.rd-qwrap{margin-bottom:6px}
+
 .match-note{font-size:.75rem;color:#a89bc0;text-align:center;margin-bottom:12px}
 .match-grid{display:flex;gap:10px}
 .match-col{flex:1;display:flex;flex-direction:column;gap:10px}
@@ -232,6 +239,7 @@ h1 .heart{color:var(--pink)}
   <button class="tab" data-mode="formal">🎩 คำหรู</button>
   <button class="tab" data-mode="ielts">📚 IELTS</button>
   <button class="tab" data-mode="biz">💼 ธุรกิจ</button>
+  <button class="tab" data-mode="reading">📖 เรื่องเล่า</button>
   <button class="tab" data-mode="bieber">🎤 Bieber</button>
   <button class="tab exam" data-mode="exam">⭐ ติวสอบ</button>
 </div>
@@ -437,6 +445,15 @@ h1 .heart{color:var(--pink)}
     <div id="exam-days"></div>
   </div>
 
+  <!-- ==== เรื่องเล่า (Reading) ==== -->
+  <div id="reading" class="hidden">
+    <div class="exam-banner" style="background:#eef0fb;border-color:var(--purple)">
+      📖 อ่านเรื่องสั้น แล้วตอบคำถาม — 👆 แตะคำในเรื่องเพื่อดูคำแปล
+    </div>
+    <div class="day-select" id="rd-select"></div>
+    <div id="rd-body"></div>
+  </div>
+
 </div>
 
 <script src="data.js"></script>
@@ -482,7 +499,7 @@ document.querySelectorAll('.tab').forEach(t=>{
   t.onclick=()=>{
     document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
-    ['daily','flash','quiz','fill','match','formal','ielts','biz','bieber','exam'].forEach(m=>$(m).classList.toggle('hidden', m!==t.dataset.mode));
+    ['daily','flash','quiz','fill','match','formal','ielts','biz','reading','bieber','exam'].forEach(m=>$(m).classList.toggle('hidden', m!==t.dataset.mode));
     if(t.dataset.mode==='quiz') refreshQzMarkCount();
     if(t.dataset.mode==='daily') dailyHome();
   };
@@ -1109,11 +1126,14 @@ function dlDistractors(cur){
   while(wrongs.length<3){ const c=VOCAB[Math.floor(Math.random()*VOCAB.length)]; if(c!==cur&&!wrongs.includes(c)) wrongs.push(c); }
   return wrongs;
 }
-let dlQueue=[],dlIdx=0,dlCorrect=0,dlCombo=0,dlNewMastered=0;
+let dlQueue=[],dlPlan=[],dlIdx=0,dlCorrect=0,dlCombo=0,dlNewMastered=0;
 function startDaily(){
   dlQueue=dlPick(DL_SESSION);
   if(dlQueue.length<4) return;
   dlIdx=0;dlCorrect=0;dlCombo=0;dlNewMastered=0;
+  // ครึ่งหนึ่งเป็นข้อถามแปล อีกครึ่งเป็นแบบอื่น (เติมคำ/ทายคำ) แล้วสลับลำดับ
+  const half=Math.floor(dlQueue.length/2);
+  dlPlan=shuffle(dlQueue.map((_,i)=> i<half?'fwd':'alt'));
   const s=dlStats(), t=dlToday();
   if(s.last!==t){
     const y=new Date(Date.now()-86400000).toISOString().slice(0,10);
@@ -1130,23 +1150,25 @@ function dlRender(){
   $('dl-bar').style.width=(dlIdx/dlQueue.length*100)+'%';
   const box=$('dl-stageq'); box.innerHTML='';
   const hasEx=cur.length===4&&cur[3];
-  const roll=Math.random();
   const wrap=document.createElement('div'); wrap.className='dl-pop';
   const qbox=document.createElement('div'); qbox.className='q-box';
   const label=document.createElement('div'); label.className='q-label';
   const wordEl=document.createElement('div'); wordEl.className='q-word';
   let answerText, choices;
   const fillRe = hasEx ? new RegExp('\\b'+dlEsc(cur[0])+'\\b','i') : null;
-  if(hasEx && roll<0.34 && fillRe.test(cur[3])){
+  const plan = dlPlan[dlIdx] || 'fwd';
+  const useFill = plan==='alt' && hasEx && fillRe.test(cur[3]) && Math.random()<0.6;
+  const useRev  = plan==='alt' && !useFill;
+  if(useFill){
     label.textContent='📝 เติมคำในช่องว่าง';
     wordEl.className='dl-sentence'; wordEl.textContent=cur[3].replace(fillRe,'______');
     answerText=cur[0]; choices=shuffle([cur,...dlDistractors(cur)]).map(w=>w[0]);
-  } else if(roll<0.67){
-    label.textContent='คำนี้แปลว่าอะไร?'; wordEl.textContent=cur[0];
-    answerText=cur[1]; choices=shuffle([cur,...dlDistractors(cur)]).map(w=>w[1]);
-  } else {
+  } else if(useRev){
     label.textContent='คำแปลนี้คือคำไหน?'; wordEl.textContent=cur[1];
     answerText=cur[0]; choices=shuffle([cur,...dlDistractors(cur)]).map(w=>w[0]);
+  } else {
+    label.textContent='คำนี้แปลว่าอะไร?'; wordEl.textContent=cur[0];
+    answerText=cur[1]; choices=shuffle([cur,...dlDistractors(cur)]).map(w=>w[1]);
   }
   qbox.appendChild(label); qbox.appendChild(wordEl); wrap.appendChild(qbox);
   const cbox=document.createElement('div'); cbox.className='choices';
@@ -1191,6 +1213,57 @@ function dlFinish(){
 $('dl-start').onclick=startDaily;
 $('dl-again').onclick=startDaily;
 dailyHome();
+
+// ============================================================
+// เรื่องเล่า (Reading) — อ่านเรื่อง แตะคำดูคำแปล + ตอบคำถาม
+// ============================================================
+function makeReading(){
+  const sel=$('rd-select'), body=$('rd-body');
+  (typeof STORIES!=='undefined'?STORIES:[]).forEach((st,i)=>{
+    const b=document.createElement('button');
+    b.className='day-btn'+(i===0?' active':'');
+    b.textContent='📖 '+(i+1);
+    b.onclick=()=>{
+      sel.querySelectorAll('.day-btn').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active'); renderStory(i);
+    };
+    sel.appendChild(b);
+  });
+  function renderStory(i){
+    const st=STORIES[i];
+    body.innerHTML='';
+    const title=document.createElement('div'); title.className='rd-title'; title.textContent=st.t; body.appendChild(title);
+    const note=document.createElement('div'); note.className='tap-note'; note.textContent='👆 แตะคำในเรื่องเพื่อดูคำแปล'; body.appendChild(note);
+    const para=document.createElement('div'); para.className='sentence rd-para'; para.style.borderColor='var(--purple)'; body.appendChild(para);
+    const tip=document.createElement('div'); tip.className='wordtip empty'; body.appendChild(tip);
+    renderTappable(para, st.text, tip);
+    const head=document.createElement('div'); head.className='section-head'; head.textContent='❓ ตอบคำถามจากเรื่อง'; body.appendChild(head);
+    const scoreEl=document.createElement('div'); scoreEl.className='rd-score'; body.appendChild(scoreEl);
+    let score=0, done=0; const total=st.q.length;
+    scoreEl.textContent='คะแนน: 0/'+total;
+    st.q.forEach((q,qi)=>{
+      const qbox=document.createElement('div'); qbox.className='q-box rd-q rd-qwrap';
+      const ql=document.createElement('div'); ql.className='q-label'; ql.textContent=(qi+1)+'. '+q[0];
+      qbox.appendChild(ql); body.appendChild(qbox);
+      const cbox=document.createElement('div'); cbox.className='choices'; body.appendChild(cbox);
+      let answered=false;
+      shuffle([...q[2]]).forEach(txt=>{
+        const bt=document.createElement('button'); bt.className='choice'; bt.textContent=txt;
+        bt.onclick=()=>{
+          if(answered) return; answered=true; done++;
+          cbox.querySelectorAll('.choice').forEach(x=>x.disabled=true);
+          if(txt===q[1]){ bt.classList.add('correct'); score++; }
+          else{ bt.classList.add('wrong'); const r=[...cbox.children].find(x=>x.textContent===q[1]); if(r) r.classList.add('correct'); }
+          scoreEl.textContent = done>=total ? `🎉 จบเรื่อง! ได้ ${score}/${total} คะแนน` : `คะแนน: ${score}/${total}`;
+        };
+        cbox.appendChild(bt);
+      });
+    });
+    window.scrollTo(0,0);
+  }
+  if(STORIES && STORIES.length) renderStory(0);
+}
+makeReading();
 </script>
 </body>
 </html>
