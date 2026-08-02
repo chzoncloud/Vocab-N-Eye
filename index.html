@@ -229,6 +229,19 @@ h1 .heart{color:var(--pink)}
 .fm-card .frm{color:var(--purple-dark)}
 .fm-card .m{font-size:.85rem;margin-top:3px}
 .fm-card .ex{font-size:.8rem;color:#6c6284;margin-top:6px;font-style:italic;border-top:1px dashed var(--grid);padding-top:6px}
+/* ==== Vocab Bank ==== */
+.bk-search{width:100%;box-sizing:border-box;font-family:'Mali',cursive;font-size:1.05rem;padding:12px 14px;border:2px solid var(--grid);border-radius:14px;margin-bottom:12px;background:#fff}
+.bk-search:focus{outline:none;border-color:#2fa36b}
+.bk-cats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.bk-cat{font-family:'Mali',cursive;font-size:.98rem;padding:7px 14px;border:2px solid var(--grid);border-radius:20px;background:#fff;color:#555;cursor:pointer}
+.bk-cat.active{background:#2fa36b;border-color:#2fa36b;color:#fff}
+.bk-count{font-size:.95rem;color:#6c6284;margin-bottom:10px}
+.bk-sec{font-family:'Mali',cursive;font-weight:700;font-size:1.08rem;color:var(--purple-dark);margin:18px 0 9px;padding-bottom:5px;border-bottom:2px solid var(--grid)}
+.bk-row{background:#fff;border:1.5px solid var(--grid);border-radius:12px;padding:10px 14px;margin-bottom:8px;box-shadow:var(--shadow)}
+.bk-en{font-family:'Mali',cursive;font-weight:700;font-size:1.1rem;color:#222}
+.bk-th{font-size:1rem;color:#4a4a4a;margin-top:2px}
+.bk-ex{font-size:.86rem;color:#8a8398;font-style:italic;margin-top:5px}
+.bk-empty{text-align:center;color:#999;padding:30px}
 </style>
 </head>
 <body>
@@ -246,6 +259,7 @@ h1 .heart{color:var(--pink)}
   <button class="tab" data-mode="biz">💼 ธุรกิจ</button>
   <button class="tab" data-mode="reading">📖 เรื่องเล่า</button>
   <button class="tab" data-mode="bieber">🎤 Bieber</button>
+  <button class="tab" data-mode="bank">🗃️ คลังคำ</button>
   <button class="tab exam" data-mode="exam">⭐ ติวสอบ</button>
 </div>
 
@@ -459,6 +473,17 @@ h1 .heart{color:var(--pink)}
     <div id="rd-body"></div>
   </div>
 
+  <!-- ==== คลังคำศัพท์ (Vocab Bank) ==== -->
+  <div id="bank" class="hidden">
+    <div class="exam-banner" style="background:#eafaf1;border-color:#2fa36b">
+      🗃️ คลังคำศัพท์ทั้งหมด — ค้นหา / กรองหมวด เพื่อดูว่าตอนนี้เรามีคำอะไรบ้าง
+    </div>
+    <input id="bk-search" class="bk-search" type="search" placeholder="🔎 พิมพ์คำอังกฤษ หรือ ความหมายไทย…">
+    <div class="bk-cats" id="bk-cats"></div>
+    <div class="bk-count" id="bk-count"></div>
+    <div id="bk-list"></div>
+  </div>
+
 </div>
 
 <script src="data.js"></script>
@@ -504,9 +529,10 @@ document.querySelectorAll('.tab').forEach(t=>{
   t.onclick=()=>{
     document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
-    ['daily','flash','quiz','fill','match','formal','ielts','biz','reading','bieber','exam'].forEach(m=>$(m).classList.toggle('hidden', m!==t.dataset.mode));
+    ['daily','flash','quiz','fill','match','formal','ielts','biz','reading','bieber','bank','exam'].forEach(m=>$(m).classList.toggle('hidden', m!==t.dataset.mode));
     if(t.dataset.mode==='quiz') refreshQzMarkCount();
     if(t.dataset.mode==='daily') dailyHome();
+    if(t.dataset.mode==='bank') buildBank();
   };
 });
 
@@ -1085,8 +1111,7 @@ document.querySelectorAll('[data-bz]').forEach(t=>{
 // ============================================================
 // เล่นวันนี้ (Daily Mix) — เซสชันผสม + streak + ทวนคำอ่อน (เก็บใน localStorage)
 // ============================================================
-const DL_GOAL=12, DL_SESSION=12;
-const dlEsc=s=>String(s).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const DL_GOAL=15, DL_SESSION=15;
 const dlToday=()=> new Date().toISOString().slice(0,10);
 const dlLoad=(k,def)=>{ try{ const v=JSON.parse(localStorage.getItem(k)); return v==null?def:v; }catch(e){ return def; } };
 const dlSaveStats=s=>localStorage.setItem('neye_stats',JSON.stringify(s));
@@ -1110,48 +1135,64 @@ function dailyHome(){
   $('dl-note').textContent = s.goalCount>=DL_GOAL ? 'ครบเป้าวันนี้แล้ว เก่งมาก! เล่นต่อได้เรื่อยๆ 🌟'
     : (s.streak>0 ? `รักษาสถิติ ${s.streak} วันไว้นะ 🔥` : 'เล่นวันละนิด ~2 นาที เดี๋ยวก็เก่ง 💪');
 }
-function dlPick(n){
-  const sc=dlScores(); const marked=new Set(dlLoad('neye_marked',[]));
-  const ranked=VOCAB.map(w=>{
-    const s=sc[w[0]]; let due;
-    if(marked.has(w[0])) due=-1; else if(s===undefined) due=1; else due=2+s;
+const dlEl=(tag,cls,txt)=>{ const e=document.createElement(tag); if(cls)e.className=cls; if(txt!=null)e.textContent=txt; return e; };
+// รวมศัพท์จากทุกหมวดเป็นคลังเดียว {en, th}
+function dlVocabPool(){
+  const pool=[], push=(en,th)=>{ if(en&&th) pool.push({en:String(en),th:String(th)}); };
+  VOCAB.forEach(w=>push(w[0],w[1]));
+  if(typeof IELTS!=='undefined')  IELTS.forEach(w=>push(w[0],w[1]));
+  if(typeof BIZ!=='undefined')    BIZ.forEach(w=>push(w[0],w[1]));
+  if(typeof BIEBER!=='undefined') BIEBER.forEach(w=>push(w[0],w[1]));
+  if(typeof FORMAL!=='undefined') FORMAL.forEach(w=>push(w[1],w[2])); // คำทางการ + คำแปลไทย
+  return pool;
+}
+// เลือกศัพท์ n คำ เน้นคำที่มาร์ค/ยังอ่อน (SRS keyed by en)
+function dlPickVocab(n, pool){
+  const sc=dlScores(), marked=new Set(dlLoad('neye_marked',[]));
+  const ranked=pool.map(w=>{
+    const s=sc[w.en]; let due;
+    if(marked.has(w.en)) due=-1; else if(s===undefined) due=1; else due=2+s;
     return {w,due,r:Math.random()};
   }).sort((a,b)=> a.due-b.due || a.r-b.r);
-  const pool=ranked.slice(0,Math.max(n*2,n)).map(x=>x.w);
-  return shuffle(pool).slice(0,n);
+  const top=shuffle(ranked.slice(0, Math.max(n*3,n)).map(x=>x.w));
+  const seen=new Set(), out=[];
+  for(const w of top){ if(seen.has(w.en))continue; seen.add(w.en); out.push(w); if(out.length>=n)break; }
+  return out;
 }
-function dlDistractors(cur){
+function dlVocabDistractors(cur, pool){
   const wrongs=[];
-  for(const c of shuffle([...VOCAB])){
+  for(const c of shuffle([...pool])){
     if(wrongs.length>=3) break;
-    if(c===cur||clashes(c,cur)) continue;
-    if(wrongs.some(w=>clashes(w,c))) continue;
+    if(c.en===cur.en || tooSimilar(c.th,cur.th) || tooSimilar(c.en,cur.en)) continue;
+    if(wrongs.some(w=>tooSimilar(w.th,c.th))) continue;
     wrongs.push(c);
   }
-  while(wrongs.length<3){ const c=VOCAB[Math.floor(Math.random()*VOCAB.length)]; if(c!==cur&&!wrongs.includes(c)) wrongs.push(c); }
-  return wrongs;
+  while(wrongs.length<3){ const c=pool[Math.floor(Math.random()*pool.length)]; if(c.en!==cur.en&&!wrongs.includes(c)) wrongs.push(c); }
+  return wrongs.map(w=>w.th);
 }
-let dlQueue=[],dlPlan=[],dlIdx=0,dlCorrect=0,dlCombo=0,dlNewMastered=0;
+// item types: {type:'story',story} · {type:'sq',q} · {type:'fill',s} · {type:'vocab',w,pool}
+let dlQueue=[],dlIdx=0,dlCorrect=0,dlCombo=0,dlNewMastered=0,dlTotalQ=15;
 function startDaily(){
-  dlQueue=dlPick(DL_SESSION);
-  if(dlQueue.length<4) return;
-  dlIdx=0;dlCorrect=0;dlCombo=0;dlNewMastered=0;
-  // การันตีว่ามีคำที่ "เติมคำได้" อย่างน้อย 4 คำในเซสชัน (สลับคำที่ไม่มีประโยคออก)
-  const canFillW=w=> w.length===4 && w[3] && new RegExp('\\b'+dlEsc(w[0])+'\\b','i').test(w[3]);
-  let fillable=dlQueue.filter(canFillW);
-  if(fillable.length<4){
-    const need=4-fillable.length;
-    const extra=shuffle(VOCAB.filter(w=>canFillW(w)&&!dlQueue.includes(w))).slice(0,need);
-    const swapIdx=dlQueue.map((w,i)=>canFillW(w)?-1:i).filter(i=>i>=0);
-    extra.forEach((w,k)=>{ if(swapIdx[k]!==undefined) dlQueue[swapIdx[k]]=w; });
+  const items=[];
+  // บล็อก 1: เรื่องเล่า — เรียงตามลำดับ 1→2→3… (วนกลับเมื่อครบ) + 5 คำถามเรียงตามเรื่อง
+  const stories=(typeof STORIES!=='undefined'?STORIES:[]);
+  if(stories.length){
+    let si=dlLoad('neye_storyidx',0)%stories.length;
+    const story=stories[si];
+    localStorage.setItem('neye_storyidx', String((si+1)%stories.length));
+    items.push({type:'story',story});
+    story.q.slice(0,5).forEach(q=>items.push({type:'sq',q}));
   }
-  // วางแผนรูปแบบข้อ: เติมคำ ~4 ข้อ (เลือกจากคำที่มีประโยคตัวอย่าง), ทายคำ ~2, ที่เหลือถามแปล
-  const idxs=[...Array(dlQueue.length).keys()];
-  const canFill=idxs.filter(i=>{ const w=dlQueue[i]; return w.length===4 && w[3] && new RegExp('\\b'+dlEsc(w[0])+'\\b','i').test(w[3]); });
-  const fillSet=new Set(shuffle(canFill).slice(0, Math.min(4, canFill.length)));
-  const rest=idxs.filter(i=>!fillSet.has(i));
-  const revSet=new Set(shuffle(rest).slice(0,2));
-  dlPlan=idxs.map(i=> fillSet.has(i)?'fill' : revSet.has(i)?'rev' : 'fwd');
+  // บล็อก 2: เติมคำ — 5 ข้อ
+  const allFill=[...(typeof SENTENCES!=='undefined'?SENTENCES:[]), ...(typeof NEW_SENTENCES!=='undefined'?NEW_SENTENCES:[])];
+  shuffle(allFill).slice(0,5).forEach(s=>items.push({type:'fill',s}));
+  // บล็อก 3: ศัพท์สุ่มจากทุกหมวด — 5 ข้อ
+  const pool=dlVocabPool();
+  dlPickVocab(5,pool).forEach(w=>items.push({type:'vocab',w,pool}));
+
+  dlTotalQ=items.filter(i=>i.type!=='story').length;
+  if(dlTotalQ<3) return; // กันเคสข้อมูลว่าง
+  dlQueue=items; dlIdx=0; dlCorrect=0; dlCombo=0; dlNewMastered=0;
   const s=dlStats(), t=dlToday();
   if(s.last!==t){
     const y=new Date(Date.now()-86400000).toISOString().slice(0,10);
@@ -1159,72 +1200,75 @@ function startDaily(){
   }
   $('dl-home').classList.add('hidden'); $('dl-end').classList.add('hidden');
   $('dl-play').classList.remove('hidden');
-  $('dl-qtotal').textContent=dlQueue.length;
+  $('dl-qtotal').textContent=dlTotalQ;
   dlRender();
 }
 function dlRender(){
-  const cur=dlQueue[dlIdx];
-  $('dl-qnow').textContent=dlIdx+1; $('dl-combo').textContent=dlCombo;
-  $('dl-bar').style.width=(dlIdx/dlQueue.length*100)+'%';
+  const it=dlQueue[dlIdx];
+  const qBefore=dlQueue.slice(0,dlIdx).filter(i=>i.type!=='story').length;
+  $('dl-qnow').textContent = it.type==='story' ? '📖' : (qBefore+1);
+  $('dl-combo').textContent=dlCombo;
+  $('dl-bar').style.width=(qBefore/dlTotalQ*100)+'%';
   const box=$('dl-stageq'); box.innerHTML='';
-  const hasEx=cur.length===4&&cur[3];
-  const wrap=document.createElement('div'); wrap.className='dl-pop';
-  const qbox=document.createElement('div'); qbox.className='q-box';
-  const label=document.createElement('div'); label.className='q-label';
-  const wordEl=document.createElement('div'); wordEl.className='q-word';
-  let answerText, choices;
-  const fillRe = hasEx ? new RegExp('\\b'+dlEsc(cur[0])+'\\b','i') : null;
-  const plan = dlPlan[dlIdx] || 'fwd';
-  const useFill = plan==='fill' && hasEx && fillRe.test(cur[3]);
-  const useRev  = plan==='rev' || (plan==='fill' && !useFill);
-  if(useFill){
-    label.textContent='📝 เติมคำในช่องว่าง';
-    wordEl.className='dl-sentence'; wordEl.textContent=cur[3].replace(fillRe,'______');
-    answerText=cur[0]; choices=shuffle([cur,...dlDistractors(cur)]).map(w=>w[0]);
-  } else if(useRev){
-    label.textContent='คำแปลนี้คือคำไหน?'; wordEl.textContent=cur[1];
-    answerText=cur[0]; choices=shuffle([cur,...dlDistractors(cur)]).map(w=>w[0]);
-  } else {
-    label.textContent='คำนี้แปลว่าอะไร?'; wordEl.textContent=cur[0];
-    answerText=cur[1]; choices=shuffle([cur,...dlDistractors(cur)]).map(w=>w[1]);
-  }
-  qbox.appendChild(label); qbox.appendChild(wordEl); wrap.appendChild(qbox);
-  const cbox=document.createElement('div'); cbox.className='choices';
-  choices.forEach(txt=>{
-    const b=document.createElement('button'); b.className='choice'; b.textContent=txt;
-    b.onclick=()=>dlAnswer(b, txt===answerText, answerText, cur, cbox);
+  if(it.type==='story')      return dlRenderStory(it,box);
+  if(it.type==='sq')         return dlRenderMCQ(box,'❓ คำถามจากเรื่อง', it.q[0], 'q-word', it.q[1], it.q[2], null, null);
+  if(it.type==='fill')       return dlRenderMCQ(box,'📝 เติมคำในช่องว่าง', it.s[0].replace('___','______'), 'dl-sentence', it.s[1], it.s[3], null, it.s[2]);
+  /* vocab */                const d=dlVocabDistractors(it.w,it.pool);
+  return dlRenderMCQ(box,'🔤 คำนี้แปลว่าอะไร?', it.w.en, 'q-word', it.w.th, [it.w.th,...d], it.w.en, null);
+}
+function dlRenderStory(it,box){
+  const wrap=dlEl('div','dl-pop');
+  wrap.appendChild(dlEl('div','q-label','📖 อ่านเรื่องนี้ก่อน แล้วตอบ 5 คำถาม'));
+  wrap.appendChild(dlEl('div','rd-title',it.story.t));
+  wrap.appendChild(dlEl('div','tap-note','👆 แตะคำเพื่อดูคำแปล'));
+  const para=dlEl('div','sentence rd-para'); para.style.borderColor='var(--purple)'; wrap.appendChild(para);
+  const tip=dlEl('div','wordtip empty'); wrap.appendChild(tip);
+  renderTappable(para, it.story.text, tip);
+  const btn=dlEl('button','btn primary','อ่านจบแล้ว ไปตอบคำถาม ▶️'); btn.style.marginTop='14px';
+  btn.onclick=dlNext; wrap.appendChild(btn);
+  box.appendChild(wrap); window.scrollTo(0,0);
+}
+function dlRenderMCQ(box,label,promptText,promptCls,answerText,choices,srsKey,thHint){
+  const wrap=dlEl('div','dl-pop');
+  const qbox=dlEl('div','q-box');
+  qbox.appendChild(dlEl('div','q-label',label));
+  qbox.appendChild(dlEl('div',promptCls,promptText));
+  wrap.appendChild(qbox);
+  const cbox=dlEl('div','choices');
+  shuffle([...choices]).forEach(txt=>{
+    const b=dlEl('button','choice',txt);
+    b.onclick=()=>dlAnswer(b, txt===answerText, answerText, cbox, srsKey, thHint);
     cbox.appendChild(b);
   });
   wrap.appendChild(cbox); box.appendChild(wrap);
 }
-function dlAnswer(btn, ok, answerText, cur, cbox){
+function dlAnswer(btn, ok, answerText, cbox, srsKey, thHint){
   cbox.querySelectorAll('.choice').forEach(x=>x.disabled=true);
-  const sc=dlScores(); const prev=sc[cur[0]]??0;
   if(ok){
     btn.classList.add('correct'); dlCorrect++; dlCombo++;
-    sc[cur[0]]=Math.min(prev+1,5);
-    if(prev<3 && sc[cur[0]]>=3) dlNewMastered++;
+    if(srsKey){ const sc=dlScores(), prev=sc[srsKey]??0; sc[srsKey]=Math.min(prev+1,5); if(prev<3&&sc[srsKey]>=3)dlNewMastered++; dlSaveScores(sc); }
   } else {
     btn.classList.add('wrong'); dlCombo=0;
     const right=[...cbox.children].find(x=>x.textContent===answerText); if(right) right.classList.add('correct');
-    sc[cur[0]]=Math.max(prev-1,0);
+    if(srsKey){ const sc=dlScores(), prev=sc[srsKey]??0; sc[srsKey]=Math.max(prev-1,0); dlSaveScores(sc); }
   }
-  dlSaveScores(sc); $('dl-combo').textContent=dlCombo;
+  if(thHint){ const h=dlEl('div','th-hint','💡 '+thHint); h.style.marginTop='8px'; cbox.parentNode.appendChild(h); }
+  $('dl-combo').textContent=dlCombo;
   setTimeout(dlNext, ok?750:1400);
 }
 function dlNext(){ dlIdx++; if(dlIdx>=dlQueue.length) dlFinish(); else dlRender(); }
 function dlFinish(){
   const s=dlStats();
   s.xp=(s.xp||0)+dlCorrect*10;
-  s.goalCount=(s.goalCount||0)+dlQueue.length;
+  s.goalCount=(s.goalCount||0)+dlTotalQ;
   s.mastered=dlMastered(dlScores());
   dlSaveStats(s);
   $('dl-bar').style.width='100%';
   $('dl-play').classList.add('hidden'); $('dl-end').classList.remove('hidden');
-  const pct=Math.round(dlCorrect/dlQueue.length*100);
+  const pct=Math.round(dlCorrect/dlTotalQ*100);
   $('dl-endbig').textContent = pct>=80?'สุดยอดไปเลย! 🎉' : pct>=50?'เก่งขึ้นเรื่อยๆ! 💪' : 'สู้ๆ พรุ่งนี้เอาใหม่! 🌱';
   $('dl-endstats').innerHTML =
-    `ตอบถูก <b>${dlCorrect}/${dlQueue.length}</b> ข้อ<br>`+
+    `ตอบถูก <b>${dlCorrect}/${dlTotalQ}</b> ข้อ<br>`+
     `+${dlCorrect*10} XP · 🔥 streak ${s.streak} วัน`+
     (dlNewMastered?`<br>⭐ แม่นเพิ่ม ${dlNewMastered} คำ!`:'');
 }
@@ -1286,6 +1330,61 @@ function makeReading(){
   if(STORIES && STORIES.length) renderStory(0);
 }
 makeReading();
+
+// ============================================================
+// คลังคำศัพท์ (Vocab Bank) — รวมทุกหมวดในหน้าเดียว ค้นหา/กรองได้
+// แต่ละหมวด normalize เป็น [en, th, example]
+// ============================================================
+const BANK_CATS=[
+  ['VOCAB','คำทั่วไป', ()=> (typeof VOCAB!=='undefined'?VOCAB:[]).map(w=>[w[0],w[1],w[3]||''])],
+  ['IELTS','IELTS',    ()=> (typeof IELTS!=='undefined'?IELTS:[]).map(w=>[w[0],w[1],w[2]||''])],
+  ['BIZ','ธุรกิจ',      ()=> (typeof BIZ!=='undefined'?BIZ:[]).map(w=>[w[0],w[1],w[2]||''])],
+  ['FORMAL','คำหรู',    ()=> (typeof FORMAL!=='undefined'?FORMAL:[]).map(w=>[w[1],w[2],w[3]||''])],
+  ['BIEBER','Bieber',   ()=> (typeof BIEBER!=='undefined'?BIEBER:[]).map(w=>[w[0],w[1],''])],
+  ['EXAM','ติวสอบ',     ()=> { const o=[]; if(typeof EXAMS!=='undefined') Object.values(EXAMS).forEach(d=>(d.main||[]).forEach(w=>o.push([w[0],w[1],w[3]||'']))); return o; }],
+];
+const bankData=()=> BANK_CATS.map(([key,label,fn])=>({key,label,rows:fn()}));
+let bkFilter='ALL', bkBuilt=false;
+function buildBank(){
+  if(!bkBuilt){
+    bkBuilt=true;
+    const cats=$('bk-cats'); cats.innerHTML='';
+    const data=bankData(), total=data.reduce((s,c)=>s+c.rows.length,0);
+    const mk=(key,label,count)=>{
+      const b=document.createElement('button');
+      b.className='bk-cat'+(key===bkFilter?' active':''); b.textContent=`${label} (${count})`;
+      b.onclick=()=>{ bkFilter=key; cats.querySelectorAll('.bk-cat').forEach(x=>x.classList.remove('active')); b.classList.add('active'); renderBank(); };
+      return b;
+    };
+    cats.appendChild(mk('ALL','ทั้งหมด',total));
+    data.forEach(c=>cats.appendChild(mk(c.key,c.label,c.rows.length)));
+    $('bk-search').oninput=renderBank;
+  }
+  renderBank();
+}
+function renderBank(){
+  const raw=($('bk-search').value||'').trim(), q=raw.toLowerCase();
+  const list=$('bk-list'); list.innerHTML=''; let shown=0;
+  const frag=document.createDocumentFragment();
+  bankData().forEach(c=>{
+    if(bkFilter!=='ALL' && bkFilter!==c.key) return;
+    let rows=c.rows;
+    if(q) rows=rows.filter(r=> r[0].toLowerCase().includes(q) || String(r[1]).toLowerCase().includes(q));
+    if(!rows.length) return;
+    const head=document.createElement('div'); head.className='bk-sec'; head.textContent=`${c.label} · ${rows.length} คำ`; frag.appendChild(head);
+    rows.forEach(r=>{
+      const row=document.createElement('div'); row.className='bk-row';
+      const en=document.createElement('div'); en.className='bk-en'; en.textContent=r[0];
+      const th=document.createElement('div'); th.className='bk-th'; th.textContent=r[1];
+      row.appendChild(en); row.appendChild(th);
+      if(r[2]){ const ex=document.createElement('div'); ex.className='bk-ex'; ex.textContent='“'+r[2]+'”'; row.appendChild(ex); }
+      frag.appendChild(row); shown++;
+    });
+  });
+  list.appendChild(frag);
+  $('bk-count').textContent = q ? `พบ ${shown} คำ ที่ตรงกับ “${raw}”` : `รวมทั้งหมด ${shown} คำ`;
+  if(!shown){ const e=document.createElement('div'); e.className='bk-empty'; e.textContent='ไม่พบคำที่ค้นหา 🔍'; list.appendChild(e); }
+}
 </script>
 </body>
 </html>
