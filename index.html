@@ -197,8 +197,13 @@ h1 .heart{color:var(--pink)}
 .rd-title{font-family:'Mali',cursive;font-weight:700;font-size:1.25rem;color:var(--purple-dark);text-align:center;margin-bottom:8px}
 .rd-para{font-size:1.06rem;line-height:2.1}
 .rd-score{position:sticky;top:0;background:var(--paper);text-align:center;font-family:'Mali',cursive;font-weight:700;color:var(--purple-dark);padding:8px;border-radius:12px;margin:14px 0;z-index:3}
-.rd-q .q-word,.rd-q .q-label{text-align:left}
-.rd-qwrap{margin-bottom:6px}
+/* กล่องคำถาม 1 ข้อ = คำถาม + ตัวเลือก อยู่ในกรอบเดียว แยกชัดจากกัน */
+.rd-item{background:#fff;border:2px solid var(--grid);border-radius:16px;padding:14px;margin-bottom:16px;box-shadow:var(--shadow)}
+.rd-qtext{display:flex;gap:8px;font-family:'Mali',cursive;font-weight:700;font-size:1.02rem;color:var(--purple-dark);margin-bottom:12px;line-height:1.4}
+.rd-qnum{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--purple);color:#fff;font-size:.85rem;display:flex;align-items:center;justify-content:center}
+.rd-item .choices{gap:8px}
+.rd-item .choice{font-size:.92rem;padding:11px 14px;border-width:1.5px;box-shadow:0 2px 0 rgba(46,36,64,.1)}
+.rd-done .rd-qnum{background:var(--green)}
 
 .match-note{font-size:.75rem;color:#a89bc0;text-align:center;margin-bottom:12px}
 .match-grid{display:flex;gap:10px}
@@ -1131,9 +1136,22 @@ function startDaily(){
   dlQueue=dlPick(DL_SESSION);
   if(dlQueue.length<4) return;
   dlIdx=0;dlCorrect=0;dlCombo=0;dlNewMastered=0;
-  // ครึ่งหนึ่งเป็นข้อถามแปล อีกครึ่งเป็นแบบอื่น (เติมคำ/ทายคำ) แล้วสลับลำดับ
-  const half=Math.floor(dlQueue.length/2);
-  dlPlan=shuffle(dlQueue.map((_,i)=> i<half?'fwd':'alt'));
+  // การันตีว่ามีคำที่ "เติมคำได้" อย่างน้อย 4 คำในเซสชัน (สลับคำที่ไม่มีประโยคออก)
+  const canFillW=w=> w.length===4 && w[3] && new RegExp('\\b'+dlEsc(w[0])+'\\b','i').test(w[3]);
+  let fillable=dlQueue.filter(canFillW);
+  if(fillable.length<4){
+    const need=4-fillable.length;
+    const extra=shuffle(VOCAB.filter(w=>canFillW(w)&&!dlQueue.includes(w))).slice(0,need);
+    const swapIdx=dlQueue.map((w,i)=>canFillW(w)?-1:i).filter(i=>i>=0);
+    extra.forEach((w,k)=>{ if(swapIdx[k]!==undefined) dlQueue[swapIdx[k]]=w; });
+  }
+  // วางแผนรูปแบบข้อ: เติมคำ ~4 ข้อ (เลือกจากคำที่มีประโยคตัวอย่าง), ทายคำ ~2, ที่เหลือถามแปล
+  const idxs=[...Array(dlQueue.length).keys()];
+  const canFill=idxs.filter(i=>{ const w=dlQueue[i]; return w.length===4 && w[3] && new RegExp('\\b'+dlEsc(w[0])+'\\b','i').test(w[3]); });
+  const fillSet=new Set(shuffle(canFill).slice(0, Math.min(4, canFill.length)));
+  const rest=idxs.filter(i=>!fillSet.has(i));
+  const revSet=new Set(shuffle(rest).slice(0,2));
+  dlPlan=idxs.map(i=> fillSet.has(i)?'fill' : revSet.has(i)?'rev' : 'fwd');
   const s=dlStats(), t=dlToday();
   if(s.last!==t){
     const y=new Date(Date.now()-86400000).toISOString().slice(0,10);
@@ -1157,8 +1175,8 @@ function dlRender(){
   let answerText, choices;
   const fillRe = hasEx ? new RegExp('\\b'+dlEsc(cur[0])+'\\b','i') : null;
   const plan = dlPlan[dlIdx] || 'fwd';
-  const useFill = plan==='alt' && hasEx && fillRe.test(cur[3]) && Math.random()<0.6;
-  const useRev  = plan==='alt' && !useFill;
+  const useFill = plan==='fill' && hasEx && fillRe.test(cur[3]);
+  const useRev  = plan==='rev' || (plan==='fill' && !useFill);
   if(useFill){
     label.textContent='📝 เติมคำในช่องว่าง';
     wordEl.className='dl-sentence'; wordEl.textContent=cur[3].replace(fillRe,'______');
@@ -1242,15 +1260,19 @@ function makeReading(){
     let score=0, done=0; const total=st.q.length;
     scoreEl.textContent='คะแนน: 0/'+total;
     st.q.forEach((q,qi)=>{
-      const qbox=document.createElement('div'); qbox.className='q-box rd-q rd-qwrap';
-      const ql=document.createElement('div'); ql.className='q-label'; ql.textContent=(qi+1)+'. '+q[0];
-      qbox.appendChild(ql); body.appendChild(qbox);
-      const cbox=document.createElement('div'); cbox.className='choices'; body.appendChild(cbox);
+      const item=document.createElement('div'); item.className='rd-item';
+      const qt=document.createElement('div'); qt.className='rd-qtext';
+      const num=document.createElement('span'); num.className='rd-qnum'; num.textContent=(qi+1);
+      const qtxt=document.createElement('span'); qtxt.textContent=q[0];
+      qt.appendChild(num); qt.appendChild(qtxt); item.appendChild(qt);
+      const cbox=document.createElement('div'); cbox.className='choices'; item.appendChild(cbox);
+      body.appendChild(item);
       let answered=false;
       shuffle([...q[2]]).forEach(txt=>{
         const bt=document.createElement('button'); bt.className='choice'; bt.textContent=txt;
         bt.onclick=()=>{
           if(answered) return; answered=true; done++;
+          item.classList.add('rd-done');
           cbox.querySelectorAll('.choice').forEach(x=>x.disabled=true);
           if(txt===q[1]){ bt.classList.add('correct'); score++; }
           else{ bt.classList.add('wrong'); const r=[...cbox.children].find(x=>x.textContent===q[1]); if(r) r.classList.add('correct'); }
