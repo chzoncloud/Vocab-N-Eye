@@ -7,11 +7,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Prompt:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#FBF8EE; --grid:#E4DECB; --ink:#2E2440;
-  --purple:#7B5EA7; --purple-dark:#5A4380;
-  --pink:#F2A7C3; --pink-soft:#FBE3ED;
-  --green:#7FBF8E; --red:#E58787; --gold:#F5C84C;
-  --shadow:0 4px 0 rgba(46,36,64,.15);
+  /* ธีมฟ้า-ขาว มินิมอล (เก็บเสน่ห์เดิม: กระดาษกราฟ + Mali + เงาสติกเกอร์) */
+  --paper:#FBFDFF; --grid:#E7F1FA; --ink:#25384B;
+  --purple:#4C9BE0; --purple-dark:#2E73B0;       /* ฟ้าเป็นสีหลัก */
+  --pink:#FF9E73; --pink-soft:#FFEEE4;           /* ส้มโครัลเป็นสีอุ่นเสริม */
+  --green:#5FBF8C; --red:#E58787; --gold:#F2A93A;
+  --shadow:0 4px 0 rgba(60,110,160,.15);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{
@@ -242,28 +243,122 @@ h1 .heart{color:var(--pink)}
 .bk-th{font-size:1rem;color:#4a4a4a;margin-top:2px}
 .bk-ex{font-size:.86rem;color:#8a8398;font-style:italic;margin-top:5px}
 .bk-empty{text-align:center;color:#999;padding:30px}
+
+/* ===== bottom nav ===== */
+body{padding-bottom:98px}
+.bnav{position:fixed;bottom:0;left:0;right:0;margin:0 auto;max-width:460px;
+  background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:2px solid var(--grid);
+  display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));z-index:50}
+.nb{background:none;border:none;font-family:'Mali',cursive;cursor:pointer;flex:1;display:flex;flex-direction:column;
+  align-items:center;gap:2px;color:#9aa7b4;font-weight:700;font-size:.7rem;padding:4px 0 2px;position:relative}
+.nb .ni{font-size:1.4rem;line-height:1;transition:transform .2s cubic-bezier(.22,1,.36,1);filter:grayscale(.5);opacity:.65}
+.nb.on{color:var(--purple-dark)}
+.nb.on .ni{transform:translateY(-3px) scale(1.12);filter:none;opacity:1}
+.nb.on::before{content:"";position:absolute;top:-8px;width:22px;height:4px;border-radius:99px;background:var(--purple)}
+
+/* ===== back bar + hubs ===== */
+#backbar{margin-bottom:12px}
+.backbtn{font-family:'Mali',cursive;font-weight:700;font-size:.9rem;color:var(--purple-dark);
+  background:#fff;border:2px solid var(--grid);border-radius:999px;padding:7px 16px;cursor:pointer;box-shadow:var(--shadow)}
+.backbtn:active{transform:translateY(2px);box-shadow:none}
+.hub-title{font-family:'Mali',cursive;font-size:1.15rem;color:var(--purple-dark);margin:6px 2px 16px;text-align:center}
+.hub-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hub-item{font-family:'Mali',cursive;background:#fff;border:2px solid var(--grid);border-radius:18px;
+  padding:16px 12px;cursor:pointer;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:3px;text-align:center;transition:transform .1s}
+.hub-item:active{transform:translateY(2px);box-shadow:none}
+.hub-item.wide{grid-column:1 / -1;flex-direction:row;align-items:center;gap:14px;text-align:left}
+.hi-ic{font-size:1.7rem;line-height:1}
+.hub-item.wide .hi-ic{font-size:2rem}
+.hi-t{font-weight:700;font-size:1.02rem;color:var(--ink)}
+.hi-d{font-size:.78rem;color:#8aa0b2}
+
+/* ===== collection (ของฉัน) ===== */
+.col-stats{display:flex;gap:10px;margin:6px 0 4px}
+.cs{flex:1;background:#fff;border:2px solid var(--grid);border-radius:14px;padding:12px 6px;text-align:center;box-shadow:var(--shadow)}
+.cs b{display:block;font-family:'Mali',cursive;font-size:1.5rem;color:var(--purple-dark);line-height:1}
+.cs.flame b{color:var(--pink)}
+.cs span{font-size:.72rem;color:#8aa0b2;font-weight:700}
+.col-track{background:#fff;border:2px solid var(--grid);border-radius:18px;padding:16px 12px;box-shadow:var(--shadow);margin:16px 0 8px}
+.miles{display:flex;justify-content:space-between;position:relative}
+.miles::before{content:"";position:absolute;left:9%;right:9%;top:20px;height:5px;border-radius:9px;background:var(--grid)}
+.miles .fill{position:absolute;left:9%;top:20px;height:5px;border-radius:9px;background:var(--pink)}
+.mnode{display:flex;flex-direction:column;align-items:center;gap:5px;position:relative;z-index:1;width:19%}
+.mdot{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-family:'Mali',cursive;font-weight:700;font-size:.88rem;background:var(--paper);border:3px solid var(--grid);color:#9aa7b4}
+.mnode.done .mdot{background:var(--pink);border-color:var(--pink);color:#fff}
+.mnode.now .mdot{border-color:var(--purple);color:var(--purple-dark);background:#fff}
+.mlab{font-size:.68rem;font-weight:700;color:#8aa0b2}
+.mnode.done .mlab{color:var(--pink)}
+.set-head{display:flex;align-items:baseline;justify-content:space-between;margin:22px 2px 4px}
+.set-head h3{font-family:'Mali',cursive;font-size:1.1rem;color:var(--ink)}
+.set-head .sc{font-family:'Mali',cursive;font-weight:700;color:var(--purple)}
+.set-note{font-size:.8rem;color:#8aa0b2;margin:0 2px 12px}
+.set-bar{height:9px;border-radius:99px;background:var(--grid);margin:0 2px 14px;overflow:hidden}
+.set-bar i{display:block;height:100%;border-radius:99px;background:var(--purple)}
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.card-cell{background:#fff;border:2px solid var(--grid);border-radius:16px;padding:8px 6px 9px;text-align:center;box-shadow:var(--shadow);position:relative}
+.cc-pic{width:100%;aspect-ratio:1;border-radius:12px;background:var(--paper);display:grid;place-items:center;overflow:hidden;margin-bottom:6px}
+.cc-pic img{width:100%;height:100%;object-fit:contain}
+.cc-nm{font-size:.74rem;font-weight:700;color:var(--ink);line-height:1.15}
+.card-cell.locked .cc-pic{background:#EFF4F9;border:2px dashed #C9D8E5}
+.card-cell.locked .cc-nm{color:#aebecc}
+.card-cell.secret .cc-pic{border:2px solid var(--purple)}
+.card-cell.supersecret .cc-pic{border:2px solid var(--gold)}
+.lock-ic{color:#c1d0dd}
+.newpop{position:absolute;top:-7px;right:-5px;background:var(--pink);color:#fff;font-size:.58rem;font-weight:800;padding:2px 7px;border-radius:99px}
+
+/* ===== reward reveal ===== */
+.rw-scrim{position:fixed;inset:0;background:rgba(30,55,80,.55);backdrop-filter:blur(3px);z-index:70;display:none;align-items:center;justify-content:center;padding:24px}
+.rw-scrim.on{display:flex}
+#rw-confetti{position:fixed;inset:0;z-index:71;pointer-events:none;display:none}
+#rw-confetti.on{display:block}
+.rw-card{background:#fff;border:2px solid var(--grid);border-radius:26px;padding:24px 22px 20px;max-width:330px;width:100%;text-align:center;z-index:72;box-shadow:0 24px 50px rgba(20,50,80,.4);animation:rwrise .5s cubic-bezier(.22,1,.36,1)}
+@keyframes rwrise{from{opacity:0;transform:translateY(24px) scale(.92)}to{opacity:1;transform:none}}
+.rw-kick{font-family:'Mali',cursive;font-weight:700;color:var(--pink);font-size:.9rem}
+.rw-title{font-family:'Mali',cursive;font-size:1.35rem;color:var(--ink);margin:5px 0 14px}
+.rw-pic{width:150px;height:150px;margin:0 auto 12px;border-radius:24px;background:var(--paper);display:grid;place-items:center;overflow:hidden;border:3px solid var(--purple)}
+.rw-pic img{width:100%;height:100%;object-fit:contain}
+.rw-name{font-family:'Mali',cursive;font-size:1.3rem;color:var(--purple-dark);font-weight:700}
+.rw-rar{display:inline-block;margin-top:6px;font-size:.72rem;font-weight:800;color:#fff;padding:4px 12px;border-radius:99px}
+.rw-note{margin:12px 0 16px;color:#8aa0b2;font-size:.88rem}
+.rw-btn{width:100%;font-family:'Mali',cursive;font-weight:700;font-size:1.05rem;border:none;padding:14px;border-radius:14px;background:var(--purple);color:#fff;cursor:pointer;box-shadow:0 4px 0 var(--purple-dark)}
+.rw-btn:active{transform:translateY(4px);box-shadow:none}
+@media(prefers-reduced-motion:reduce){.nb .ni,.rw-card{transition:none;animation:none}}
 </style>
 </head>
 <body>
 <h1>N'Eye Vocab <span class="heart">♡</span></h1>
 <div class="sub">ฝึกวันละนิด เก่งขึ้นทุกวัน!</div>
 
-<div class="tabs">
-  <button class="tab daily-tab active" data-mode="daily">🎯 เล่นวันนี้</button>
-  <button class="tab" data-mode="flash">🃏 การ์ด</button>
-  <button class="tab" data-mode="quiz">✏️ ควิซ</button>
-  <button class="tab" data-mode="fill">📝 เติมคำ</button>
-  <button class="tab" data-mode="match">🔗 จับคู่</button>
-  <button class="tab" data-mode="formal">🎩 คำหรู</button>
-  <button class="tab" data-mode="ielts">📚 IELTS</button>
-  <button class="tab" data-mode="biz">💼 ธุรกิจ</button>
-  <button class="tab" data-mode="reading">📖 เรื่องเล่า</button>
-  <button class="tab" data-mode="bieber">🎤 Bieber</button>
-  <button class="tab" data-mode="bank">🗃️ คลังคำ</button>
-  <button class="tab exam" data-mode="exam">⭐ ติวสอบ</button>
-</div>
-
 <div class="stage">
+
+  <div id="backbar" class="hidden"><button class="backbtn" onclick="goBack()">‹ กลับ</button></div>
+
+  <!-- ==== HUB: ฝึกซ้อม ==== -->
+  <div id="hub-train" class="hidden">
+    <h2 class="hub-title">🎮 เลือกวิธีฝึก</h2>
+    <div class="hub-grid">
+      <button class="hub-item" onclick="openMode('flash')"><span class="hi-ic">🃏</span><span class="hi-t">การ์ดคำ</span><span class="hi-d">พลิกดู + ฟังเสียง</span></button>
+      <button class="hub-item" onclick="openMode('quiz')"><span class="hi-ic">✏️</span><span class="hi-t">ควิซ</span><span class="hi-d">เลือกความหมาย</span></button>
+      <button class="hub-item" onclick="openMode('fill')"><span class="hi-ic">📝</span><span class="hi-t">เติมคำ</span><span class="hi-d">เติมช่องว่าง</span></button>
+      <button class="hub-item" onclick="openMode('match')"><span class="hi-ic">🔗</span><span class="hi-t">จับคู่</span><span class="hi-d">จับคู่ synonym</span></button>
+      <button class="hub-item" onclick="openMode('formal')"><span class="hi-ic">🎩</span><span class="hi-t">คำหรู</span><span class="hi-d">พูดให้ดูโปร</span></button>
+      <button class="hub-item" onclick="openMode('ielts')"><span class="hi-ic">📚</span><span class="hi-t">IELTS</span><span class="hi-d">คำสอบ IELTS</span></button>
+      <button class="hub-item" onclick="openMode('biz')"><span class="hi-ic">💼</span><span class="hi-t">ธุรกิจ</span><span class="hi-d">คำในที่ทำงาน</span></button>
+      <button class="hub-item" onclick="openMode('bieber')"><span class="hi-ic">🎤</span><span class="hi-t">Bieber</span><span class="hi-d">คำจากเพลง</span></button>
+    </div>
+  </div>
+
+  <!-- ==== HUB: อ่าน ==== -->
+  <div id="hub-read" class="hidden">
+    <h2 class="hub-title">📖 อ่าน & ทดสอบ</h2>
+    <div class="hub-grid">
+      <button class="hub-item wide" onclick="openMode('reading')"><span class="hi-ic">📖</span><span class="hi-t">เรื่องเล่า</span><span class="hi-d">อ่านเรื่อง แตะดูคำแปล + ตอบ 5 คำถาม</span></button>
+      <button class="hub-item wide" onclick="openMode('exam')"><span class="hi-ic">⭐</span><span class="hi-t">ติวสอบ</span><span class="hi-d">คำศัพท์แนวข้อสอบ 16 วัน</span></button>
+    </div>
+  </div>
+
+  <!-- ==== ของฉัน (Collection) ==== -->
+  <div id="collection" class="hidden"></div>
 
   <!-- ==== เล่นวันนี้ (Daily Mix) ==== -->
   <div id="daily">
@@ -486,7 +581,32 @@ h1 .heart{color:var(--pink)}
 
 </div>
 
+<!-- ==== เมนูล่าง 5 กลุ่ม ==== -->
+<nav class="bnav">
+  <button class="nb on" data-p="today" onclick="showPage('today')"><span class="ni">🎯</span>วันนี้</button>
+  <button class="nb" data-p="train" onclick="showPage('train')"><span class="ni">🎮</span>ฝึกซ้อม</button>
+  <button class="nb" data-p="read" onclick="showPage('read')"><span class="ni">📖</span>อ่าน</button>
+  <button class="nb" data-p="bank" onclick="showPage('bank')"><span class="ni">🗃️</span>คลังคำ</button>
+  <button class="nb" data-p="me" onclick="showPage('me')"><span class="ni">🏆</span>ของฉัน</button>
+</nav>
+
+<!-- ==== รางวัลปลดล็อกการ์ด ==== -->
+<canvas id="rw-confetti"></canvas>
+<div class="rw-scrim" id="rw-scrim">
+  <div class="rw-card">
+    <div class="rw-kick" id="rw-kick"></div>
+    <div class="rw-title">ปลดล็อกการ์ดใหม่!</div>
+    <div class="rw-pic" id="rw-pic"></div>
+    <div class="rw-name" id="rw-name"></div>
+    <div class="rw-rar" id="rw-rar"></div>
+    <div class="rw-note" id="rw-note"></div>
+    <button class="rw-btn" onclick="closeReward()">เยี่ยมไปเลย! →</button>
+  </div>
+</div>
+
 <script src="data.js"></script>
+<script src="stories.js"></script>
+<script src="seasons.js"></script>
 <script>
 // ============================================================
 // DATA — [English, ความหมายไทย, synonym]
@@ -523,18 +643,30 @@ const shuffle = a => a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v
 const $ = id => document.getElementById(id);
 
 // ============================================================
-// MAIN TABS
+// ROUTER — เมนูล่าง 5 กลุ่ม + hub (ฝึกซ้อม/อ่าน) + back
 // ============================================================
-document.querySelectorAll('.tab').forEach(t=>{
-  t.onclick=()=>{
-    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-    t.classList.add('active');
-    ['daily','flash','quiz','fill','match','formal','ielts','biz','reading','bieber','bank','exam'].forEach(m=>$(m).classList.toggle('hidden', m!==t.dataset.mode));
-    if(t.dataset.mode==='quiz') refreshQzMarkCount();
-    if(t.dataset.mode==='daily') dailyHome();
-    if(t.dataset.mode==='bank') buildBank();
-  };
-});
+const VIEWS=['daily','flash','quiz','fill','match','formal','ielts','biz','reading','bieber','bank','exam','hub-train','hub-read','collection'];
+const MODE_PARENT={flash:'train',quiz:'train',fill:'train',match:'train',formal:'train',ielts:'train',biz:'train',bieber:'train',reading:'read',exam:'read'};
+let curParent='today';
+function hideAllViews(){ VIEWS.forEach(v=>{const e=$(v); if(e) e.classList.add('hidden');}); }
+function setNav(page){ document.querySelectorAll('.nb').forEach(b=>b.classList.toggle('on', b.dataset.p===page)); }
+function showPage(page){
+  hideAllViews(); setNav(page); curParent=page; $('backbar').classList.add('hidden');
+  if(page==='today'){ $('daily').classList.remove('hidden'); dailyHome(); }
+  else if(page==='train'){ $('hub-train').classList.remove('hidden'); }
+  else if(page==='read'){ $('hub-read').classList.remove('hidden'); }
+  else if(page==='bank'){ $('bank').classList.remove('hidden'); buildBank(); }
+  else if(page==='me'){ $('collection').classList.remove('hidden'); buildCollection(); }
+  window.scrollTo(0,0);
+}
+function openMode(mode){
+  const parent=MODE_PARENT[mode]; curParent=parent;
+  hideAllViews(); $(mode).classList.remove('hidden');
+  setNav(parent); $('backbar').classList.remove('hidden');
+  if(mode==='quiz') refreshQzMarkCount();
+  window.scrollTo(0,0);
+}
+function goBack(){ showPage(curParent); }
 
 // ============================================================
 // FLASHCARDS
@@ -1262,6 +1394,12 @@ function dlFinish(){
   s.xp=(s.xp||0)+dlCorrect*10;
   s.goalCount=(s.goalCount||0)+dlTotalQ;
   s.mastered=dlMastered(dlScores());
+  // ครบเป้าวันนี้ครั้งแรก → สุ่มการ์ดรางวัล 1 ใบ
+  let earned=null;
+  if(s.goalCount>=DL_GOAL && s.cardDate!==dlToday()){
+    earned=drawCard();
+    if(earned) s.cardDate=dlToday();
+  }
   dlSaveStats(s);
   $('dl-bar').style.width='100%';
   $('dl-play').classList.add('hidden'); $('dl-end').classList.remove('hidden');
@@ -1271,10 +1409,11 @@ function dlFinish(){
     `ตอบถูก <b>${dlCorrect}/${dlTotalQ}</b> ข้อ<br>`+
     `+${dlCorrect*10} XP · 🔥 streak ${s.streak} วัน`+
     (dlNewMastered?`<br>⭐ แม่นเพิ่ม ${dlNewMastered} คำ!`:'');
+  if(earned) setTimeout(()=>showReward(earned), 550);
 }
 $('dl-start').onclick=startDaily;
 $('dl-again').onclick=startDaily;
-dailyHome();
+showPage('today');
 
 // ============================================================
 // เรื่องเล่า (Reading) — อ่านเรื่อง แตะคำดูคำแปล + ตอบคำถาม
@@ -1384,6 +1523,90 @@ function renderBank(){
   list.appendChild(frag);
   $('bk-count').textContent = q ? `พบ ${shown} คำ ที่ตรงกับ “${raw}”` : `รวมทั้งหมด ${shown} คำ`;
   if(!shown){ const e=document.createElement('div'); e.className='bk-empty'; e.textContent='ไม่พบคำที่ค้นหา 🔍'; list.appendChild(e); }
+}
+
+// ============================================================
+// 🏆 การ์ดสะสม + รางวัล (Collection) — ข้อมูลซีซั่นอยู่ seasons.js
+// ============================================================
+const LOCK_SVG='<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+const cardsLoad=()=>dlLoad('neye_cards',{});
+const cardsSave=o=>localStorage.setItem('neye_cards',JSON.stringify(o));
+const ownedList=sid=>(cardsLoad()[sid]||[]);
+// สุ่มการ์ด 1 ใบจากตัวที่ยังไม่มี ถ่วงน้ำหนักตามความหายาก
+function drawCard(){
+  const store=cardsLoad();
+  for(const s of SEASONS){
+    const owned=new Set(store[s.id]||[]);
+    const pool=s.cards.filter(c=>!owned.has(c.n));
+    if(!pool.length) continue;
+    const w=pool.map(c=>(RARITY[c.rarity]&&RARITY[c.rarity].weight)||1);
+    let r=Math.random()*w.reduce((a,b)=>a+b,0), pick=pool[0];
+    for(let i=0;i<pool.length;i++){ r-=w[i]; if(r<=0){ pick=pool[i]; break; } }
+    store[s.id]=[...(store[s.id]||[]), pick.n]; cardsSave(store);
+    return {season:s, card:pick, isNewSet:(owned.size+1===s.cards.length)};
+  }
+  return null; // เก็บครบทุกซีซั่นแล้ว
+}
+function showReward(res){
+  const {season,card}=res, rar=RARITY[card.rarity]||{label:'',icon:'',color:'#4C9BE0'};
+  const oc=ownedList(season.id).length, tc=season.cards.length;
+  $('rw-pic').innerHTML='<img src="'+season.dir+card.n+'.png" alt="">';
+  $('rw-pic').style.borderColor=rar.color;
+  $('rw-name').textContent=card.name;
+  const tag=$('rw-rar'); tag.textContent=rar.icon+' '+rar.label; tag.style.background=rar.color;
+  $('rw-kick').textContent='🎉 ครบเป้าวันนี้! streak '+dlStats().streak+' วัน';
+  $('rw-note').innerHTML = oc>=tc ? ('เก็บครบชุด '+season.name+' แล้ว! 🏆') : ('ชุด '+season.name+' · เก็บได้ <b>'+oc+'/'+tc+'</b>');
+  $('rw-scrim').classList.add('on');
+  if(!matchMedia('(prefers-reduced-motion:reduce)').matches) rwBoom();
+}
+function closeReward(){ $('rw-scrim').classList.remove('on'); $('rw-confetti').classList.remove('on'); if(!$('collection').classList.contains('hidden')) buildCollection(); }
+
+// confetti
+let rwParts=[],rwRaf=0;
+function rwBoom(){
+  const cv=$('rw-confetti'), cx=cv.getContext('2d');
+  cv.width=innerWidth; cv.height=innerHeight; cv.classList.add('on');
+  const COL=['#4C9BE0','#FF9E73','#5FBF8C','#F2A93A','#8FC4EE'];
+  rwParts=[];
+  for(let i=0;i<90;i++) rwParts.push({x:innerWidth/2,y:innerHeight*.4,vx:(Math.random()-.5)*9,vy:Math.random()*-11-3,
+    g:.3+Math.random()*.15,s:5+Math.random()*6,c:COL[i%COL.length],r:Math.random()*6,vr:(Math.random()-.5)*.35,life:0});
+  cancelAnimationFrame(rwRaf); rwTick(cx,cv);
+}
+function rwTick(cx,cv){
+  cx.clearRect(0,0,cv.width,cv.height); let alive=false;
+  rwParts.forEach(p=>{p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;p.life++; if(p.y<innerHeight+30)alive=true;
+    cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);cx.fillStyle=p.c;cx.globalAlpha=Math.max(0,1-p.life/130);
+    cx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);cx.restore();});
+  if(alive) rwRaf=requestAnimationFrame(()=>rwTick(cx,cv)); else cv.classList.remove('on');
+}
+
+function buildCollection(){
+  const s=dlStats(), sc=dlScores();
+  const totalCards=SEASONS.reduce((a,se)=>a+ownedList(se.id).length,0);
+  let h='<div class="col-stats">'
+    +'<div class="cs flame"><b>'+s.streak+'</b><span>🔥 วันติด</span></div>'
+    +'<div class="cs"><b>'+dlMastered(sc)+'</b><span>⭐ คำแม่น</span></div>'
+    +'<div class="cs"><b>'+totalCards+'</b><span>💎 การ์ด</span></div></div>';
+  // streak track
+  const miles=[3,7,14,30,100];
+  const done=miles.filter(m=>s.streak>=m).length;
+  const fillPct=done>0 ? ((done-1)/(miles.length-1))*82 : 0;
+  h+='<h2 class="hub-title" style="margin:18px 2px 12px">🔥 รางวัลตาม streak</h2><div class="col-track"><div class="miles"><div class="fill" style="width:'+fillPct+'%"></div>';
+  miles.forEach((m,i)=>{ const cls=s.streak>=m?'done':(i===done?'now':''); h+='<div class="mnode '+cls+'"><div class="mdot">'+m+'</div><div class="mlab">'+m+' วัน</div></div>'; });
+  h+='</div></div>';
+  // seasons
+  SEASONS.forEach(se=>{
+    const owned=new Set(ownedList(se.id)), oc=owned.size, tc=se.cards.length;
+    h+='<div class="set-head"><h3>🎬 ชุด: '+se.name+'</h3><span class="sc">'+oc+' / '+tc+'</span></div>';
+    h+='<p class="set-note">เล่นครบเป้าทุกวัน = สุ่มได้การ์ด 1 ใบ · ตัวหายากต้องลุ้นหน่อยนะ ✨</p>';
+    h+='<div class="set-bar"><i style="width:'+(tc?oc/tc*100:0)+'%"></i></div><div class="card-grid">';
+    se.cards.forEach(c=>{
+      if(owned.has(c.n)) h+='<div class="card-cell '+c.rarity+'"><div class="cc-pic"><img src="'+se.dir+c.n+'.png" alt="'+c.name+'"></div><div class="cc-nm">'+c.name+'</div></div>';
+      else h+='<div class="card-cell locked"><div class="cc-pic"><span class="lock-ic">'+LOCK_SVG+'</span></div><div class="cc-nm">???</div></div>';
+    });
+    h+='</div>';
+  });
+  $('collection').innerHTML=h;
 }
 </script>
 </body>
