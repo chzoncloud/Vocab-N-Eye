@@ -6,8 +6,8 @@
 // ============================================================
 const RARITY = {
   common:      { label:"ธรรมดา",       icon:"⚪", weight:10, color:"#8496A6" },
-  secret:      { label:"Secret",       icon:"✨", weight:3,  color:"#4C9BE0" },
-  supersecret: { label:"Super Secret", icon:"🌟", weight:1,  color:"#F0A93A" },
+  secret:      { label:"Secret",       icon:"✨", weight:3,  color:"#9AAABA" }, // เงิน
+  supersecret: { label:"Super Secret", icon:"🌟", weight:1,  color:"#E3A82F" }, // ทอง
 };
 
 const SEASONS = [

@@ -251,9 +251,10 @@ body{padding-bottom:98px}
   display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));z-index:50}
 .nb{background:none;border:none;font-family:'Mali',cursive;cursor:pointer;flex:1;display:flex;flex-direction:column;
   align-items:center;gap:2px;color:#9aa7b4;font-weight:700;font-size:.7rem;padding:4px 0 2px;position:relative}
-.nb .ni{font-size:1.4rem;line-height:1;transition:transform .2s cubic-bezier(.22,1,.36,1);filter:grayscale(.5);opacity:.65}
+.nb .ni{line-height:1;transition:transform .2s cubic-bezier(.22,1,.36,1);filter:grayscale(.55);opacity:.6}
+img.ni{width:auto;height:40px;object-fit:contain;display:block}
 .nb.on{color:var(--purple-dark)}
-.nb.on .ni{transform:translateY(-3px) scale(1.12);filter:none;opacity:1}
+.nb.on .ni{transform:translateY(-4px) scale(1.14);filter:none;opacity:1}
 .nb.on::before{content:"";position:absolute;top:-8px;width:22px;height:4px;border-radius:99px;background:var(--purple)}
 
 /* ===== back bar + hubs ===== */
@@ -301,9 +302,20 @@ body{padding-bottom:98px}
 .cc-nm{font-size:.74rem;font-weight:700;color:var(--ink);line-height:1.15}
 .card-cell.locked .cc-pic{background:#EFF4F9;border:2px dashed #C9D8E5}
 .card-cell.locked .cc-nm{color:#aebecc}
-.card-cell.secret .cc-pic{border:2px solid var(--purple)}
-.card-cell.supersecret .cc-pic{border:2px solid var(--gold)}
 .lock-ic{color:#c1d0dd}
+/* ✨ secret = กรอบเงิน · 🌟 supersecret = กรอบทอง + ลายวิบวับ */
+.card-cell.secret,.card-cell.supersecret{padding-top:16px}
+.card-cell.secret .cc-pic{border:2.5px solid #B4BECB;box-shadow:0 0 0 1px #DDE3EA,0 4px 12px rgba(150,165,185,.4);position:relative;overflow:hidden}
+.card-cell.supersecret .cc-pic{border:2.5px solid #E3A82F;box-shadow:0 0 0 1px #F7D877,0 5px 15px rgba(224,169,58,.5);position:relative;overflow:hidden}
+.card-cell.secret .cc-pic::after,.card-cell.supersecret .cc-pic::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg,transparent 38%,rgba(255,255,255,.65) 50%,transparent 62%);transform:translateX(-130%);animation:cardshine 3.4s ease-in-out infinite}
+.card-cell.secret .cc-pic::after{animation-duration:4.6s;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.5) 50%,transparent 60%)}
+@keyframes cardshine{0%,55%{transform:translateX(-130%)}100%{transform:translateX(130%)}}
+.card-cell.locked.secret .cc-pic,.card-cell.locked.supersecret .cc-pic{background:#F4F8FC;border-style:solid}
+.rar-badge{position:absolute;top:-8px;left:50%;transform:translateX(-50%);z-index:3;font-size:.56rem;font-weight:800;
+  padding:2px 9px;border-radius:99px;white-space:nowrap;box-shadow:0 2px 5px rgba(40,60,90,.22)}
+.rar-badge.sc{background:linear-gradient(135deg,#F1F4F8,#AEB8C6);color:#3f4a57}
+.rar-badge.ss{background:linear-gradient(135deg,#FCE7A0,#E0A32C);color:#5f4408}
 .newpop{position:absolute;top:-7px;right:-5px;background:var(--pink);color:#fff;font-size:.58rem;font-weight:800;padding:2px 7px;border-radius:99px}
 
 /* ===== reward reveal ===== */
@@ -583,11 +595,11 @@ body{padding-bottom:98px}
 
 <!-- ==== เมนูล่าง 5 กลุ่ม ==== -->
 <nav class="bnav">
-  <button class="nb on" data-p="today" onclick="showPage('today')"><span class="ni">🎯</span>วันนี้</button>
-  <button class="nb" data-p="train" onclick="showPage('train')"><span class="ni">🎮</span>ฝึกซ้อม</button>
-  <button class="nb" data-p="read" onclick="showPage('read')"><span class="ni">📖</span>อ่าน</button>
-  <button class="nb" data-p="bank" onclick="showPage('bank')"><span class="ni">🗃️</span>คลังคำ</button>
-  <button class="nb" data-p="me" onclick="showPage('me')"><span class="ni">🏆</span>ของฉัน</button>
+  <button class="nb on" data-p="today" onclick="showPage('today')"><img class="ni" src="assets/nav/luffy.svg" alt="">วันนี้</button>
+  <button class="nb" data-p="train" onclick="showPage('train')"><img class="ni" src="assets/nav/zoro.svg" alt="">ฝึกซ้อม</button>
+  <button class="nb" data-p="read" onclick="showPage('read')"><img class="ni" src="assets/nav/usopp.svg" alt="">อ่าน</button>
+  <button class="nb" data-p="bank" onclick="showPage('bank')"><img class="ni" src="assets/nav/nami.svg" alt="">คลังคำ</button>
+  <button class="nb" data-p="me" onclick="showPage('me')"><img class="ni" src="assets/nav/chopper.svg" alt="">ของฉัน</button>
 </nav>
 
 <!-- ==== รางวัลปลดล็อกการ์ด ==== -->
@@ -1554,6 +1566,7 @@ function showReward(res){
   $('rw-pic').style.borderColor=rar.color;
   $('rw-name').textContent=card.name;
   const tag=$('rw-rar'); tag.textContent=rar.icon+' '+rar.label; tag.style.background=rar.color;
+  tag.style.color = card.rarity==='common' ? '#fff' : '#33322e';
   $('rw-kick').textContent='🎉 ครบเป้าวันนี้! streak '+dlStats().streak+' วัน';
   $('rw-note').innerHTML = oc>=tc ? ('เก็บครบชุด '+season.name+' แล้ว! 🏆') : ('ชุด '+season.name+' · เก็บได้ <b>'+oc+'/'+tc+'</b>');
   $('rw-scrim').classList.add('on');
@@ -1601,8 +1614,10 @@ function buildCollection(){
     h+='<p class="set-note">เล่นครบเป้าทุกวัน = สุ่มได้การ์ด 1 ใบ · ตัวหายากต้องลุ้นหน่อยนะ ✨</p>';
     h+='<div class="set-bar"><i style="width:'+(tc?oc/tc*100:0)+'%"></i></div><div class="card-grid">';
     se.cards.forEach(c=>{
-      if(owned.has(c.n)) h+='<div class="card-cell '+c.rarity+'"><div class="cc-pic"><img src="'+se.dir+c.n+'.png" alt="'+c.name+'"></div><div class="cc-nm">'+c.name+'</div></div>';
-      else h+='<div class="card-cell locked"><div class="cc-pic"><span class="lock-ic">'+LOCK_SVG+'</span></div><div class="cc-nm">???</div></div>';
+      const badge = c.rarity==='supersecret' ? '<span class="rar-badge ss">🌟 Super Secret</span>'
+                  : c.rarity==='secret' ? '<span class="rar-badge sc">✨ Secret</span>' : '';
+      if(owned.has(c.n)) h+='<div class="card-cell '+c.rarity+'">'+badge+'<div class="cc-pic"><img src="'+se.dir+c.n+'.png" alt="'+c.name+'"></div><div class="cc-nm">'+c.name+'</div></div>';
+      else h+='<div class="card-cell locked '+c.rarity+'">'+badge+'<div class="cc-pic"><span class="lock-ic">'+LOCK_SVG+'</span></div><div class="cc-nm">???</div></div>';
     });
     h+='</div>';
   });
