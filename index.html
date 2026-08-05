@@ -326,6 +326,24 @@ img.ni{width:auto;height:40px;object-fit:contain;display:block}
 .rar-badge.ss{background:linear-gradient(135deg,#FCE7A0,#E0A32C);color:#5f4408}
 .newpop{position:absolute;top:-7px;right:-5px;background:var(--pink);color:#fff;font-size:.58rem;font-weight:800;padding:2px 7px;border-radius:99px}
 
+/* ===== แผงเรื่องพับได้ (กดอ่านซ้ำตอนตอบคำถาม) + ป้ายระดับ/ชนิดคำถาม ===== */
+.psg{margin-bottom:12px;background:#fff;border:2px solid var(--grid);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.psg>summary{font-family:'Mali',cursive;font-weight:700;font-size:.92rem;color:var(--purple-dark);
+  padding:11px 14px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:6px}
+.psg>summary::-webkit-details-marker{display:none}
+.psg>summary::after{content:"▾";margin-left:auto;transition:transform .2s}
+.psg[open]>summary::after{transform:rotate(180deg)}
+.psg[open]>summary{border-bottom:2px solid var(--grid)}
+.psg-body{margin:12px 12px 4px;font-size:.98rem;line-height:1.85;max-height:44vh;overflow-y:auto}
+.psg .wordtip{margin:0 12px 12px}
+.rd-lv{display:inline-block;font-family:'Mali',cursive;font-weight:700;font-size:.76rem;color:var(--purple-dark);
+  background:var(--pink-soft);border:1.5px solid var(--pink);border-radius:999px;padding:3px 12px;margin:0 0 10px}
+.rd-lv.hard{background:#FFF3D9;border-color:var(--gold);color:#9a6a05}
+.rd-qtype{font-size:.75rem;font-weight:700;color:var(--purple-dark);background:var(--paper);
+  border:1.5px solid var(--grid);border-radius:999px;padding:2px 10px;display:inline-block;margin-bottom:7px}
+.day-btn.hard{border-color:var(--gold);color:#9a6a05}
+.day-btn.hard.active{background:var(--gold);color:#3d2c00}
+
 /* ===== reward reveal ===== */
 .rw-scrim{position:fixed;inset:0;background:rgba(30,55,80,.55);backdrop-filter:blur(3px);z-index:70;display:none;align-items:center;justify-content:center;padding:24px}
 .rw-scrim.on{display:flex}
@@ -1062,7 +1080,7 @@ const FILL_MAIN=[
   ...SENTENCES.map((s,i)=>[...s, i<10?0:i<20?1:i<30?2:3]),
   ...NEW_SENTENCES,
   // ดึงข้อสอบวัน Beginner (d11-13) มาฝึกในโหมดเติมคำหลักด้วย
-  ...['d11','d12','d13','d15','d16','d17','d18','d19','d20','d21','d22','d23','d24'].flatMap(k=>(EXAMS[k]?EXAMS[k].sent:[]).map(s=>[...s,0]))
+  ...['d11','d12','d13','d15','d16','d17','d18','d19','d20','d21','d22','d23','d24','d25','d26','d27','d28'].flatMap(k=>(EXAMS[k]?EXAMS[k].sent:[]).map(s=>[...s,0]))
 ];
 makeFill(FILL_MAIN,'fi',{levelFn:item=>LVLBADGE[item[4]??0]});
 
@@ -1334,7 +1352,7 @@ function startDaily(){
     const story=stories[si];
     localStorage.setItem('neye_storyidx', String((si+1)%stories.length));
     items.push({type:'story',story});
-    story.q.slice(0,5).forEach(q=>items.push({type:'sq',q}));
+    story.q.slice(0,5).forEach(q=>items.push({type:'sq',q,story}));
   }
   // บล็อก 2: เติมคำ — 5 ข้อ
   const allFill=[...(typeof SENTENCES!=='undefined'?SENTENCES:[]), ...(typeof NEW_SENTENCES!=='undefined'?NEW_SENTENCES:[])];
@@ -1364,10 +1382,24 @@ function dlRender(){
   $('dl-bar').style.width=(qBefore/dlTotalQ*100)+'%';
   const box=$('dl-stageq'); box.innerHTML='';
   if(it.type==='story')      return dlRenderStory(it,box);
-  if(it.type==='sq')         return dlRenderMCQ(box,'❓ คำถามจากเรื่อง', it.q[0], 'q-word', it.q[1], it.q[2], null, null);
+  if(it.type==='sq')         return dlRenderMCQ(box, QTYPE[it.q[3]]||'❓ คำถามจากเรื่อง', it.q[0], 'q-word', it.q[1], it.q[2], null, null, it.story);
   if(it.type==='fill')       return dlRenderMCQ(box,'📝 เติมคำในช่องว่าง', it.s[0].replace('___','______'), 'dl-sentence', it.s[1], it.s[3], null, it.s[2]);
   /* vocab */                const d=dlVocabDistractors(it.w,it.pool);
   return dlRenderMCQ(box,'🔤 คำนี้แปลว่าอะไร?', it.w.en, 'q-word', it.w.th, [it.w.th,...d], it.w.en, null);
+}
+// ป้ายบอกชนิดคำถาม (โจทย์ระดับสูงจะไม่ใช่การหาคำตอบตรงๆ ในเนื้อเรื่อง)
+const QTYPE={
+  main:'🎯 จับใจความหลัก', inference:'🧠 อนุมาน (คิดต่อจากเรื่อง)',
+  vocab:'🔤 เดาความหมายจากบริบท', detail:'🔍 รายละเอียด', tone:'🎭 น้ำเสียง / เจตนาผู้เขียน'
+};
+// แผงเรื่องแบบพับได้ — กดดูเนื้อเรื่องซ้ำได้ตอนตอบคำถาม
+function passagePanel(story){
+  const d=document.createElement('details'); d.className='psg';
+  const s=document.createElement('summary'); s.textContent='📖 อ่านเรื่องอีกครั้ง'; d.appendChild(s);
+  const para=document.createElement('div'); para.className='sentence rd-para psg-body'; d.appendChild(para);
+  const tip=document.createElement('div'); tip.className='wordtip empty'; d.appendChild(tip);
+  d.addEventListener('toggle',()=>{ if(d.open && !para.dataset.built){ para.dataset.built='1'; renderTappable(para, story.text, tip); } },{once:false});
+  return d;
 }
 function dlRenderStory(it,box){
   const wrap=dlEl('div','dl-pop');
@@ -1381,8 +1413,9 @@ function dlRenderStory(it,box){
   btn.onclick=dlNext; wrap.appendChild(btn);
   box.appendChild(wrap); window.scrollTo(0,0);
 }
-function dlRenderMCQ(box,label,promptText,promptCls,answerText,choices,srsKey,thHint){
+function dlRenderMCQ(box,label,promptText,promptCls,answerText,choices,srsKey,thHint,story){
   const wrap=dlEl('div','dl-pop');
+  if(story) wrap.appendChild(passagePanel(story));
   const qbox=dlEl('div','q-box');
   qbox.appendChild(dlEl('div','q-label',label));
   qbox.appendChild(dlEl('div',promptCls,promptText));
@@ -1443,8 +1476,8 @@ function makeReading(){
   const sel=$('rd-select'), body=$('rd-body');
   (typeof STORIES!=='undefined'?STORIES:[]).forEach((st,i)=>{
     const b=document.createElement('button');
-    b.className='day-btn'+(i===0?' active':'');
-    b.textContent='📖 '+(i+1);
+    b.className='day-btn'+(i===0?' active':'')+(st.lv>=4?' hard':'');
+    b.textContent=(i+1)+(st.lv?' · Lv'+st.lv:'');
     b.onclick=()=>{
       sel.querySelectorAll('.day-btn').forEach(x=>x.classList.remove('active'));
       b.classList.add('active'); renderStory(i);
@@ -1455,6 +1488,11 @@ function makeReading(){
     const st=STORIES[i];
     body.innerHTML='';
     const title=document.createElement('div'); title.className='rd-title'; title.textContent=st.t; body.appendChild(title);
+    if(st.lv){
+      const lvl=document.createElement('div'); lvl.className='rd-lv'+(st.lv>=4?' hard':'');
+      lvl.textContent='Level '+st.lv+(st.lv>=4?' · โจทย์แนวคิดวิเคราะห์':' · เริ่มต้น');
+      body.appendChild(lvl);
+    }
     const note=document.createElement('div'); note.className='tap-note'; note.textContent='👆 แตะคำในเรื่องเพื่อดูคำแปล'; body.appendChild(note);
     const para=document.createElement('div'); para.className='sentence rd-para'; para.style.borderColor='var(--purple)'; body.appendChild(para);
     const tip=document.createElement('div'); tip.className='wordtip empty'; body.appendChild(tip);
@@ -1465,6 +1503,7 @@ function makeReading(){
     scoreEl.textContent='คะแนน: 0/'+total;
     st.q.forEach((q,qi)=>{
       const item=document.createElement('div'); item.className='rd-item';
+      if(q[3] && QTYPE[q[3]]){ const tg=document.createElement('div'); tg.className='rd-qtype'; tg.textContent=QTYPE[q[3]]; item.appendChild(tg); }
       const qt=document.createElement('div'); qt.className='rd-qtext';
       const num=document.createElement('span'); num.className='rd-qnum'; num.textContent=(qi+1);
       const qtxt=document.createElement('span'); qtxt.textContent=q[0];
