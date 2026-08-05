@@ -12,7 +12,7 @@ const TOEIC = [
 
 // ---------- PART 6 : เติมคำ ----------
 {
- id:"p6-lift", part:6, kind:"ประกาศภายในบริษัท",
+ id:"p6-lift", zone:"doc", part:6, kind:"ประกาศภายในบริษัท",
  doc:{
   head:[["To","All Staff"],["From","Building Management"],["Subject","Lift maintenance"],["Date","12 August"]],
   body:[
@@ -39,7 +39,7 @@ const TOEIC = [
 },
 
 {
- id:"p6-parcel", part:6, kind:"อีเมลร้องเรียน",
+ id:"p6-parcel", zone:"doc", part:6, kind:"อีเมลร้องเรียน",
  doc:{
   head:[["To","Customer Service, Bright Home Ltd."],["From","Suda Meesuk"],
         ["Subject","Order BH-40912 – missing item"],["Date","3 September"]],
@@ -68,7 +68,7 @@ const TOEIC = [
 
 // ---------- PART 7 : อ่านจับใจความ ----------
 {
- id:"p7-chat", part:7, kind:"แชทข้อความ",
+ id:"p7-chat", zone:"doc", part:7, kind:"แชทข้อความ",
  doc:{
   chat:[
    ["Nok Wattana","9:14 A.M.","Good morning. The delivery from Ratana Supplies is here, but the driver's list shows only 8 boxes. We ordered 12."],
@@ -102,7 +102,7 @@ const TOEIC = [
 },
 
 {
- id:"p7-form", part:7, kind:"ใบรับซ่อม",
+ id:"p7-form", zone:"doc", part:7, kind:"ใบรับซ่อม",
  doc:{
   title:"CHAROEN WATCH & CLOCK REPAIR",
   rows:[
@@ -133,7 +133,7 @@ const TOEIC = [
 },
 
 {
- id:"p7-job", part:6, kind:"ประกาศรับสมัครงาน",
+ id:"p7-job", zone:"doc", part:6, kind:"ประกาศรับสมัครงาน",
  doc:{
   title:"WAREHOUSE TEAM LEADER WANTED",
   body:[
@@ -161,47 +161,42 @@ const TOEIC = [
 
 // ---------- แนว CU-TEP : บทความสารคดี + คำถามจับใจความ ----------
 {
- id:"cutep-banana", part:7, kind:"บทความสารคดี (แนว CU-TEP)",
+ id:"cutep-banana", zone:"passage", part:7, kind:"บทความสารคดี (แนว CU-TEP)",
  doc:{
-  title:"How Bananas Reach the Other Side of the World",
+  title:"How Bananas Travel So Far",
   body:[
-   "The Philippines is one of the largest exporters of bananas in the world, and most of its plantations are in the southern island of Mindanao, especially around Davao. Almost all of the fruit grown for export belongs to a single variety called the Cavendish. Because the plants are grown from cuttings rather than seeds, the trees in a plantation are close to identical to one another.",
-   "Export bananas are never picked ripe. They are cut down while they are still hard and green, usually about twelve weeks after the flower appears. A ripe banana would arrive at its destination as a bag of brown pulp, so the fruit has to make the journey in an unfinished state. After cutting, the bunches are washed, divided into smaller hands, and packed into boxes on the same day.",
-   "The boxes then travel in refrigerated containers kept at roughly thirteen degrees Celsius. This temperature is low enough to slow the fruit down but not low enough to damage it. A shipment to Japan or Korea may take under a week, while a shipment to the Middle East can take three weeks or more. Throughout the voyage the bananas are still alive and still breathing, and the containers must remove the gases the fruit produces.",
-   "The last stage happens near the market rather than near the farm. The boxes are moved into sealed ripening rooms and exposed to ethylene, a gas that bananas themselves produce naturally as they ripen. Within a few days the skin turns yellow and the starch inside becomes sugar. Buyers can order fruit at a particular stage of ripeness, so a supermarket and a hotel kitchen may receive bananas from the same shipment on different days."
+   "The Philippines is one of the biggest banana exporters in the world. Almost all of the fruit grown for export is a single variety called the Cavendish, and most of it comes from the southern island of Mindanao.",
+   "Export bananas are never picked ripe. They are cut down while they are still hard and green, because a ripe banana would arrive as a bag of brown pulp. The boxes then travel in cold containers kept at roughly thirteen degrees. This is cool enough to slow the fruit down, but not cold enough to damage it.",
+   "The last stage happens near the market rather than near the farm. The boxes are moved into sealed rooms and exposed to ethylene, a gas that bananas produce naturally as they ripen. Within a few days the skin turns yellow and the starch inside becomes sugar."
   ]
  },
  q:[
-  ["This passage mainly discusses","how bananas are grown, shipped, and ripened for export",
-   ["how bananas are grown, shipped, and ripened for export","why the Cavendish variety tastes better than others",
-    "the economy of the southern Philippines","the correct way to store fruit at home"],
-   "ทั้งบทความไล่ตามลำดับ: ปลูกที่ไหน → ตัดตอนเขียว → ขนส่งแบบแช่เย็น → บ่มให้สุกใกล้ตลาด · ข้อ B, C, D เป็นแค่รายละเอียดปลีกย่อยในย่อหน้าเดียว ไม่ใช่แก่นทั้งเรื่อง"],
-  ["According to the passage, why are bananas cut down while they are still green?",
-   "A ripe banana would be ruined during the long journey",
-   ["A ripe banana would be ruined during the long journey","Green bananas are cheaper to buy",
-    "The plants are damaged if the fruit stays on too long","Buyers prefer the taste of green fruit"],
-   "ย่อหน้า 2 บอกตรงๆ ว่ากล้วยสุกจะไปถึงปลายทางในสภาพ ‘ถุงเนื้อสีน้ำตาล’ → ต้องตัดตอนยังดิบ · เรื่องราคาและรสชาติไม่มีในบทความเลย"],
-  ["As used in paragraph 3, the word \"roughly\" is closest in meaning to","approximately",
+  ["This passage mainly discusses","how bananas are shipped and ripened for export",
+   ["how bananas are shipped and ripened for export","why the Cavendish tastes better than other kinds",
+    "the economy of the southern Philippines","how to keep fruit fresh at home"],
+   "ทั้งบทความไล่ตามลำดับ: ปลูกที่ไหน → ตัดตอนเขียว → ขนส่งแช่เย็น → บ่มใกล้ตลาด · ข้ออื่นเป็นแค่รายละเอียดเดียว ไม่ใช่แก่นทั้งเรื่อง"],
+  ["According to the passage, why are bananas cut down while they are green?",
+   "A ripe banana would be ruined on the long journey",
+   ["A ripe banana would be ruined on the long journey","Green bananas are cheaper to buy",
+    "The plants are damaged if the fruit stays on","Buyers prefer the taste of green fruit"],
+   "ย่อหน้า 2 บอกตรงๆ ว่ากล้วยสุกจะไปถึงปลายทางในสภาพ ‘ถุงเนื้อสีน้ำตาล’ · เรื่องราคาและรสชาติไม่มีในบทความเลย"],
+  ["As used in paragraph 2, the word “roughly” is closest in meaning to","approximately",
    ["approximately","harshly","rarely","completely"],
-   "\"roughly thirteen degrees\" = ประมาณ 13 องศา — ในบริบทตัวเลข roughly แปลว่า ‘ราวๆ’ · ความหมายอีกอันของ rough (หยาบ/รุนแรง) ใช้กับตัวเลขไม่ได้ ต้องดูบริบทเสมอ"],
-  ["It can be inferred from the passage that the ripening rooms are located","close to the countries where the fruit is sold",
-   ["close to the countries where the fruit is sold","inside the plantations in Mindanao",
-    "on board the refrigerated ships","in the factories that make the boxes"],
-   "ย่อหน้า 4 ขึ้นต้นว่า ‘happens near the market rather than near the farm’ = เกิดใกล้ตลาดไม่ใช่ใกล้ฟาร์ม → อนุมานได้ว่าอยู่ใกล้ประเทศปลายทาง"],
+   "‘roughly thirteen degrees’ = ประมาณ 13 องศา — เวลาอยู่หน้าตัวเลข roughly แปลว่า ‘ราวๆ’ · อีกความหมายคือ หยาบ/รุนแรง ซึ่งใช้กับตัวเลขไม่ได้ ต้องดูบริบทเสมอ"],
+  ["It can be inferred that the ripening rooms are located","near the countries where the fruit is sold",
+   ["near the countries where the fruit is sold","inside the plantations in Mindanao",
+    "on board the ships","in the factories that make the boxes"],
+   "ย่อหน้า 3 ขึ้นต้นว่า ‘near the market rather than near the farm’ = ใกล้ตลาด ไม่ใช่ใกล้ฟาร์ม → อนุมานได้ว่าอยู่ใกล้ประเทศปลายทาง"],
   ["Which of the following is NOT mentioned in the passage?","The price paid to the farmers",
    ["The price paid to the farmers","The temperature inside the containers",
-    "The name of the banana variety","How long the voyage to Japan takes"],
-   "ระวังคำว่า NOT — บทความบอกอุณหภูมิ (13 องศา), ชื่อพันธุ์ (Cavendish) และระยะเวลาส่งไปญี่ปุ่น (ไม่ถึงหนึ่งสัปดาห์) แต่ ‘ราคาที่เกษตรกรได้รับ’ ไม่ถูกพูดถึงเลย"],
-  ["What can be inferred about the bananas during the voyage?","They are still changing and need to be controlled",
-   ["They are still changing and need to be controlled","They are completely frozen until arrival",
-    "They are treated with ethylene on the ship","They are sorted again by hand each day"],
-   "ย่อหน้า 3 บอกว่ากล้วย ‘still alive and still breathing’ และตู้ต้องดึงแก๊สที่ผลไม้ปล่อยออกมา → ยังเปลี่ยนแปลงอยู่ ต้องควบคุม · ข้อ C ผิดเพราะเอทิลีนใช้ตอนถึงห้องบ่มแล้ว"]
+    "The name of the banana variety","Where most of the fruit is grown"],
+   "ระวังคำว่า NOT — บทความบอกอุณหภูมิ (13 องศา), ชื่อพันธุ์ (Cavendish) และแหล่งปลูก (Mindanao) แต่ ‘ราคาที่เกษตรกรได้รับ’ ไม่ถูกพูดถึงเลย"]
  ]
 },
 
 // ---------- แนว CU-TEP : บทความเจาะช่องว่าง (ทบทวนคำจากคลังเรา) ----------
 {
- id:"cutep-cloze-sleep", part:6, kind:"บทความเจาะช่องว่าง (แนว CU-TEP)",
+ id:"cutep-cloze-sleep", zone:"passage", part:6, kind:"บทความเจาะช่องว่าง (แนว CU-TEP)",
  doc:{
   title:"Sleep and the Working Week",
   body:[

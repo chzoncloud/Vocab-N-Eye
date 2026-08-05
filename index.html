@@ -425,15 +425,14 @@ img.ni{width:auto;height:40px;object-fit:contain;display:block}
     <div class="hub-grid">
       <button class="hub-item wide" onclick="openMode('reading')"><span class="hi-ic">📖</span><span class="hi-t">เรื่องเล่า</span><span class="hi-d">อ่านเรื่อง แตะดูคำแปล + ตอบ 5 คำถาม</span></button>
       <button class="hub-item wide" onclick="openMode('exam')"><span class="hi-ic">⭐</span><span class="hi-t">ติวสอบ</span><span class="hi-d">คำศัพท์แนวข้อสอบ 16 วัน</span></button>
-      <button class="hub-item wide" onclick="openMode('toeic')"><span class="hi-ic">📋</span><span class="hi-t">อ่านสอบ</span><span class="hi-d">แนว TOEIC / CU-TEP: อีเมล ประกาศ แชท บทความ</span></button>
+      <button class="hub-item wide" onclick="openToeic('passage')"><span class="hi-ic">📰</span><span class="hi-t">บทความ (Passage)</span><span class="hi-d">อ่านบทความยาว แล้วตอบคำถาม · แนว CU-TEP</span></button>
+      <button class="hub-item wide" onclick="openToeic('doc')"><span class="hi-ic">📋</span><span class="hi-t">เอกสาร</span><span class="hi-d">อีเมล ประกาศ แชท ใบเสร็จ · แนว TOEIC</span></button>
     </div>
   </div>
 
   <!-- ==== TOEIC ==== -->
   <div id="toeic" class="hidden">
-    <div class="exam-banner" style="background:#eef4fb;border-color:var(--purple)">
-      📋 อ่านเอกสารแบบที่เจอในชีวิตจริง แล้วตอบคำถาม — มีเฉลยอธิบายทุกข้อ
-    </div>
+    <div class="exam-banner" id="tc-banner" style="background:#eef4fb;border-color:var(--purple)"></div>
     <div class="day-select" id="tc-select"></div>
     <div id="tc-body"></div>
   </div>
@@ -1409,23 +1408,24 @@ function dlVocabDistractors(cur, pool){
 let dlQueue=[],dlIdx=0,dlCorrect=0,dlCombo=0,dlNewMastered=0,dlTotalQ=15;
 function startDaily(){
   const items=[];
-  // บล็อก 1: เรื่องเล่า — เรียงตามลำดับ 1→2→3… (วนกลับเมื่อครบ) + 5 คำถามเรียงตามเรื่อง
-  const stories=(typeof STORIES!=='undefined'?STORIES:[]);
-  if(stories.length){
-    let si=dlLoad('neye_storyidx',0)%stories.length;
-    const story=stories[si];
-    localStorage.setItem('neye_storyidx', String((si+1)%stories.length));
-    items.push({type:'story',story});
-    story.q.slice(0,5).forEach(q=>items.push({type:'sq',q,story}));
+  // บล็อก 1: อ่านสอบ (เอกสาร/บทความ) — เรียงตามลำดับ วนกลับเมื่อครบ + คำถามสูงสุด 5 ข้อ
+  const docs=(typeof TOEIC!=='undefined'?TOEIC:[]);
+  if(docs.length){
+    let si=dlLoad('neye_docidx',0)%docs.length;
+    const item=docs[si];
+    localStorage.setItem('neye_docidx', String((si+1)%docs.length));
+    items.push({type:'doc',item});
+    item.q.slice(0,5).forEach(q=>items.push({type:'dq',q,item}));
   }
   // บล็อก 2: เติมคำ — 5 ข้อ
   const allFill=[...(typeof SENTENCES!=='undefined'?SENTENCES:[]), ...(typeof NEW_SENTENCES!=='undefined'?NEW_SENTENCES:[])];
   shuffle(allFill).slice(0,5).forEach(s=>items.push({type:'fill',s}));
-  // บล็อก 3: ศัพท์สุ่มจากทุกหมวด — 5 ข้อ
+  // บล็อก 3: ศัพท์สุ่มจากทุกหมวด — เติมให้ครบ 15 ข้อพอดี (กันการ์ดรางวัลไม่ออก)
   const pool=dlVocabPool();
-  dlPickVocab(5,pool).forEach(w=>items.push({type:'vocab',w,pool}));
+  const need=Math.max(3, DL_SESSION - items.filter(i=>i.type!=='doc').length);
+  dlPickVocab(need,pool).forEach(w=>items.push({type:'vocab',w,pool}));
 
-  dlTotalQ=items.filter(i=>i.type!=='story').length;
+  dlTotalQ=items.filter(i=>i.type!=='doc').length;
   if(dlTotalQ<3) return; // กันเคสข้อมูลว่าง
   dlQueue=items; dlIdx=0; dlCorrect=0; dlCombo=0; dlNewMastered=0;
   const s=dlStats(), t=dlToday();
@@ -1440,13 +1440,30 @@ function startDaily(){
 }
 function dlRender(){
   const it=dlQueue[dlIdx];
-  const qBefore=dlQueue.slice(0,dlIdx).filter(i=>i.type!=='story').length;
-  $('dl-qnow').textContent = it.type==='story' ? '📖' : (qBefore+1);
+  const qBefore=dlQueue.slice(0,dlIdx).filter(i=>i.type!=='doc').length;
+  $('dl-qnow').textContent = it.type==='doc' ? '📄' : (qBefore+1);
   $('dl-combo').textContent=dlCombo;
   $('dl-bar').style.width=(qBefore/dlTotalQ*100)+'%';
   const box=$('dl-stageq'); box.innerHTML='';
-  if(it.type==='story')      return dlRenderStory(it,box);
-  if(it.type==='sq')         return dlRenderMCQ(box, QTYPE[it.q[3]]||'❓ คำถามจากเรื่อง', it.q[0], 'q-word', it.q[1], it.q[2], null, null, it.story, it.q[4]);
+  if(it.type==='doc')        return dlRenderDoc(it,box);
+  if(it.type==='dq'){
+    const isBlank = it.item.part===6;
+    const n = isBlank ? (String(it.q[0]).match(/\d+/)||[])[0] : null;
+    const prompt = isBlank ? blankSentence(it.item.doc, n) : it.q[0];
+    return dlRenderMCQ(box, isBlank?('✏️ เติมช่องที่ '+n+' — '+it.item.kind):'🔍 คำถามจากเอกสาร',
+      prompt, 'dl-sentence', it.q[1], it.q[2], null, null, it.item, it.q[3]);
+  }
+// ดึงเฉพาะประโยคที่มีช่องว่างหมายเลข n ออกมาโชว์เป็นโจทย์
+function blankSentence(doc, n){
+  const paras=(doc.body||[]);
+  for(const p of paras){
+    if(!p.includes('___'+n+'___')) continue;
+    const parts=p.split(/(?<=[.!?])\s+/);
+    const hit=parts.find(x=>x.includes('___'+n+'___'));
+    return (hit||p).replace(/_{3}(\d+)_{3}/g, (m,d)=> d===String(n) ? '______' : '(...)');
+  }
+  return 'ช่องที่ '+n;
+}
   if(it.type==='fill')       return dlRenderMCQ(box,'📝 เติมคำในช่องว่าง', it.s[0].replace('___','______'), 'dl-sentence', it.s[1], it.s[3], null, it.s[2]);
   /* vocab */                const d=dlVocabDistractors(it.w,it.pool);
   return dlRenderMCQ(box,'🔤 คำนี้แปลว่าอะไร?', it.w.en, 'q-word', it.w.th, [it.w.th,...d], it.w.en, null);
@@ -1457,22 +1474,33 @@ const QTYPE={
   vocab:'🔤 เดาความหมายจากบริบท', detail:'🔍 รายละเอียด', tone:'🎭 น้ำเสียง / เจตนาผู้เขียน'
 };
 // แผงเรื่องแบบพับได้ — กดดูเนื้อเรื่องซ้ำได้ตอนตอบคำถาม
-function passagePanel(story){
+function passagePanel(src){
   const d=document.createElement('details'); d.className='psg';
-  const s=document.createElement('summary'); s.textContent='📖 อ่านเรื่องอีกครั้ง'; d.appendChild(s);
-  const para=document.createElement('div'); para.className='sentence rd-para psg-body'; d.appendChild(para);
+  const s=document.createElement('summary');
+  s.textContent = src.doc ? '📄 ดูเอกสารอีกครั้ง' : '📖 อ่านเรื่องอีกครั้ง';
+  d.appendChild(s);
+  const para=document.createElement('div');
+  para.className = src.doc ? 'psg-body' : 'sentence rd-para psg-body';
+  d.appendChild(para);
   const tip=document.createElement('div'); tip.className='wordtip empty'; d.appendChild(tip);
-  d.addEventListener('toggle',()=>{ if(d.open && !para.dataset.built){ para.dataset.built='1'; renderPassage(para, story.text, tip); } },{once:false});
+  d.addEventListener('toggle',()=>{
+    if(d.open && !para.dataset.built){
+      para.dataset.built='1';
+      if(src.doc) drawDoc(para, src.doc, tip, {}); else renderPassage(para, src.text, tip);
+    }
+  },{once:false});
   return d;
 }
-function dlRenderStory(it,box){
+function dlRenderDoc(it,box){
   const wrap=dlEl('div','dl-pop');
-  wrap.appendChild(dlEl('div','q-label','📖 อ่านเรื่องนี้ก่อน แล้วตอบ 5 คำถาม'));
-  wrap.appendChild(dlEl('div','rd-title', it.story.hideTitle?'เรื่องที่อ่าน':it.story.t));
+  const isBlank = it.item.part===6;
+  wrap.appendChild(dlEl('div','q-label', isBlank
+    ? '📄 อ่าน'+it.item.kind+' แล้วเติมคำในช่องว่าง'
+    : '📄 อ่าน'+it.item.kind+' ให้จบ แล้วตอบคำถาม'));
   wrap.appendChild(dlEl('div','tap-note','👆 แตะคำเพื่อดูคำแปล'));
-  const para=dlEl('div','sentence rd-para'); para.style.borderColor='var(--purple)'; wrap.appendChild(para);
+  const doc=dlEl('div','tc-doc'); wrap.appendChild(doc);
   const tip=dlEl('div','wordtip empty'); wrap.appendChild(tip);
-  renderPassage(para, it.story.text, tip);
+  drawDoc(doc, it.item.doc, tip, {});
   const btn=dlEl('button','btn primary','อ่านจบแล้ว ไปตอบคำถาม ▶️'); btn.style.marginTop='14px';
   btn.onclick=dlNext; wrap.appendChild(btn);
   box.appendChild(wrap); window.scrollTo(0,0);
@@ -1661,22 +1689,23 @@ function renderBank(){
 // ============================================================
 // 📋 TOEIC — เอกสารจริง (part6 = เติมคำ, part7 = อ่านจับใจความ) ข้อมูลอยู่ toeic.js
 // ============================================================
-let tcIdx=0, tcBuilt=false;
+let tcIdx=0, tcZone='doc';
+const tcList=()=> (typeof TOEIC!=='undefined'?TOEIC:[]).filter(t=>(t.zone||'doc')===tcZone);
+function openToeic(zone){ tcZone=zone; tcIdx=0; openMode('toeic'); }
 function buildToeic(){
-  const list=(typeof TOEIC!=='undefined'?TOEIC:[]);
-  if(!list.length) return;
-  if(!tcBuilt){
-    tcBuilt=true;
-    const sel=$('tc-select'); sel.innerHTML='';
-    list.forEach((it,i)=>{
-      const b=document.createElement('button');
-      b.className='day-btn'+(i===0?' active':'');
-      b.textContent=(it.part===6?'📝 ':'🔍 ')+(i+1);
-      b.onclick=()=>{ sel.querySelectorAll('.day-btn').forEach(x=>x.classList.remove('active'));
-        b.classList.add('active'); tcIdx=i; renderToeic(); };
-      sel.appendChild(b);
-    });
-  }
+  const list=tcList(); if(!list.length) return;
+  $('tc-banner').textContent = tcZone==='passage'
+    ? '📰 อ่านบทความยาว แล้วตอบคำถามจับใจความ — มีเฉลยอธิบายทุกข้อ'
+    : '📋 อ่านเอกสารแบบที่เจอในชีวิตจริง แล้วตอบคำถาม — มีเฉลยอธิบายทุกข้อ';
+  const sel=$('tc-select'); sel.innerHTML='';
+  list.forEach((it,i)=>{
+    const b=document.createElement('button');
+    b.className='day-btn'+(i===tcIdx?' active':'');
+    b.textContent=(it.part===6?'📝 ':'🔍 ')+(i+1);
+    b.onclick=()=>{ sel.querySelectorAll('.day-btn').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active'); tcIdx=i; renderToeic(); };
+    sel.appendChild(b);
+  });
   renderToeic();
 }
 function tcPara(text, tip, slots){
@@ -1693,7 +1722,8 @@ function tcPara(text, tip, slots){
   return p;
 }
 function renderToeic(){
-  const it=TOEIC[tcIdx], body=$('tc-body'); body.innerHTML='';
+  const it=tcList()[tcIdx]; if(!it) return;
+  const body=$('tc-body'); body.innerHTML='';
   const slots={};
   const kind=document.createElement('div'); kind.className='tc-kind';
   kind.textContent=(it.part===6?'📝 เติมคำในเอกสาร · ':'🔍 อ่านแล้วตอบคำถาม · ')+it.kind;
@@ -1702,7 +1732,11 @@ function renderToeic(){
 
   const doc=document.createElement('div'); doc.className='tc-doc'; body.appendChild(doc);
   const tip=document.createElement('div'); tip.className='wordtip empty';
-  const d=it.doc;
+  drawDoc(doc, it.doc, tip, slots);
+  body.appendChild(tip);
+  renderToeicQs(it, body, slots);
+}
+function drawDoc(doc, d, tip, slots){
   if(d.title){ const t=document.createElement('div'); t.className='tc-title'; t.textContent=d.title; doc.appendChild(t); }
   if(d.head){ const h=document.createElement('div'); h.className='tc-head';
     d.head.forEach(([k,v])=>{ const b1=document.createElement('b'); b1.textContent=k+':';
@@ -1724,8 +1758,8 @@ function renderToeic(){
     doc.appendChild(c); }
   if(d.body) d.body.forEach(p=>doc.appendChild(tcPara(p, tip, slots)));
   if(d.sign){ const sg=document.createElement('div'); sg.className='tc-sign'; sg.textContent=d.sign; doc.appendChild(sg); }
-  body.appendChild(tip);
-
+}
+function renderToeicQs(it, body, slots){
   const head=document.createElement('div'); head.className='section-head';
   head.textContent = it.part===6 ? '✏️ เลือกคำที่ถูกต้อง' : '❓ ตอบคำถามจากเอกสาร';
   body.appendChild(head);
