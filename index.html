@@ -344,6 +344,7 @@ img.ni{width:auto;height:40px;object-fit:contain;display:block}
 .day-btn.hard{border-color:var(--gold);color:#9a6a05}
 .day-btn.hard.active{background:var(--gold);color:#3d2c00}
 
+.rd-src{font-size:.78rem;color:#8aa0b2;margin:8px 2px 0;font-style:italic}
 .rd-qtext{white-space:pre-line}
 .pg-row{display:flex;gap:9px;margin-bottom:11px}
 .pg-num{flex:none;width:21px;height:21px;border-radius:50%;background:var(--purple);color:#fff;
@@ -1533,6 +1534,7 @@ function makeReading(){
     const para=document.createElement('div'); para.className='sentence rd-para'; para.style.borderColor='var(--purple)'; body.appendChild(para);
     const tip=document.createElement('div'); tip.className='wordtip empty'; body.appendChild(tip);
     renderPassage(para, st.text, tip);
+    if(st.source){ const sc=document.createElement('div'); sc.className='rd-src'; sc.textContent='📰 เรียบเรียงจาก: '+st.source; body.appendChild(sc); }
     const head=document.createElement('div'); head.className='section-head'; head.textContent='❓ ตอบคำถามจากเรื่อง'; body.appendChild(head);
     const scoreEl=document.createElement('div'); scoreEl.className='rd-score'; body.appendChild(scoreEl);
     let score=0, done=0; const total=st.q.length;
