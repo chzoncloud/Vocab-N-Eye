@@ -344,6 +344,28 @@ img.ni{width:auto;height:40px;object-fit:contain;display:block}
 .day-btn.hard{border-color:var(--gold);color:#9a6a05}
 .day-btn.hard.active{background:var(--gold);color:#3d2c00}
 
+/* ===== TOEIC ===== */
+.tc-doc{background:#fff;border:2px solid var(--grid);border-radius:16px;padding:16px 15px;box-shadow:var(--shadow);margin-bottom:14px}
+.tc-title{font-family:'Mali',cursive;font-weight:700;font-size:1.08rem;text-align:center;color:var(--purple-dark);
+  letter-spacing:.02em;margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid var(--grid)}
+.tc-head{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:.9rem;margin-bottom:12px;
+  padding-bottom:10px;border-bottom:1px dashed var(--grid)}
+.tc-head b{color:var(--purple-dark);white-space:nowrap}
+.tc-p{font-size:1rem;line-height:1.95;margin-bottom:11px}
+.tc-sign{margin-top:12px;font-size:.95rem;white-space:pre-line;color:#5a6b7a;font-style:italic}
+.tc-rows{display:grid;grid-template-columns:auto 1fr;gap:7px 12px;font-size:.93rem}
+.tc-rows b{color:var(--purple-dark);white-space:nowrap}
+.tc-chat{display:flex;flex-direction:column;gap:10px}
+.tc-msg{background:var(--paper);border:1.5px solid var(--grid);border-radius:12px;padding:9px 12px}
+.tc-msg .who{font-family:'Mali',cursive;font-weight:700;font-size:.85rem;color:var(--purple-dark)}
+.tc-msg .when{font-size:.75rem;color:#9aa7b4;margin-left:6px}
+.tc-msg .txt{font-size:.97rem;line-height:1.7;margin-top:3px}
+.tc-slot{display:inline-block;min-width:74px;text-align:center;border-bottom:2.5px solid var(--purple);
+  font-weight:700;color:#b7c3cf;padding:0 6px}
+.tc-slot.filled{color:var(--green);border-color:var(--green)}
+.tc-slot.on{background:#FFF3D9;border-color:var(--gold)}
+.tc-kind{display:inline-block;font-size:.75rem;font-weight:700;color:var(--purple-dark);background:var(--pink-soft);
+  border:1.5px solid var(--pink);border-radius:999px;padding:3px 12px;margin-bottom:10px}
 .rd-src{font-size:.78rem;color:#8aa0b2;margin:8px 2px 0;font-style:italic}
 .rd-qtext{white-space:pre-line}
 .pg-row{display:flex;gap:9px;margin-bottom:11px}
@@ -403,7 +425,17 @@ img.ni{width:auto;height:40px;object-fit:contain;display:block}
     <div class="hub-grid">
       <button class="hub-item wide" onclick="openMode('reading')"><span class="hi-ic">📖</span><span class="hi-t">เรื่องเล่า</span><span class="hi-d">อ่านเรื่อง แตะดูคำแปล + ตอบ 5 คำถาม</span></button>
       <button class="hub-item wide" onclick="openMode('exam')"><span class="hi-ic">⭐</span><span class="hi-t">ติวสอบ</span><span class="hi-d">คำศัพท์แนวข้อสอบ 16 วัน</span></button>
+      <button class="hub-item wide" onclick="openMode('toeic')"><span class="hi-ic">📋</span><span class="hi-t">TOEIC</span><span class="hi-d">อ่านเอกสารจริง: อีเมล ประกาศ แชท ใบเสร็จ</span></button>
     </div>
+  </div>
+
+  <!-- ==== TOEIC ==== -->
+  <div id="toeic" class="hidden">
+    <div class="exam-banner" style="background:#eef4fb;border-color:var(--purple)">
+      📋 อ่านเอกสารแบบที่เจอในชีวิตจริง แล้วตอบคำถาม — มีเฉลยอธิบายทุกข้อ
+    </div>
+    <div class="day-select" id="tc-select"></div>
+    <div id="tc-body"></div>
   </div>
 
   <!-- ==== ของฉัน (Collection) ==== -->
@@ -656,6 +688,7 @@ img.ni{width:auto;height:40px;object-fit:contain;display:block}
 <script src="data.js"></script>
 <script src="stories.js"></script>
 <script src="seasons.js"></script>
+<script src="toeic.js"></script>
 <script>
 // ============================================================
 // DATA — [English, ความหมายไทย, synonym]
@@ -694,8 +727,8 @@ const $ = id => document.getElementById(id);
 // ============================================================
 // ROUTER — เมนูล่าง 5 กลุ่ม + hub (ฝึกซ้อม/อ่าน) + back
 // ============================================================
-const VIEWS=['daily','flash','quiz','fill','match','formal','ielts','biz','reading','bieber','bank','exam','hub-train','hub-read','collection'];
-const MODE_PARENT={flash:'train',quiz:'train',fill:'train',match:'train',formal:'train',ielts:'train',biz:'train',bieber:'train',reading:'read',exam:'read'};
+const VIEWS=['daily','flash','quiz','fill','match','formal','ielts','biz','reading','bieber','bank','exam','toeic','hub-train','hub-read','collection'];
+const MODE_PARENT={flash:'train',quiz:'train',fill:'train',match:'train',formal:'train',ielts:'train',biz:'train',bieber:'train',reading:'read',exam:'read',toeic:'read'};
 let curParent='today';
 function hideAllViews(){ VIEWS.forEach(v=>{const e=$(v); if(e) e.classList.add('hidden');}); }
 function setNav(page){ document.querySelectorAll('.nb').forEach(b=>b.classList.toggle('on', b.dataset.p===page)); }
@@ -713,6 +746,7 @@ function openMode(mode){
   hideAllViews(); $(mode).classList.remove('hidden');
   setNav(parent); $('backbar').classList.remove('hidden');
   if(mode==='quiz') refreshQzMarkCount();
+  if(mode==='toeic') buildToeic();
   window.scrollTo(0,0);
 }
 function goBack(){ showPage(curParent); }
@@ -1622,6 +1656,110 @@ function renderBank(){
   list.appendChild(frag);
   $('bk-count').textContent = q ? `พบ ${shown} คำ ที่ตรงกับ “${raw}”` : `รวมทั้งหมด ${shown} คำ`;
   if(!shown){ const e=document.createElement('div'); e.className='bk-empty'; e.textContent='ไม่พบคำที่ค้นหา 🔍'; list.appendChild(e); }
+}
+
+// ============================================================
+// 📋 TOEIC — เอกสารจริง (part6 = เติมคำ, part7 = อ่านจับใจความ) ข้อมูลอยู่ toeic.js
+// ============================================================
+let tcIdx=0, tcBuilt=false;
+function buildToeic(){
+  const list=(typeof TOEIC!=='undefined'?TOEIC:[]);
+  if(!list.length) return;
+  if(!tcBuilt){
+    tcBuilt=true;
+    const sel=$('tc-select'); sel.innerHTML='';
+    list.forEach((it,i)=>{
+      const b=document.createElement('button');
+      b.className='day-btn'+(i===0?' active':'');
+      b.textContent=(it.part===6?'📝 ':'🔍 ')+(i+1);
+      b.onclick=()=>{ sel.querySelectorAll('.day-btn').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active'); tcIdx=i; renderToeic(); };
+      sel.appendChild(b);
+    });
+  }
+  renderToeic();
+}
+function tcPara(text, tip, slots){
+  const p=document.createElement('div'); p.className='tc-p';
+  String(text).split(/(_{3}\d+_{3})/).forEach(seg=>{
+    const m=seg.match(/^_{3}(\d+)_{3}$/);
+    if(m){
+      const sp=document.createElement('span'); sp.className='tc-slot'; sp.textContent='('+m[1]+')';
+      slots[m[1]]=sp; p.appendChild(sp);
+    } else if(seg){
+      const holder=document.createElement('span'); renderTappable(holder, seg, tip); p.appendChild(holder);
+    }
+  });
+  return p;
+}
+function renderToeic(){
+  const it=TOEIC[tcIdx], body=$('tc-body'); body.innerHTML='';
+  const slots={};
+  const kind=document.createElement('div'); kind.className='tc-kind';
+  kind.textContent=(it.part===6?'📝 เติมคำในเอกสาร · ':'🔍 อ่านแล้วตอบคำถาม · ')+it.kind;
+  body.appendChild(kind);
+  const note=document.createElement('div'); note.className='tap-note'; note.textContent='👆 แตะคำเพื่อดูคำแปล'; body.appendChild(note);
+
+  const doc=document.createElement('div'); doc.className='tc-doc'; body.appendChild(doc);
+  const tip=document.createElement('div'); tip.className='wordtip empty';
+  const d=it.doc;
+  if(d.title){ const t=document.createElement('div'); t.className='tc-title'; t.textContent=d.title; doc.appendChild(t); }
+  if(d.head){ const h=document.createElement('div'); h.className='tc-head';
+    d.head.forEach(([k,v])=>{ const b1=document.createElement('b'); b1.textContent=k+':';
+      const s1=document.createElement('span'); s1.textContent=v; h.appendChild(b1); h.appendChild(s1); });
+    doc.appendChild(h); }
+  if(d.rows){ const r=document.createElement('div'); r.className='tc-rows';
+    d.rows.forEach(([k,v])=>{ const b1=document.createElement('b'); b1.textContent=k+':';
+      const s1=document.createElement('span'); renderTappable(s1, v, tip); r.appendChild(b1); r.appendChild(s1); });
+    doc.appendChild(r); }
+  if(d.chat){ const c=document.createElement('div'); c.className='tc-chat';
+    d.chat.forEach(([who,when,msg])=>{
+      const m=document.createElement('div'); m.className='tc-msg';
+      const hd=document.createElement('div');
+      const w=document.createElement('span'); w.className='who'; w.textContent=who;
+      const t2=document.createElement('span'); t2.className='when'; t2.textContent=when;
+      hd.appendChild(w); hd.appendChild(t2); m.appendChild(hd);
+      const tx=document.createElement('div'); tx.className='txt'; renderTappable(tx, msg, tip); m.appendChild(tx);
+      c.appendChild(m); });
+    doc.appendChild(c); }
+  if(d.body) d.body.forEach(p=>doc.appendChild(tcPara(p, tip, slots)));
+  if(d.sign){ const sg=document.createElement('div'); sg.className='tc-sign'; sg.textContent=d.sign; doc.appendChild(sg); }
+  body.appendChild(tip);
+
+  const head=document.createElement('div'); head.className='section-head';
+  head.textContent = it.part===6 ? '✏️ เลือกคำที่ถูกต้อง' : '❓ ตอบคำถามจากเอกสาร';
+  body.appendChild(head);
+  const scoreEl=document.createElement('div'); scoreEl.className='rd-score'; body.appendChild(scoreEl);
+  let score=0, done=0; const total=it.q.length;
+  scoreEl.textContent='คะแนน: 0/'+total;
+
+  it.q.forEach((q,qi)=>{
+    const item=document.createElement('div'); item.className='rd-item';
+    const qt=document.createElement('div'); qt.className='rd-qtext';
+    const num=document.createElement('span'); num.className='rd-qnum'; num.textContent=(qi+1);
+    const tx=document.createElement('span'); tx.textContent=q[0];
+    qt.appendChild(num); qt.appendChild(tx); item.appendChild(qt);
+    const cbox=document.createElement('div'); cbox.className='choices'; item.appendChild(cbox);
+    body.appendChild(item);
+    const slot=slots[String(qi+1)];
+    if(slot) slot.onclick=()=>item.scrollIntoView({block:'center'});
+    let answered=false;
+    shuffle([...q[2]]).forEach(txt=>{
+      const bt=document.createElement('button'); bt.className='choice'; bt.textContent=txt;
+      bt.onclick=()=>{
+        if(answered) return; answered=true; done++;
+        item.classList.add('rd-done');
+        cbox.querySelectorAll('.choice').forEach(x=>x.disabled=true);
+        if(txt===q[1]){ bt.classList.add('correct'); score++; }
+        else{ bt.classList.add('wrong'); const r=[...cbox.children].find(x=>x.textContent===q[1]); if(r) r.classList.add('correct'); }
+        if(slot){ slot.textContent=q[1]; slot.classList.add('filled'); }
+        scoreEl.textContent = done>=total ? `🎉 จบชุด! ได้ ${score}/${total} คะแนน` : `คะแนน: ${score}/${total}`;
+        if(q[3]) item.appendChild(explainBox(q[3]));
+      };
+      cbox.appendChild(bt);
+    });
+  });
+  window.scrollTo(0,0);
 }
 
 // ============================================================
