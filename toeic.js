@@ -18,7 +18,7 @@ const TOEIC = [
   body:[
    "Please be advised that the lifts in the east wing will be out of service from Monday, 18 August until Thursday, 21 August. Engineers will carry out a full safety inspection during this period, which is ___1___ by law every two years.",
    "Staff on floors 4 to 9 should use the stairs in the west wing. ___2___ Please allow yourself a few extra minutes to reach your desk in the morning.",
-   "We are sorry for the ___3___ this may cause. If you have any questions, please ___4___ the building office on extension 240."
+   "We are sorry for the ___3___ this may cause. If you have any questions, please ___4___ the building office on extension 240. Thank you for your ___5___."
   ],
   sign:"Kind regards,\nAlicia Reyes, Building Manager"
  },
@@ -34,7 +34,9 @@ const TOEIC = [
   ["ช่อง 3","inconvenience",["inconvenience","accident","injury","emphasis"],
    "สำนวนมาตรฐานในจดหมายทางการ: ‘We are sorry for the inconvenience’ = ขออภัยในความไม่สะดวก · accident (อุบัติเหตุ) กับ injury (บาดเจ็บ) ยังไม่เกิดขึ้น · emphasis (การเน้นย้ำ) ไม่เกี่ยว"],
   ["ช่อง 4","contact",["contact","protect","improve","absorb"],
-   "ตามด้วย ‘the building office on extension 240’ = ติดต่อสำนักงานที่เบอร์ต่อ 240 → contact · protect (ปกป้อง), improve (ทำให้ดีขึ้น), absorb (ดูดซับ) ใส่แล้วไม่เป็นภาษา"]
+   "ตามด้วย ‘the building office on extension 240’ = ติดต่อสำนักงานที่เบอร์ต่อ 240 → contact · protect (ปกป้อง), improve (ทำให้ดีขึ้น), absorb (ดูดซับ) ใส่แล้วไม่เป็นภาษา"],
+  ["ช่อง 5","cooperation",["cooperation","competition","celebration","conversation"],
+   "‘Thank you for your cooperation’ = ขอบคุณที่ให้ความร่วมมือ เป็นประโยคปิดมาตรฐานของประกาศทางการ · อีก 3 คำหน้าตาคล้ายกันแต่แปลว่า การแข่งขัน / การเฉลิมฉลอง / การสนทนา ซึ่งไม่เข้ากับบริบทเลย"]
  ]
 },
 
@@ -46,7 +48,7 @@ const TOEIC = [
   body:[
    "I am writing about my order BH-40912, which arrived yesterday afternoon. The ___1___ on the box was correct, and the delivery itself was on time.",
    "However, the box contained only two of the three lamps I paid for. I have checked the invoice, and it clearly lists three. ___2___",
-   "I have attached a photograph of the ___3___ and its contents. I would be grateful if you could send the missing lamp this week, as the shelves in my shop must be ready before Saturday. Your website states that a reply is normally sent within one working day, so I hope one day is ___4___ time for you to look into this."
+   "I have attached a photograph of the ___3___ and its contents. I would be grateful if you could send the missing lamp this week, as the shelves in my shop must be ready before Saturday. Your website states that a reply is normally sent within one working day, so I hope one day is ___4___ time for you to look into this. I look forward to your ___5___."
   ],
   sign:"Yours faithfully,\nSuda Meesuk"
  },
@@ -62,7 +64,9 @@ const TOEIC = [
   ["ช่อง 3","parcel",["parcel","sender","spectator","accessory"],
    "‘รูปถ่ายของ___ กับสิ่งที่อยู่ข้างใน’ → parcel (พัสดุ) · sender คือ ‘ผู้ส่ง’ ซึ่งเป็นคน ไม่มีข้างใน · spectator (ผู้ชม) กับ accessory (ของเสริม) ไม่เกี่ยว"],
   ["ช่อง 4","sufficient",["sufficient","insufficient","serious","mutual"],
-   "ผู้เขียนกำลังพูดแบบสุภาพว่า ‘หวังว่า 1 วันคงพอสำหรับตรวจสอบ’ → sufficient = เพียงพอ · insufficient แปลว่าไม่พอ ซึ่งขัดกับคำว่า hope · ระวังคำตรงข้ามที่หน้าตาคล้ายกันแบบนี้"]
+   "ผู้เขียนกำลังพูดแบบสุภาพว่า ‘หวังว่า 1 วันคงพอสำหรับตรวจสอบ’ → sufficient = เพียงพอ · insufficient แปลว่าไม่พอ ซึ่งขัดกับคำว่า hope · ระวังคำตรงข้ามที่หน้าตาคล้ายกันแบบนี้"],
+  ["ช่อง 5","reply",["reply","refusal","receipt","request"],
+   "‘I look forward to your reply’ = รอการตอบกลับ เป็นประโยคปิดจดหมายมาตรฐาน · refusal (การปฏิเสธ) ไม่มีใครรอ · receipt (ใบเสร็จ) เธอแนบไปเองแล้ว · request (คำขอ) คือสิ่งที่เธอเป็นฝ่ายส่ง ไม่ใช่รอรับ"]
  ]
 },
 
@@ -97,7 +101,11 @@ const TOEIC = [
   ["What is suggested about the delivery?","The invoice and the driver's list do not match",
    ["The invoice and the driver's list do not match","It arrived one day late",
     "It was sent to the wrong company","The boxes were damaged"],
-   "9:14 บอกว่ารายการของคนขับมี 8 กล่อง · 9:18 บอกว่าใบแจ้งหนี้ระบุ 12 → เอกสารสองใบไม่ตรงกัน · เรื่องมาสาย/ส่งผิดบริษัท/ของเสียหาย ไม่มีใครพูดถึงเลย"]
+   "9:14 บอกว่ารายการของคนขับมี 8 กล่อง · 9:18 บอกว่าใบแจ้งหนี้ระบุ 12 → เอกสารสองใบไม่ตรงกัน · เรื่องมาสาย/ส่งผิดบริษัท/ของเสียหาย ไม่มีใครพูดถึงเลย"],
+  ["What does Ms. Wattana finally agree to do?","Accept the boxes and write a note about the missing ones",
+   ["Accept the boxes and write a note about the missing ones","Send the driver away without taking anything",
+    "Wait outside until the other boxes arrive","Telephone Ratana Supplies herself"],
+   "9:22 คุณเฉินสั่งให้ ‘Take the 8 and write 4 boxes missing next to your signature’ แล้ว 9:23 คุณนกตอบ ‘Will do’ = ตกลงทำตาม · ส่วนการโทรหาซัพพลายเออร์เป็นงานของคุณเฉิน ไม่ใช่คุณนก"]
  ]
 },
 
@@ -128,7 +136,10 @@ const TOEIC = [
   ["What is NOT stated on this document?","The price of the repair",
    ["The price of the repair","The date the watch was brought in",
     "How to contact the customer","What is wrong with the watch"],
-   "ระวังคำว่า NOT — เอกสารมีวันที่รับของ (14 October), เบอร์ติดต่อ (081-555-0192) และอาการเสีย (เปลี่ยนแบตเตอรี่/สายหลวม) แต่ ‘ไม่มีตัวเลขราคา’ อยู่ที่ไหนเลย มีแค่ส่วนลดเป็นเปอร์เซ็นต์"]
+   "ระวังคำว่า NOT — เอกสารมีวันที่รับของ (14 October), เบอร์ติดต่อ (081-555-0192) และอาการเสีย (เปลี่ยนแบตเตอรี่/สายหลวม) แต่ ‘ไม่มีตัวเลขราคา’ อยู่ที่ไหนเลย มีแค่ส่วนลดเป็นเปอร์เซ็นต์"],
+  ["How many days are there between the drop-off date and the day the watch should be ready?","Four",
+   ["Four","Two","Fifteen","Eighteen"],
+   "รับของ 14 October · นัดรับ 18 October → 18 − 14 = 4 วัน · ระวังอย่าหยิบตัวเลขในเอกสารมาตอบตรงๆ (2 คือวันที่บวกเพิ่มถ้าของขาดสต็อก, 18 คือวันนัดรับ ไม่ใช่จำนวนวัน)"]
  ]
 },
 
@@ -140,7 +151,7 @@ const TOEIC = [
    "Sathorn Fresh Foods is looking for a team leader for its cold-storage warehouse in Bang Na. The successful applicant will manage a team of eight and will be ___1___ for checking every delivery against the order documents before it is accepted.",
    "Experience in a warehouse is essential. A ___2___ of chilled-food safety rules is highly desirable, although training will be given. ___3___",
    "The role is physical and involves standing for long periods in a cold environment. Working hours are 6 A.M. to 3 P.M., Monday to Friday. We ___4___ a starting salary of 28,000 baht per month, transport allowance, and annual health checks.",
-   "Interested candidates should send a CV to jobs@sathornfresh.co.th before 30 September."
+   "Interested candidates should send a CV to jobs@sathornfresh.co.th before 30 September. Applications received after this date will not be ___5___."
   ]
  },
  q:[
@@ -155,7 +166,9 @@ const TOEIC = [
     "The company was founded thirty years ago."],
    "ย่อหน้านี้ทั้งย่อหน้าพูดเรื่อง ‘คุณสมบัติผู้สมัคร’ ประโยคที่เติมต้องอยู่เรื่องเดียวกัน · ข้อ B, C, D เป็นข้อมูลบริษัท ไม่ใช่คุณสมบัติ ใส่แล้วหลุดประเด็นย่อหน้า"],
   ["ช่อง 4","offer",["offer","require","undergo","distract"],
-   "ตามด้วย ‘เงินเดือนเริ่มต้น ค่าเดินทาง และตรวจสุขภาพประจำปี’ = สิ่งที่บริษัทให้ → offer (เสนอให้) · require (ต้องการจากผู้สมัคร) กลับด้านกัน · undergo (เข้ารับ) กับ distract (ทำให้เสียสมาธิ) ไม่เข้าโครงสร้าง"]
+   "ตามด้วย ‘เงินเดือนเริ่มต้น ค่าเดินทาง และตรวจสุขภาพประจำปี’ = สิ่งที่บริษัทให้ → offer (เสนอให้) · require (ต้องการจากผู้สมัคร) กลับด้านกัน · undergo (เข้ารับ) กับ distract (ทำให้เสียสมาธิ) ไม่เข้าโครงสร้าง"],
+  ["ช่อง 5","considered",["considered","promoted","protected","improved"],
+   "‘ใบสมัครที่ส่งหลังวันนี้จะไม่ถูก___’ → considered = ไม่ถูกนำมาพิจารณา · promoted (เลื่อนตำแหน่ง) ใช้กับคน ไม่ใช่ใบสมัคร · protected/improved ความหมายไม่เข้ากับใบสมัครที่ส่งช้า"]
  ]
 },
 
@@ -202,27 +215,56 @@ const TOEIC = [
   body:[
    "Many people believe that sleep is time taken away from work. Recent studies ___1___ the opposite. Workers who sleep fewer than six hours a night make more mistakes, and the errors are often ___2___ enough to cost the company money.",
    "Tired staff are also easier to ___3___. A worker who has slept well can return to a task quickly after an interruption, while a tired worker may need several minutes to find the thread again. Over a whole week, those lost minutes add up.",
-   "Sleep does not only affect the mind. The body uses this time to repair itself, and the immune system ___4___ nutrients more efficiently during deep sleep than at any other time. Staff who sleep badly take more sick days, and ___5___ from illness takes them longer.",
-   "Employers who ___6___ the problem often see results within a month. Some companies now ___7___ later starting times, and a few provide quiet rooms for short afternoon rests. These changes cost very little, and the ___8___ in output is usually easy to measure."
+   "Sleep does not only affect the mind. The body uses this time to repair itself, and the immune system ___4___ nutrients more efficiently during deep sleep than at any other time. Staff who sleep badly take more sick days, and recovery from illness takes them longer.",
+   "Employers who consider the problem often see results within a month. Some companies now offer later starting times, and a few provide quiet rooms for short afternoon rests. These changes cost very little, and the ___5___ in output is usually easy to measure."
   ]
  },
  q:[
   ["ช่อง 1","suggest",["suggest","persuade","brag","offend"],
    "‘งานวิจัย___สิ่งตรงข้าม’ → suggest = ชี้ให้เห็น · persuade ต้องมีคนถูกโน้มน้าว · brag (โม้) กับ offend (ทำให้ขุ่นเคือง) ใช้กับงานวิจัยไม่ได้"],
   ["ช่อง 2","serious",["serious","popular","academic","humble"],
-   "‘ข้อผิดพลาด___มากพอจนทำให้บริษัทเสียเงิน’ → serious = ร้ายแรง · popular/academic/humble ไม่เข้ากับคำว่า ‘ความผิดพลาด’ เลย"],
+   "‘ข้อผิดพลาด___มากพอจนทำให้บริษัทเสียเงิน’ → serious = ร้ายแรง · popular/academic/humble ไม่เข้ากับคำว่าความผิดพลาดเลย"],
   ["ช่อง 3","distract",["distract","protect","embrace","harvest"],
-   "ประโยคถัดไปพูดเรื่องกลับมาทำงานต่อหลังถูกขัดจังหวะ → distract = ทำให้เสียสมาธิ · protect (ปกป้อง) ความหมายกลับกัน"],
+   "ประโยคถัดไปพูดถึงคนที่ล้าแล้วกลับมาทำงานต่อหลังถูกขัดจังหวะได้ช้า → distract = ทำให้เสียสมาธิ · protect (ปกป้อง) ความหมายกลับกัน"],
   ["ช่อง 4","absorbs",["absorbs","offers","requires","climbs"],
-   "‘ระบบภูมิคุ้มกัน___สารอาหารได้ดีขึ้น’ → absorbs = ดูดซึม · requires (ต้องการ) พอได้แต่จะขัดกับคำว่า more efficiently ที่ตามมา"],
-  ["ช่อง 5","recovery",["recovery","ambition","relation","majesty"],
-   "‘___จากความเจ็บป่วยใช้เวลานานขึ้น’ → recovery = การฟื้นตัว · คำนี้เคยเจอในบทเรื่องกล้ามเนื้อมาแล้ว"],
-  ["ช่อง 6","consider",["consider","waste","ruin","pry"],
-   "‘นายจ้างที่___ปัญหานี้ มักเห็นผลภายในหนึ่งเดือน’ → consider = ให้ความสำคัญ/พิจารณา · waste (ทำสูญเปล่า) กับ ruin (ทำลาย) ความหมายตรงข้าม"],
-  ["ช่อง 7","offer",["offer","undergo","interfere","slay"],
-   "‘บริษัท___เวลาเข้างานที่สายขึ้น’ → offer = เสนอให้ · undergo คือ ‘เข้ารับ’ ซึ่งกลับด้าน · interfere (ก้าวก่าย) ไม่เข้าบริบท"],
-  ["ช่อง 8","improvement",["improvement","injury","accident","emphasis"],
-   "‘___ของผลผลิตวัดได้ง่าย’ → improvement = การดีขึ้น · สังเกตคำลงท้ายประโยคเป็นบวก (cost very little) → ต้องเป็นผลดี ไม่ใช่ injury/accident"]
+   "‘ระบบภูมิคุ้มกัน___สารอาหารได้ดีขึ้น’ → absorbs = ดูดซึม · requires (ต้องการ) พอได้แต่ขัดกับคำว่า more efficiently ที่ตามมา"],
+  ["ช่อง 5","improvement",["improvement","injury","accident","emphasis"],
+   "‘___ของผลผลิตวัดได้ง่าย’ + ประโยคหน้าบอกว่าต้นทุนน้อยมาก → ต้องเป็นผลดี = improvement · injury/accident เป็นผลเสีย"]
+ ]
+},
+
+// ---------- Passage จากข่าวจริง ----------
+{
+ id:"news-luffy-beetle", zone:"passage", part:7, kind:"ข่าววิทยาศาสตร์",
+ source:"ZooKeys / Natural History Museum of Denmark (ก.ค. 2026) · pensoft.net",
+ doc:{
+  title:"A Beetle Named After Luffy",
+  body:[
+   "Scientists at the Natural History Museum of Denmark have named a new group of beetles after Monkey D. Luffy, the main character in the manga and anime One Piece. Their study was published in July 2026 in the journal ZooKeys.",
+   "The team says the name was not chosen only for fun. The beetles in this group have jaws and feelers that are much longer and thinner than those of related beetles. This stretched shape reminded the researchers of Luffy's rubber body, which can stretch and expand.",
+   "Two species have been found so far. The first, Luffy schillhammeri, was collected in the broadleaf forests of Yunnan in southern China. It is named after Dr. Harald Schillhammer, a scientist in Vienna who has studied this family of beetles for many years.",
+   "The second, Luffy nika, was found in Louang Namtha in northern Laos. Its name comes from Luffy's Gear 5 form in the story. This species has white band-like hairs across much of its body, which look like Luffy's all-white appearance in that form."
+  ]
+ },
+ q:[
+  ["What is the passage mainly about?","A new group of beetles and how it was named",
+   ["A new group of beetles and how it was named","The story of the anime One Piece",
+    "The forests of China and Laos","How scientists catch insects"],
+   "ทั้งบทความพูดเรื่องด้วงสกุลใหม่กับที่มาของชื่อ · One Piece กับป่าในจีน-ลาว เป็นแค่รายละเอียดประกอบ ไม่ใช่แก่นเรื่อง"],
+  ["Why did the researchers choose the name Luffy?","Parts of the beetles' bodies are unusually long and thin",
+   ["Parts of the beetles' bodies are unusually long and thin","The beetles were found in Japan",
+    "The beetles can stretch their bodies","One Piece is popular in Denmark"],
+   "ย่อหน้า 2 บอกว่าขากรรไกรกับหนวดยาวและเรียวกว่าด้วงกลุ่มใกล้เคียง จึงทำให้นึกถึงร่างกายยางยืดของลูฟี่ · ระวังข้อ C — ตัวด้วงยืดตัวไม่ได้จริง แค่ ‘รูปร่างดูยืด’"],
+  ["Where was Luffy schillhammeri found?","In southern China",
+   ["In southern China","In northern Laos","In Denmark","In Vienna"],
+   "ย่อหน้า 3 ระบุยูนนานทางตอนใต้ของจีน · ลาวคือที่พบอีกชนิดหนึ่ง (Luffy nika) · เดนมาร์กกับเวียนนาเป็นที่อยู่ของนักวิทยาศาสตร์ ไม่ใช่ที่พบตัวด้วง"],
+  ["The name schillhammeri was chosen to honour","a scientist who has studied these beetles for a long time",
+   ["a scientist who has studied these beetles for a long time","the person who first drew One Piece",
+    "the village where the beetle was found","the director of the museum in Denmark"],
+   "ย่อหน้า 3: ตั้งตามชื่อ Dr. Harald Schillhammer นักวิทยาศาสตร์ที่เวียนนาซึ่งศึกษาด้วงตระกูลนี้มาหลายปี"],
+  ["As used in paragraph 3, the word “collected” most nearly means","found and taken away for study",
+   ["found and taken away for study","paid for","counted","photographed"],
+   "ในบริบทงานวิจัยชีววิทยา collected = เก็บตัวอย่างมาศึกษา · ไม่ได้แปลว่าซื้อ นับ หรือถ่ายรูป — คำเดียวกันเปลี่ยนความหมายตามบริบทได้เสมอ"]
  ]
 },
 

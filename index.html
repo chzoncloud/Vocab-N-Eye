@@ -1408,12 +1408,12 @@ function dlVocabDistractors(cur, pool){
 let dlQueue=[],dlIdx=0,dlCorrect=0,dlCombo=0,dlNewMastered=0,dlTotalQ=15;
 function startDaily(){
   const items=[];
-  // บล็อก 1: อ่านสอบ (เอกสาร/บทความ) — เรียงตามลำดับ วนกลับเมื่อครบ + คำถามสูงสุด 5 ข้อ
-  const docs=(typeof TOEIC!=='undefined'?TOEIC:[]);
-  if(docs.length){
-    let si=dlLoad('neye_docidx',0)%docs.length;
-    const item=docs[si];
-    localStorage.setItem('neye_docidx', String((si+1)%docs.length));
+  // บล็อก 1: การอ่าน 5 ข้อ — บทความเป็นหลัก แล้วสลับเรื่องเล่า/เอกสารมาคั่น
+  const readPool=dlReadingPool();
+  if(readPool.length){
+    let si=dlLoad('neye_docidx',0)%readPool.length;
+    const item=readPool[si];
+    localStorage.setItem('neye_docidx', String((si+1)%readPool.length));
     items.push({type:'doc',item});
     item.q.slice(0,5).forEach(q=>items.push({type:'dq',q,item}));
   }
@@ -1467,6 +1467,26 @@ function blankSentence(doc, n){
   if(it.type==='fill')       return dlRenderMCQ(box,'📝 เติมคำในช่องว่าง', it.s[0].replace('___','______'), 'dl-sentence', it.s[1], it.s[3], null, it.s[2]);
   /* vocab */                const d=dlVocabDistractors(it.w,it.pool);
   return dlRenderMCQ(box,'🔤 คำนี้แปลว่าอะไร?', it.w.en, 'q-word', it.w.th, [it.w.th,...d], it.w.en, null);
+}
+// คลังการอ่านสำหรับเล่นวันนี้ — เรียงให้ "บทความ" เป็นหลัก แล้วแทรกเรื่องเล่า/เอกสารสลับ
+function dlReadingPool(){
+  const T=(typeof TOEIC!=='undefined'?TOEIC:[]);
+  const passages=T.filter(t=>(t.zone||'doc')==='passage');
+  const docs=T.filter(t=>(t.zone||'doc')==='doc');
+  const stories=(typeof STORIES!=='undefined'?STORIES:[]).map(s=>({
+    kind:'เรื่องเล่า', part:7, zone:'story',
+    doc:{ title:s.hideTitle?null:s.t, body:String(s.text).split(/\n\n+/) },
+    q:s.q.map(q=>[q[0],q[1],q[2],q[4]||null])
+  }));
+  // สลับ: บทความ, บทความ, (เรื่องเล่าหรือเอกสาร), วนไป
+  const main=[...passages,...stories], side=[...docs];
+  const out=[]; let mi=0, di=0;
+  while(mi<main.length || di<side.length){
+    if(mi<main.length) out.push(main[mi++]);
+    if(mi<main.length) out.push(main[mi++]);
+    if(di<side.length) out.push(side[di++]);
+  }
+  return out;
 }
 // ป้ายบอกชนิดคำถาม (โจทย์ระดับสูงจะไม่ใช่การหาคำตอบตรงๆ ในเนื้อเรื่อง)
 const QTYPE={
