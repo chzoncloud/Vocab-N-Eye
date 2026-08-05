@@ -159,4 +159,76 @@ const TOEIC = [
  ]
 },
 
+// ---------- แนว CU-TEP : บทความสารคดี + คำถามจับใจความ ----------
+{
+ id:"cutep-banana", part:7, kind:"บทความสารคดี (แนว CU-TEP)",
+ doc:{
+  title:"How Bananas Reach the Other Side of the World",
+  body:[
+   "The Philippines is one of the largest exporters of bananas in the world, and most of its plantations are in the southern island of Mindanao, especially around Davao. Almost all of the fruit grown for export belongs to a single variety called the Cavendish. Because the plants are grown from cuttings rather than seeds, the trees in a plantation are close to identical to one another.",
+   "Export bananas are never picked ripe. They are cut down while they are still hard and green, usually about twelve weeks after the flower appears. A ripe banana would arrive at its destination as a bag of brown pulp, so the fruit has to make the journey in an unfinished state. After cutting, the bunches are washed, divided into smaller hands, and packed into boxes on the same day.",
+   "The boxes then travel in refrigerated containers kept at roughly thirteen degrees Celsius. This temperature is low enough to slow the fruit down but not low enough to damage it. A shipment to Japan or Korea may take under a week, while a shipment to the Middle East can take three weeks or more. Throughout the voyage the bananas are still alive and still breathing, and the containers must remove the gases the fruit produces.",
+   "The last stage happens near the market rather than near the farm. The boxes are moved into sealed ripening rooms and exposed to ethylene, a gas that bananas themselves produce naturally as they ripen. Within a few days the skin turns yellow and the starch inside becomes sugar. Buyers can order fruit at a particular stage of ripeness, so a supermarket and a hotel kitchen may receive bananas from the same shipment on different days."
+  ]
+ },
+ q:[
+  ["This passage mainly discusses","how bananas are grown, shipped, and ripened for export",
+   ["how bananas are grown, shipped, and ripened for export","why the Cavendish variety tastes better than others",
+    "the economy of the southern Philippines","the correct way to store fruit at home"],
+   "ทั้งบทความไล่ตามลำดับ: ปลูกที่ไหน → ตัดตอนเขียว → ขนส่งแบบแช่เย็น → บ่มให้สุกใกล้ตลาด · ข้อ B, C, D เป็นแค่รายละเอียดปลีกย่อยในย่อหน้าเดียว ไม่ใช่แก่นทั้งเรื่อง"],
+  ["According to the passage, why are bananas cut down while they are still green?",
+   "A ripe banana would be ruined during the long journey",
+   ["A ripe banana would be ruined during the long journey","Green bananas are cheaper to buy",
+    "The plants are damaged if the fruit stays on too long","Buyers prefer the taste of green fruit"],
+   "ย่อหน้า 2 บอกตรงๆ ว่ากล้วยสุกจะไปถึงปลายทางในสภาพ ‘ถุงเนื้อสีน้ำตาล’ → ต้องตัดตอนยังดิบ · เรื่องราคาและรสชาติไม่มีในบทความเลย"],
+  ["As used in paragraph 3, the word \"roughly\" is closest in meaning to","approximately",
+   ["approximately","harshly","rarely","completely"],
+   "\"roughly thirteen degrees\" = ประมาณ 13 องศา — ในบริบทตัวเลข roughly แปลว่า ‘ราวๆ’ · ความหมายอีกอันของ rough (หยาบ/รุนแรง) ใช้กับตัวเลขไม่ได้ ต้องดูบริบทเสมอ"],
+  ["It can be inferred from the passage that the ripening rooms are located","close to the countries where the fruit is sold",
+   ["close to the countries where the fruit is sold","inside the plantations in Mindanao",
+    "on board the refrigerated ships","in the factories that make the boxes"],
+   "ย่อหน้า 4 ขึ้นต้นว่า ‘happens near the market rather than near the farm’ = เกิดใกล้ตลาดไม่ใช่ใกล้ฟาร์ม → อนุมานได้ว่าอยู่ใกล้ประเทศปลายทาง"],
+  ["Which of the following is NOT mentioned in the passage?","The price paid to the farmers",
+   ["The price paid to the farmers","The temperature inside the containers",
+    "The name of the banana variety","How long the voyage to Japan takes"],
+   "ระวังคำว่า NOT — บทความบอกอุณหภูมิ (13 องศา), ชื่อพันธุ์ (Cavendish) และระยะเวลาส่งไปญี่ปุ่น (ไม่ถึงหนึ่งสัปดาห์) แต่ ‘ราคาที่เกษตรกรได้รับ’ ไม่ถูกพูดถึงเลย"],
+  ["What can be inferred about the bananas during the voyage?","They are still changing and need to be controlled",
+   ["They are still changing and need to be controlled","They are completely frozen until arrival",
+    "They are treated with ethylene on the ship","They are sorted again by hand each day"],
+   "ย่อหน้า 3 บอกว่ากล้วย ‘still alive and still breathing’ และตู้ต้องดึงแก๊สที่ผลไม้ปล่อยออกมา → ยังเปลี่ยนแปลงอยู่ ต้องควบคุม · ข้อ C ผิดเพราะเอทิลีนใช้ตอนถึงห้องบ่มแล้ว"]
+ ]
+},
+
+// ---------- แนว CU-TEP : บทความเจาะช่องว่าง (ทบทวนคำจากคลังเรา) ----------
+{
+ id:"cutep-cloze-sleep", part:6, kind:"บทความเจาะช่องว่าง (แนว CU-TEP)",
+ doc:{
+  title:"Sleep and the Working Week",
+  body:[
+   "Many people believe that sleep is time taken away from work. Recent studies ___1___ the opposite. Workers who sleep fewer than six hours a night make more mistakes, and the errors are often ___2___ enough to cost the company money.",
+   "Tired staff are also easier to ___3___. A worker who has slept well can return to a task quickly after an interruption, while a tired worker may need several minutes to find the thread again. Over a whole week, those lost minutes add up.",
+   "Sleep does not only affect the mind. The body uses this time to repair itself, and the immune system ___4___ nutrients more efficiently during deep sleep than at any other time. Staff who sleep badly take more sick days, and ___5___ from illness takes them longer.",
+   "Employers who ___6___ the problem often see results within a month. Some companies now ___7___ later starting times, and a few provide quiet rooms for short afternoon rests. These changes cost very little, and the ___8___ in output is usually easy to measure."
+  ]
+ },
+ q:[
+  ["ช่อง 1","suggest",["suggest","persuade","brag","offend"],
+   "‘งานวิจัย___สิ่งตรงข้าม’ → suggest = ชี้ให้เห็น · persuade ต้องมีคนถูกโน้มน้าว · brag (โม้) กับ offend (ทำให้ขุ่นเคือง) ใช้กับงานวิจัยไม่ได้"],
+  ["ช่อง 2","serious",["serious","popular","academic","humble"],
+   "‘ข้อผิดพลาด___มากพอจนทำให้บริษัทเสียเงิน’ → serious = ร้ายแรง · popular/academic/humble ไม่เข้ากับคำว่า ‘ความผิดพลาด’ เลย"],
+  ["ช่อง 3","distract",["distract","protect","embrace","harvest"],
+   "ประโยคถัดไปพูดเรื่องกลับมาทำงานต่อหลังถูกขัดจังหวะ → distract = ทำให้เสียสมาธิ · protect (ปกป้อง) ความหมายกลับกัน"],
+  ["ช่อง 4","absorbs",["absorbs","offers","requires","climbs"],
+   "‘ระบบภูมิคุ้มกัน___สารอาหารได้ดีขึ้น’ → absorbs = ดูดซึม · requires (ต้องการ) พอได้แต่จะขัดกับคำว่า more efficiently ที่ตามมา"],
+  ["ช่อง 5","recovery",["recovery","ambition","relation","majesty"],
+   "‘___จากความเจ็บป่วยใช้เวลานานขึ้น’ → recovery = การฟื้นตัว · คำนี้เคยเจอในบทเรื่องกล้ามเนื้อมาแล้ว"],
+  ["ช่อง 6","consider",["consider","waste","ruin","pry"],
+   "‘นายจ้างที่___ปัญหานี้ มักเห็นผลภายในหนึ่งเดือน’ → consider = ให้ความสำคัญ/พิจารณา · waste (ทำสูญเปล่า) กับ ruin (ทำลาย) ความหมายตรงข้าม"],
+  ["ช่อง 7","offer",["offer","undergo","interfere","slay"],
+   "‘บริษัท___เวลาเข้างานที่สายขึ้น’ → offer = เสนอให้ · undergo คือ ‘เข้ารับ’ ซึ่งกลับด้าน · interfere (ก้าวก่าย) ไม่เข้าบริบท"],
+  ["ช่อง 8","improvement",["improvement","injury","accident","emphasis"],
+   "‘___ของผลผลิตวัดได้ง่าย’ → improvement = การดีขึ้น · สังเกตคำลงท้ายประโยคเป็นบวก (cost very little) → ต้องเป็นผลดี ไม่ใช่ injury/accident"]
+ ]
+},
+
 ];
