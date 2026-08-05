@@ -1490,7 +1490,7 @@ function makeReading(){
     const title=document.createElement('div'); title.className='rd-title'; title.textContent=st.t; body.appendChild(title);
     if(st.lv){
       const lvl=document.createElement('div'); lvl.className='rd-lv'+(st.lv>=4?' hard':'');
-      lvl.textContent='Level '+st.lv+(st.lv>=4?' · โจทย์แนวคิดวิเคราะห์':' · เริ่มต้น');
+      lvl.textContent='Level '+st.lv+(st.lv>=4?' · โจทย์คิดวิเคราะห์':st.lv===3?' · ปานกลาง':' · เริ่มต้น');
       body.appendChild(lvl);
     }
     const note=document.createElement('div'); note.className='tap-note'; note.textContent='👆 แตะคำในเรื่องเพื่อดูคำแปล'; body.appendChild(note);
