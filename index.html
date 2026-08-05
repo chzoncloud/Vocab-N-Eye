@@ -344,6 +344,15 @@ img.ni{width:auto;height:40px;object-fit:contain;display:block}
 .day-btn.hard{border-color:var(--gold);color:#9a6a05}
 .day-btn.hard.active{background:var(--gold);color:#3d2c00}
 
+.rd-qtext{white-space:pre-line}
+.pg-row{display:flex;gap:9px;margin-bottom:11px}
+.pg-num{flex:none;width:21px;height:21px;border-radius:50%;background:var(--purple);color:#fff;
+  font-size:.7rem;font-weight:700;display:grid;place-items:center;margin-top:5px;font-family:'Mali',cursive}
+.pg-text{flex:1}
+.why{margin-top:10px;background:var(--pink-soft);border:2px solid var(--pink);border-radius:12px;
+  padding:11px 13px;font-size:.92rem;line-height:1.65;color:var(--ink)}
+.why b{color:var(--purple-dark)}
+
 /* ===== reward reveal ===== */
 .rw-scrim{position:fixed;inset:0;background:rgba(30,55,80,.55);backdrop-filter:blur(3px);z-index:70;display:none;align-items:center;justify-content:center;padding:24px}
 .rw-scrim.on{display:flex}
@@ -969,6 +978,26 @@ function renderTappable(el, text, tipEl){
   });
 }
 
+// เนื้อเรื่องแบบแบ่งย่อหน้า + เลขกำกับ (เพื่อให้คำถามอ้างอิง "ย่อหน้าที่ 3" ได้)
+function renderPassage(container, text, tipEl){
+  container.innerHTML='';
+  const paras=String(text).split(/\n\n+/);
+  paras.forEach((p,i)=>{
+    const row=document.createElement('div'); row.className='pg-row';
+    if(paras.length>1){ const n=document.createElement('span'); n.className='pg-num'; n.textContent=(i+1); row.appendChild(n); }
+    const body=document.createElement('span'); body.className='pg-text'; row.appendChild(body);
+    renderTappable(body, p.trim(), tipEl);
+    container.appendChild(row);
+  });
+}
+// กล่องเฉลย + คำอธิบายภาษาไทย
+function explainBox(text){
+  const d=document.createElement('div'); d.className='why';
+  const h=document.createElement('b'); h.textContent='💡 ทำไมตอบข้อนี้: '; d.appendChild(h);
+  d.appendChild(document.createTextNode(text));
+  return d;
+}
+
 function makeFill(sentences, prefix, opts={}){
   let order=[],idx=0,score=0,typing=false;
   const id = s => prefix+'-'+s;
@@ -1382,7 +1411,7 @@ function dlRender(){
   $('dl-bar').style.width=(qBefore/dlTotalQ*100)+'%';
   const box=$('dl-stageq'); box.innerHTML='';
   if(it.type==='story')      return dlRenderStory(it,box);
-  if(it.type==='sq')         return dlRenderMCQ(box, QTYPE[it.q[3]]||'❓ คำถามจากเรื่อง', it.q[0], 'q-word', it.q[1], it.q[2], null, null, it.story);
+  if(it.type==='sq')         return dlRenderMCQ(box, QTYPE[it.q[3]]||'❓ คำถามจากเรื่อง', it.q[0], 'q-word', it.q[1], it.q[2], null, null, it.story, it.q[4]);
   if(it.type==='fill')       return dlRenderMCQ(box,'📝 เติมคำในช่องว่าง', it.s[0].replace('___','______'), 'dl-sentence', it.s[1], it.s[3], null, it.s[2]);
   /* vocab */                const d=dlVocabDistractors(it.w,it.pool);
   return dlRenderMCQ(box,'🔤 คำนี้แปลว่าอะไร?', it.w.en, 'q-word', it.w.th, [it.w.th,...d], it.w.en, null);
@@ -1398,22 +1427,22 @@ function passagePanel(story){
   const s=document.createElement('summary'); s.textContent='📖 อ่านเรื่องอีกครั้ง'; d.appendChild(s);
   const para=document.createElement('div'); para.className='sentence rd-para psg-body'; d.appendChild(para);
   const tip=document.createElement('div'); tip.className='wordtip empty'; d.appendChild(tip);
-  d.addEventListener('toggle',()=>{ if(d.open && !para.dataset.built){ para.dataset.built='1'; renderTappable(para, story.text, tip); } },{once:false});
+  d.addEventListener('toggle',()=>{ if(d.open && !para.dataset.built){ para.dataset.built='1'; renderPassage(para, story.text, tip); } },{once:false});
   return d;
 }
 function dlRenderStory(it,box){
   const wrap=dlEl('div','dl-pop');
   wrap.appendChild(dlEl('div','q-label','📖 อ่านเรื่องนี้ก่อน แล้วตอบ 5 คำถาม'));
-  wrap.appendChild(dlEl('div','rd-title',it.story.t));
+  wrap.appendChild(dlEl('div','rd-title', it.story.hideTitle?'เรื่องที่อ่าน':it.story.t));
   wrap.appendChild(dlEl('div','tap-note','👆 แตะคำเพื่อดูคำแปล'));
   const para=dlEl('div','sentence rd-para'); para.style.borderColor='var(--purple)'; wrap.appendChild(para);
   const tip=dlEl('div','wordtip empty'); wrap.appendChild(tip);
-  renderTappable(para, it.story.text, tip);
+  renderPassage(para, it.story.text, tip);
   const btn=dlEl('button','btn primary','อ่านจบแล้ว ไปตอบคำถาม ▶️'); btn.style.marginTop='14px';
   btn.onclick=dlNext; wrap.appendChild(btn);
   box.appendChild(wrap); window.scrollTo(0,0);
 }
-function dlRenderMCQ(box,label,promptText,promptCls,answerText,choices,srsKey,thHint,story){
+function dlRenderMCQ(box,label,promptText,promptCls,answerText,choices,srsKey,thHint,story,why){
   const wrap=dlEl('div','dl-pop');
   if(story) wrap.appendChild(passagePanel(story));
   const qbox=dlEl('div','q-box');
@@ -1423,12 +1452,12 @@ function dlRenderMCQ(box,label,promptText,promptCls,answerText,choices,srsKey,th
   const cbox=dlEl('div','choices');
   shuffle([...choices]).forEach(txt=>{
     const b=dlEl('button','choice',txt);
-    b.onclick=()=>dlAnswer(b, txt===answerText, answerText, cbox, srsKey, thHint);
+    b.onclick=()=>dlAnswer(b, txt===answerText, answerText, cbox, srsKey, thHint, why);
     cbox.appendChild(b);
   });
   wrap.appendChild(cbox); box.appendChild(wrap);
 }
-function dlAnswer(btn, ok, answerText, cbox, srsKey, thHint){
+function dlAnswer(btn, ok, answerText, cbox, srsKey, thHint, why){
   cbox.querySelectorAll('.choice').forEach(x=>x.disabled=true);
   if(ok){
     btn.classList.add('correct'); dlCorrect++; dlCombo++;
@@ -1440,6 +1469,13 @@ function dlAnswer(btn, ok, answerText, cbox, srsKey, thHint){
   }
   if(thHint){ const h=dlEl('div','th-hint','💡 '+thHint); h.style.marginTop='8px'; cbox.parentNode.appendChild(h); }
   $('dl-combo').textContent=dlCombo;
+  if(why){
+    cbox.parentNode.appendChild(explainBox(why));
+    const nx=dlEl('button','btn primary','เข้าใจแล้ว ไปข้อต่อไป ▶️');
+    nx.style.cssText='margin-top:12px;width:100%'; nx.onclick=dlNext;
+    cbox.parentNode.appendChild(nx);
+    return; // ให้อ่านคำอธิบายก่อน ไม่เด้งอัตโนมัติ
+  }
   setTimeout(dlNext, ok?750:1400);
 }
 function dlNext(){ dlIdx++; if(dlIdx>=dlQueue.length) dlFinish(); else dlRender(); }
@@ -1487,7 +1523,7 @@ function makeReading(){
   function renderStory(i){
     const st=STORIES[i];
     body.innerHTML='';
-    const title=document.createElement('div'); title.className='rd-title'; title.textContent=st.t; body.appendChild(title);
+    const title=document.createElement('div'); title.className='rd-title'; title.textContent=st.hideTitle?('เรื่องที่ '+(i+1)):st.t; body.appendChild(title);
     if(st.lv){
       const lvl=document.createElement('div'); lvl.className='rd-lv'+(st.lv>=4?' hard':'');
       lvl.textContent='Level '+st.lv+(st.lv>=4?' · โจทย์คิดวิเคราะห์':st.lv===3?' · ปานกลาง':' · เริ่มต้น');
@@ -1496,7 +1532,7 @@ function makeReading(){
     const note=document.createElement('div'); note.className='tap-note'; note.textContent='👆 แตะคำในเรื่องเพื่อดูคำแปล'; body.appendChild(note);
     const para=document.createElement('div'); para.className='sentence rd-para'; para.style.borderColor='var(--purple)'; body.appendChild(para);
     const tip=document.createElement('div'); tip.className='wordtip empty'; body.appendChild(tip);
-    renderTappable(para, st.text, tip);
+    renderPassage(para, st.text, tip);
     const head=document.createElement('div'); head.className='section-head'; head.textContent='❓ ตอบคำถามจากเรื่อง'; body.appendChild(head);
     const scoreEl=document.createElement('div'); scoreEl.className='rd-score'; body.appendChild(scoreEl);
     let score=0, done=0; const total=st.q.length;
@@ -1520,6 +1556,7 @@ function makeReading(){
           if(txt===q[1]){ bt.classList.add('correct'); score++; }
           else{ bt.classList.add('wrong'); const r=[...cbox.children].find(x=>x.textContent===q[1]); if(r) r.classList.add('correct'); }
           scoreEl.textContent = done>=total ? `🎉 จบเรื่อง! ได้ ${score}/${total} คะแนน` : `คะแนน: ${score}/${total}`;
+          if(q[4]) item.appendChild(explainBox(q[4]));
         };
         cbox.appendChild(bt);
       });
