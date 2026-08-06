@@ -1754,6 +1754,8 @@ function renderToeic(){
   const tip=document.createElement('div'); tip.className='wordtip empty';
   drawDoc(doc, it.doc, tip, slots);
   body.appendChild(tip);
+  if(it.source){ const sc=document.createElement('div'); sc.className='rd-src';
+    sc.textContent='📰 เรียบเรียงจาก: '+it.source; body.appendChild(sc); }
   renderToeicQs(it, body, slots);
 }
 function drawDoc(doc, d, tip, slots){

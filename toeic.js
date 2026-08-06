@@ -240,10 +240,10 @@ const TOEIC = [
  doc:{
   title:"A Beetle Named After Luffy",
   body:[
-   "Scientists at the Natural History Museum of Denmark have named a new group of beetles after Monkey D. Luffy, the main character in the manga and anime One Piece. Their study was published in July 2026 in the journal ZooKeys.",
-   "The team says the name was not chosen only for fun. The beetles in this group have jaws and feelers that are much longer and thinner than those of related beetles. This stretched shape reminded the researchers of Luffy's rubber body, which can stretch and expand.",
+   "Scientists at the Natural History Museum of Denmark have established a new genus of rove beetle and named it after Monkey D. Luffy, the protagonist of the manga and anime One Piece. Their study was published in July 2026 in the journal ZooKeys.",
+   "The team says the name was not chosen merely for fun. The species in this genus possess mandibles, antennae and palps that are significantly longer and more slender than those of closely related groups. This elongated proportion reminded the researchers of Luffy's rubber body, which can freely stretch and expand.",
    "Two species have been found so far. The first, Luffy schillhammeri, was collected in the broadleaf forests of Yunnan in southern China. It is named after Dr. Harald Schillhammer, a scientist in Vienna who has studied this family of beetles for many years.",
-   "The second, Luffy nika, was found in Louang Namtha in northern Laos. Its name comes from Luffy's Gear 5 form in the story. This species has white band-like hairs across much of its body, which look like Luffy's all-white appearance in that form."
+   "The second, Luffy nika, was discovered in Louang Namtha in northern Laos. The epithet nika originates from Luffy's Devil Fruit awakening, also known as Gear 5. This species features striking white band-like hairs across much of its body, closely resembling Luffy's all-white appearance during that transformation."
   ]
  },
  q:[
@@ -251,11 +251,11 @@ const TOEIC = [
    ["A new group of beetles and how it was named","The story of the anime One Piece",
     "The forests of China and Laos","How scientists catch insects"],
    "ทั้งบทความพูดเรื่องด้วงสกุลใหม่กับที่มาของชื่อ · One Piece กับป่าในจีน-ลาว เป็นแค่รายละเอียดประกอบ ไม่ใช่แก่นเรื่อง"],
-  ["Why did the researchers choose the name Luffy?","Parts of the beetles' bodies are unusually long and thin",
-   ["Parts of the beetles' bodies are unusually long and thin","The beetles were found in Japan",
+  ["Why did the researchers choose the name Luffy?","Parts of the beetles' bodies are unusually long and slender",
+   ["Parts of the beetles' bodies are unusually long and slender","The beetles were found in Japan",
     "The beetles can stretch their bodies","One Piece is popular in Denmark"],
-   "ย่อหน้า 2 บอกว่าขากรรไกรกับหนวดยาวและเรียวกว่าด้วงกลุ่มใกล้เคียง จึงทำให้นึกถึงร่างกายยางยืดของลูฟี่ · ระวังข้อ C — ตัวด้วงยืดตัวไม่ได้จริง แค่ ‘รูปร่างดูยืด’"],
-  ["Where was Luffy schillhammeri found?","In southern China",
+   "ย่อหน้า 2 บอกว่า mandibles (ขากรรไกร) กับ antennae (หนวด) ยาวและเรียว (slender) กว่าด้วงกลุ่มใกล้เคียง จึงทำให้นึกถึงร่างกายยางยืดของลูฟี่ · ระวังข้อ C — ตัวด้วงยืดตัวไม่ได้จริง แค่ ‘รูปร่างดูยืด’"],
+  ["Where was Luffy schillhammeri collected?","In southern China",
    ["In southern China","In northern Laos","In Denmark","In Vienna"],
    "ย่อหน้า 3 ระบุยูนนานทางตอนใต้ของจีน · ลาวคือที่พบอีกชนิดหนึ่ง (Luffy nika) · เดนมาร์กกับเวียนนาเป็นที่อยู่ของนักวิทยาศาสตร์ ไม่ใช่ที่พบตัวด้วง"],
   ["The name schillhammeri was chosen to honour","a scientist who has studied these beetles for a long time",
@@ -265,6 +265,87 @@ const TOEIC = [
   ["As used in paragraph 3, the word “collected” most nearly means","found and taken away for study",
    ["found and taken away for study","paid for","counted","photographed"],
    "ในบริบทงานวิจัยชีววิทยา collected = เก็บตัวอย่างมาศึกษา · ไม่ได้แปลว่าซื้อ นับ หรือถ่ายรูป — คำเดียวกันเปลี่ยนความหมายตามบริบทได้เสมอ"]
+ ]
+},
+
+{
+ id:"news-naruto-whirlpool", zone:"passage", part:7, kind:"บทความความรู้ (ที่มาของชื่อนารูโตะ)",
+ source:"Naruto Strait whirlpools · japan.travel (JNTO) / Tokushima Prefecture",
+ doc:{
+  title:"The Whirlpools of the Naruto Strait",
+  body:[
+   "The Naruto Strait is a narrow channel about 1.3 kilometres wide, lying between the city of Naruto in Tokushima and Awaji Island in Hyogo, Japan. Several times a day the water there forms enormous spinning whirlpools, and these have been famous in Japan for centuries.",
+   "The whirlpools are created by the tide. The sea on one side of the strait rises while the sea on the other side is still low, so an enormous volume of water is forced through the narrow gap at once. The current can reach twenty kilometres per hour, which is among the fastest tidal currents in the world, and a single whirlpool may measure twenty metres across.",
+   "Because the whirlpools depend on the difference between high and low tide, they are not equally impressive every day. They are largest during spring tides, and visitors are advised to come in the days just before or after a new moon or a full moon. Sightseeing boats and a walkway suspended beneath the Onaruto Bridge allow people to watch them from above and from close range.",
+   "The Naruto whirlpools are usually listed with the Strait of Messina in Italy and Seymour Narrows in Canada as the three greatest whirlpools on earth. The spiral pattern is also familiar far outside Japan: the pink and white swirl on narutomaki, the sliced fish cake often served on ramen, takes both its shape and its name from this stretch of water."
+  ]
+ },
+ q:[
+  ["What is the main cause of the whirlpools in the Naruto Strait?",
+   "A large difference in sea level between the two sides of the strait",
+   ["A large difference in sea level between the two sides of the strait",
+    "Strong winds blowing through the channel","Boats passing through at high speed",
+    "The shape of the Onaruto Bridge"],
+   "ย่อหน้า 2 อธิบายว่าน้ำฝั่งหนึ่งขึ้นขณะที่อีกฝั่งยังลง ทำให้น้ำมหาศาลถูกดันผ่านช่องแคบพร้อมกัน · ลม สะพาน และเรือไม่ได้ถูกพูดถึงว่าเป็นสาเหตุเลย"],
+  ["According to the passage, when is the best time to see large whirlpools?",
+   "Around the time of a new moon or a full moon",
+   ["Around the time of a new moon or a full moon","Early in the morning on any day",
+    "During the winter months","When the wind is strongest"],
+   "ย่อหน้า 3 บอกว่าให้มาช่วงก่อนหรือหลังวันเดือนใหม่/เดือนเต็มดวง เพราะช่วงนั้นน้ำขึ้นน้ำลงต่างกันมากที่สุด"],
+  ["As used in paragraph 2, the word \u201cenormous\u201d is closest in meaning to","very large",
+   ["very large","very fast","very deep","very rare"],
+   "เดาจากบริบท: ใช้กับ \u2018spinning whirlpools\u2019 และ \u2018volume of water\u2019 ที่ถูกดันผ่านช่องแคบ → หมายถึงขนาดมหึมา ไม่ใช่ความเร็วหรือความลึก"],
+  ["What can be inferred about the name narutomaki?",
+   "The food was named after the whirlpools, not the other way round",
+   ["The food was named after the whirlpools, not the other way round",
+    "The fish cake is only sold near the Naruto Strait","The whirlpools were named after a type of ramen",
+    "The pattern was invented by a chef in Tokushima"],
+   "ย่อหน้าสุดท้าย: ลายวนของนารูโตะมากิ \u2018takes both its shape and its name from this stretch of water\u2019 = เอาทั้งรูปทรงและชื่อมาจากช่องแคบนี้ → ช่องแคบมาก่อน"],
+  ["Which of the following is NOT mentioned in the passage?","The depth of the water in the strait",
+   ["The depth of the water in the strait","The width of the strait",
+    "The speed of the current","The size of a single whirlpool"],
+   "ระวังคำว่า NOT — บทความบอกความกว้าง (1.3 กม.), ความเร็วกระแสน้ำ (20 กม./ชม.) และขนาดวังวน (20 เมตร) แต่ไม่เคยพูดถึง \u2018ความลึก\u2019 เลย"]
+ ]
+},
+
+{
+ id:"news-katana", zone:"passage", part:7, kind:"บทความความรู้ (ดาบญี่ปุ่น)",
+ source:"Tamahagane & nihonto forging · toukenza.jp / swordsofjapan.com",
+ doc:{
+  title:"How a Japanese Sword Is Made",
+  body:[
+   "The steel used in a traditional Japanese sword is called tamahagane, and it does not come from a modern factory. It is smelted from iron sand and charcoal in a clay furnace known as a tatara. A single cycle consumes roughly ten tons of iron sand and twelve tons of charcoal, yet yields only about nine hundred kilograms of usable steel.",
+   "The steel that emerges is not uniform. Within one block the carbon content varies from about 0.6 to 1.5 percent, so the smith breaks the block apart and sorts the pieces by hand. The harder, high-carbon steel becomes the outer skin and the cutting edge, while the softer, low-carbon steel is kept for the core. A blade made only of hard steel would be sharp but brittle; a blade made only of soft steel would bend.",
+   "The sorted steel is then heated, hammered flat and folded, usually ten to fifteen times. Each fold doubles the number of layers, so ten folds produce over a thousand layers and fifteen produce more than thirty thousand. Folding does not make the steel infinitely stronger. Its real purpose is to break up impurities and spread them evenly, which also creates the faint surface grain visible on a polished blade.",
+   "The final stage is the quench. The smith coats the blade with clay, thinly along the cutting edge and thickly along the spine, then heats it and plunges it into water. The thinly coated edge cools faster and becomes much harder than the back. This difference produces the curve of the blade and the wavy line along the edge known as the hamon, which is unique to every sword."
+  ]
+ },
+ q:[
+  ["Why does the smith sort the tamahagane by hand?",
+   "The carbon content is uneven, and different parts of the blade need different steel",
+   ["The carbon content is uneven, and different parts of the blade need different steel",
+    "Some of the steel is damaged during smelting","The pieces must be weighed before forging",
+    "Only the largest pieces can be folded"],
+   "ย่อหน้า 2: คาร์บอนในก้อนเดียวกันต่างกัน 0.6\u20131.5% ช่างจึงคัดแยก \u2014 เหล็กแข็งไว้ทำคมและผิวนอก เหล็กอ่อนไว้ทำแกนใน"],
+  ["According to the passage, what is the real purpose of folding the steel?",
+   "To break up impurities and spread them evenly",
+   ["To break up impurities and spread them evenly","To make the steel endlessly stronger",
+    "To make the blade longer","To remove all the carbon from the steel"],
+   "ย่อหน้า 3 บอกตรงๆ ว่า \u2018Folding does not make the steel infinitely stronger. Its real purpose is to break up impurities\u2019 \u2014 ข้อ B คือความเชื่อผิดๆ ที่บทความปฏิเสธไว้เอง"],
+  ["What happens because the clay is thinner along the cutting edge?",
+   "The edge cools faster and becomes harder than the spine",
+   ["The edge cools faster and becomes harder than the spine","The edge stays soft so it can bend",
+    "The clay burns away and colours the steel","The blade becomes lighter to hold"],
+   "ย่อหน้า 4: ดินบางตรงคม \u2192 เย็นเร็วกว่า \u2192 แข็งกว่าสันดาบ ความต่างนี้เองที่ทำให้ดาบโค้งและเกิดลายฮามอน"],
+  ["It can be inferred that a sword made only of high-carbon steel would","break more easily",
+   ["break more easily","bend out of shape","be too heavy to lift","have no cutting edge"],
+   "ย่อหน้า 2 บอกว่า \u2018sharp but brittle\u2019 = คมแต่เปราะ \u2192 อนุมานได้ว่าหักง่าย · ส่วนการงอเป็นปัญหาของเหล็กอ่อน ไม่ใช่เหล็กแข็ง"],
+  ["Which of the following best describes the tatara process?",
+   "It uses a very large amount of material to produce a small amount of steel",
+   ["It uses a very large amount of material to produce a small amount of steel",
+    "It is faster than modern factory methods","It produces steel of a single, even quality",
+    "It requires no charcoal"],
+   "ย่อหน้า 1: ใช้ทรายเหล็ก 10 ตัน + ถ่าน 12 ตัน แต่ได้เหล็กใช้ได้แค่ราว 900 กก. \u2014 คำว่า \u2018yet\u2019 เป็นสัญญาณว่ากำลังเทียบของเยอะกับผลได้น้อย"]
  ]
 },
 
