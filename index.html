@@ -1366,8 +1366,13 @@ function dailyHome(){
   $('dl-home').classList.remove('hidden');
   $('dl-play').classList.add('hidden');
   $('dl-end').classList.add('hidden');
-  $('dl-note').textContent = s.goalCount>=DL_GOAL ? 'ครบเป้าวันนี้แล้ว เก่งมาก! เล่นต่อได้เรื่อยๆ 🌟'
-    : (s.streak>0 ? `รักษาสถิติ ${s.streak} วันไว้นะ 🔥` : 'เล่นวันละนิด ~2 นาที เดี๋ยวก็เก่ง 💪');
+  const usedN=new Set(dlLoad('neye_useddocs',[])).size, poolN=dlReadingPool().length;
+  const left=Math.max(0, poolN-usedN);
+  $('dl-note').textContent = left===0
+    ? '📚 บทอ่านหมดคลังแล้ว! บอกให้เพิ่มบทใหม่ได้เลย (ตอนนี้จะได้เฉพาะเติมคำ + ศัพท์)'
+    : (s.goalCount>=DL_GOAL ? `ครบเป้าวันนี้แล้ว เก่งมาก! 🌟 · เหลือบทอ่านใหม่อีก ${left} ชุด`
+    : (s.streak>0 ? `รักษาสถิติ ${s.streak} วันไว้นะ 🔥 · เหลือบทอ่านใหม่อีก ${left} ชุด`
+                  : `เล่นวันละนิด ~2 นาที เดี๋ยวก็เก่ง 💪 · มีบทอ่านใหม่ ${left} ชุด`));
 }
 const dlEl=(tag,cls,txt)=>{ const e=document.createElement(tag); if(cls)e.className=cls; if(txt!=null)e.textContent=txt; return e; };
 // รวมศัพท์จากทุกหมวดเป็นคลังเดียว {en, th}
@@ -1410,10 +1415,11 @@ function startDaily(){
   const items=[];
   // บล็อก 1: การอ่าน 5 ข้อ — บทความเป็นหลัก แล้วสลับเรื่องเล่า/เอกสารมาคั่น
   const readPool=dlReadingPool();
-  if(readPool.length){
-    let si=dlLoad('neye_docidx',0)%readPool.length;
-    const item=readPool[si];
-    localStorage.setItem('neye_docidx', String((si+1)%readPool.length));
+  const usedIds=new Set(dlLoad('neye_useddocs',[]));
+  const fresh=readPool.filter(x=>!usedIds.has(x.id));
+  if(fresh.length){
+    const item=fresh[0];                       // เรียงตามลำดับคลัง หยิบชุดแรกที่ยังไม่เคยใช้
+    localStorage.setItem('neye_useddocs', JSON.stringify([...usedIds, item.id]));
     items.push({type:'doc',item});
     item.q.slice(0,5).forEach(q=>items.push({type:'dq',q,item}));
   }
@@ -1474,7 +1480,7 @@ function dlReadingPool(){
   const passages=T.filter(t=>(t.zone||'doc')==='passage');
   const docs=T.filter(t=>(t.zone||'doc')==='doc');
   const stories=(typeof STORIES!=='undefined'?STORIES:[]).map(s=>({
-    kind:'เรื่องเล่า', part:7, zone:'story',
+    id:'story-'+s.t, kind:'เรื่องเล่า', part:7, zone:'story',
     doc:{ title:s.hideTitle?null:s.t, body:String(s.text).split(/\n\n+/) },
     q:s.q.map(q=>[q[0],q[1],q[2],q[4]||null])
   }));
